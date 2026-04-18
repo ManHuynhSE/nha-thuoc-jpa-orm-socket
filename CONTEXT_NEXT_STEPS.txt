@@ -1,0 +1,80 @@
+PROJECT CONTEXT - JPA ORM MIGRATION (NO SOCKET)
+
+Updated on: 2026-04-18
+Repo: nha-thuoc-pill-and-chill-java-swing
+Module: jpa-orm-migration
+
+1) DECISIONS LOCKED
+- Target DB is MariaDB (not SQL Server).
+- Follow Demo-Vaccine-Jpa-Socket style:
+  + JPAUtil for EntityManagerFactory/EntityManager.
+  + repository interfaces in repository/*
+  + repository implementations in repository/impl/*
+  + RepositoryTemplate.execute(...) for transaction scope.
+  + service interfaces in service/*
+  + service implementations in service/impl/*
+- No socket implementation in this module.
+
+2) WHAT HAS BEEN DONE
+- Created separate Maven module jpa-orm-migration with:
+  + Hibernate ORM
+  + MariaDB JDBC driver
+  + Lombok
+  + Jackson mapper utility
+- Added/updated entities for pharmacy schema with:
+  + Lombok annotations
+  + relationship mapping (@ManyToOne, @OneToOne, @EmbeddedId + @MapsId)
+- Implemented repository interfaces:
+  + ITaiKhoanRepository
+  + IThuocRepository
+  + IHoaDonRepository
+  + IChiTietHoaDonRepository
+  + IChiTietLoThuocRepository
+  + IGiaThuocRepository
+- Implemented repository classes in repository/impl:
+  + TaiKhoanRepository
+  + ThuocRepository
+  + HoaDonRepository
+  + ChiTietHoaDonRepository
+  + ChiTietLoThuocRepository
+  + GiaThuocRepository
+  + RepositoryTemplate
+- Implemented services:
+  + IAuthService + service/impl/AuthService
+  + IHoaDonService + service/impl/HoaDonService
+- Added DAO-style adapters for gradual GUI migration:
+  + migration/TaiKhoanJpaDAO
+  + migration/ThuocJpaDAO
+  + migration/HoaDonJpaDAO
+- Added App.java and CreateDBSchema.java bootstrap entry points.
+
+3) IMPORTANT FILES TO READ FIRST NEXT TIME
+- src/main/resources/META-INF/persistence.xml
+- src/main/java/com/pillchill/migration/db/JPAUtil.java
+- src/main/java/com/pillchill/migration/repository/impl/RepositoryTemplate.java
+- src/main/java/com/pillchill/migration/service/impl/HoaDonService.java
+- src/main/java/com/pillchill/migration/migration/*.java
+- README.md
+
+4) KNOWN ENVIRONMENT ISSUES
+- In this environment, mvn and javac were not available in PATH.
+- mvnw run attempt failed because JAVA_HOME was missing.
+- Result: runtime/compile verification was limited by local environment setup.
+
+5) NEXT WORK ITEMS
+- Verify compile/run locally after setting JAVA_HOME:
+  + mvn clean compile
+  + run App.main / CreateDBSchema.main
+- Validate all entity relationship mappings against real MariaDB schema.
+- Continue migrating remaining DAO logic from Swing JDBC side to JPA adapters.
+- Add integration tests for key flows:
+  + login
+  + list medicine with price
+  + invoice creation + FIFO stock deduction
+- Remove any stale MSSQL leftovers in generated/IDE caches if reappearing.
+
+6) IDE NOTE (RUN CONFIG)
+- If IntelliJ shows red main class:
+  + re-import Maven project
+  + create Run Configuration from App.java directly
+  + ensure classpath module is jpa-orm-migration
