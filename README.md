@@ -33,6 +33,15 @@ Thiết kế tham chiếu theo Demo-Vaccine-Jpa-Socket ở phần `repository/se
    - `TaiKhoanJpaDAO`
    - `ThuocJpaDAO`
    - `HoaDonJpaDAO`
+   - `TonKhoJpaDAO`
+12. Thêm lớp tương thích package `app.*` trong project mới cho GUI cũ (flow đã migrate):
+   - `app.DAO`: `TaiKhoanDAO`, `ThuocDAO`, `HoaDonDAO`, `TonKhoDAO`
+   - `app.DTO`: `ThuocKemGiaDTO`
+   - `app.Entity`: `TaiKhoan`, `HoaDon`
+13. Refactor kiến trúc migration adapter:
+   - `migration/*JpaDAO` chỉ gọi `service/*`
+   - Nghiệp vụ đi theo luồng `adapter -> service -> repository`
+   - Bổ sung service: `ITaiKhoanService`, `IThuocService`, `ITonKhoService`
 
 ## Cách chạy
 
@@ -46,6 +55,27 @@ mvn exec:java
 
 Chỉnh trực tiếp trong `src/main/resources/META-INF/persistence.xml`.
 Persistence unit mặc định đang dùng: `mariadb-pu`.
+`hibernate.hbm2ddl.auto` đang để `validate` để kiểm tra mapping JPA khớp schema MariaDB hiện có.
+
+## Integration test
+
+```powershell
+mvn test
+```
+
+Các test tích hợp hiện bao phủ:
+- login (`TaiKhoanJpaDAO`)
+- danh sách thuốc kèm giá hiện hành (`ThuocJpaDAO`)
+- tạo hóa đơn + trừ tồn kho FIFO theo từng lô (`HoaDonJpaDAO`/`HoaDonService`)
+
+## Tích hợp GUI cũ vào project mới
+
+Đã có lớp tương thích `app.DAO` trong module này để GUI Swing cũ có thể dùng trực tiếp cho các flow đã xong:
+- đăng nhập
+- danh sách thuốc kèm giá
+- lưu hóa đơn theo FIFO
+
+Lưu ý: nghiệp vụ điểm tích lũy trong `app.DAO.HoaDonDAO` hiện đang trả `false` (chưa migrate).
 
 ## Lộ trình thay thế trong Swing cũ
 

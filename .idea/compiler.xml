@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/XemChiTietBangGiaPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/ThongKeDoanhThuTheoThangPanel2.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/CapNhatKhuyenMaiPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/ThongKeTheoNhanVienPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/XemChiTietDoanhThuTheoNhanVien.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/CapNhatDonViPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/CapNhatBangGiaSubPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/CapNhatChiTietBangGiaPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/ThemKhachHangKhiLapHoaDon.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/app/GUI/ThongKeTheoThuePanel.java" />
+    </excludeFromCompile>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
       <profile name="Annotation profile for jpa-orm-migration" enabled="true">

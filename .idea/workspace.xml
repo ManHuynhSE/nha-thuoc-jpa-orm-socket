@@ -5,9 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Data/Data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/DangNhapFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/HoaDonJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/HoaDonJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/TaiKhoanJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/TaiKhoanJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/ThuocJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/ThuocJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IHoaDonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IHoaDonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/HoaDonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/HoaDonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/HoaDonService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/HoaDonService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,13 +50,19 @@
   "keyToString": {
     "Application.App.executor": "Run",
     "Application.CreateDBSchema.executor": "Run",
+    "Application.DangNhapFrame.executor": "Run",
+    "Application.com.pillchill.migration.gui.DangNhapFrame.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.entityMappingsShouldMatchMariaDbSchema.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.invoiceCreationShouldDeductStockByFifo.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.listMedicineWithPriceShouldWorkWithJpaAdapter.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.loginFlowShouldWorkWithJpaAdapter.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/LTPT_Java/project/nha-thuoc-pill-and-chill-java-swing/jpa-orm-migration/Data",
+    "last_opened_file_path": "C:/LTPT_Java/project/nha-thuoc-pill-and-chill-java-swing/jpa-orm-migration",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -65,16 +81,17 @@
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\Data" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.pillchill.migration.gui" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.App">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-25" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.App" />
+  <component name="RunManager" selected="Application.com.pillchill.migration.gui.DangNhapFrame">
+    <configuration name="DangNhapFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="app.GUI.DangNhapFrame" />
       <module name="jpa-orm-migration" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.pillchill.migration.*" />
+          <option name="PATTERN" value="app.GUI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -82,12 +99,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CreateDBSchema" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.CreateDBSchema" />
+    <configuration name="com.pillchill.migration.gui.DangNhapFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.gui.DangNhapFrame" />
       <module name="jpa-orm-migration" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.pillchill.migration.*" />
+          <option name="PATTERN" value="com.pillchill.migration.gui.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -95,21 +112,61 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
+    <configuration name="JpaMigrationIntegrationTest.invoiceCreationShouldDeductStockByFifo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jpa-orm-migration" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pillchill.migration.integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.pillchill.migration.integration" />
+      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.integration.JpaMigrationIntegrationTest" />
+      <option name="METHOD_NAME" value="invoiceCreationShouldDeductStockByFifo" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+    <configuration name="JpaMigrationIntegrationTest.listMedicineWithPriceShouldWorkWithJpaAdapter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="jpa-orm-migration" />
-      <option name="filePath" />
-      <method v="2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pillchill.migration.integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.pillchill.migration.integration" />
+      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.integration.JpaMigrationIntegrationTest" />
+      <option name="METHOD_NAME" value="listMedicineWithPriceShouldWorkWithJpaAdapter" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JpaMigrationIntegrationTest.loginFlowShouldWorkWithJpaAdapter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="jpa-orm-migration" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pillchill.migration.integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.pillchill.migration.integration" />
+      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.integration.JpaMigrationIntegrationTest" />
+      <option name="METHOD_NAME" value="loginFlowShouldWorkWithJpaAdapter" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
-        <item itemvalue="Application.CreateDBSchema" />
+        <item itemvalue="Application.com.pillchill.migration.gui.DangNhapFrame" />
+        <item itemvalue="Application.DangNhapFrame" />
+        <item itemvalue="JUnit.JpaMigrationIntegrationTest.invoiceCreationShouldDeductStockByFifo" />
+        <item itemvalue="JUnit.JpaMigrationIntegrationTest.listMedicineWithPriceShouldWorkWithJpaAdapter" />
+        <item itemvalue="JUnit.JpaMigrationIntegrationTest.loginFlowShouldWorkWithJpaAdapter" />
       </list>
     </recent_temporary>
   </component>
@@ -120,6 +177,9 @@
         <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
       </set>
     </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Logical" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -134,7 +194,8 @@
       <workItem from="1776493047739" duration="1507000" />
       <workItem from="1776494580157" duration="72000" />
       <workItem from="1776494664953" duration="23000" />
-      <workItem from="1776494699785" duration="2807000" />
+      <workItem from="1776494699785" duration="2933000" />
+      <workItem from="1776564699400" duration="3568000" />
     </task>
     <servers />
   </component>

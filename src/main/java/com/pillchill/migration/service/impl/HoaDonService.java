@@ -1,6 +1,7 @@
 package com.pillchill.migration.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.pillchill.migration.entity.ChiTietHoaDon;
 import com.pillchill.migration.entity.ChiTietLoThuoc;
@@ -15,12 +16,24 @@ import com.pillchill.migration.entity.id.ChiTietLoThuocId;
 import com.pillchill.migration.dto.CreateHoaDonCommand;
 import com.pillchill.migration.dto.HoaDonItemCommand;
 import com.pillchill.migration.db.JPAUtil;
+import com.pillchill.migration.repository.IHoaDonRepository;
+import com.pillchill.migration.repository.impl.HoaDonRepository;
 import com.pillchill.migration.service.IHoaDonService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 public class HoaDonService implements IHoaDonService {
+    private final IHoaDonRepository hoaDonRepository;
+
+    public HoaDonService(IHoaDonRepository hoaDonRepository) {
+        this.hoaDonRepository = hoaDonRepository;
+    }
+
+    public HoaDonService() {
+        this.hoaDonRepository = new HoaDonRepository();
+    }
+
     @Override
     public HoaDon createHoaDon(CreateHoaDonCommand command) {
         EntityManager em = JPAUtil.getEntityManager();
@@ -49,19 +62,21 @@ public class HoaDonService implements IHoaDonService {
             em.persist(hoaDon);
 
             for (HoaDonItemCommand item : command.items()) {
-                String maLo = truTonKhoTheoFIFO(em, item.maThuoc(), item.soLuong());
                 Thuoc thuoc = em.getReference(Thuoc.class, item.maThuoc());
-                LoThuoc loThuoc = em.getReference(LoThuoc.class, maLo);
-                ChiTietHoaDon chiTietHoaDon = ChiTietHoaDon.builder()
-                        .id(new ChiTietHoaDonId(command.maHoaDon(), item.maThuoc(), maLo))
-                        .hoaDon(hoaDon)
-                        .thuoc(thuoc)
-                        .loThuoc(loThuoc)
-                        .soLuong(item.soLuong())
-                        .donGia(item.donGia())
-                        .isActive(true)
-                        .build();
-                em.persist(chiTietHoaDon);
+                List<FifoAllocation> allocations = truTonKhoTheoFIFO(em, item.maThuoc(), item.soLuong());
+                for (FifoAllocation allocation : allocations) {
+                    LoThuoc loThuoc = em.getReference(LoThuoc.class, allocation.maLo());
+                    ChiTietHoaDon chiTietHoaDon = ChiTietHoaDon.builder()
+                            .id(new ChiTietHoaDonId(command.maHoaDon(), item.maThuoc(), allocation.maLo()))
+                            .hoaDon(hoaDon)
+                            .thuoc(thuoc)
+                            .loThuoc(loThuoc)
+                            .soLuong(allocation.soLuong())
+                            .donGia(item.donGia())
+                            .isActive(true)
+                            .build();
+                    em.persist(chiTietHoaDon);
+                }
                 dongBoSoLuongTon(em, item.maThuoc());
             }
 
@@ -77,7 +92,10 @@ public class HoaDonService implements IHoaDonService {
         }
     }
 
-    private String truTonKhoTheoFIFO(EntityManager em, String maThuoc, int soLuongCanMua) {
+    private List<FifoAllocation> truTonKhoTheoFIFO(EntityManager em, String maThuoc, int soLuongCanMua) {
+        if (soLuongCanMua <= 0) {
+            throw new IllegalArgumentException("So luong mua phai lon hon 0");
+        }
         List<ChiTietLoThuoc> loThuocs = em.createQuery(
                         "select c from ChiTietLoThuoc c where c.id.maThuoc = :maThuoc and c.isActive = true and c.soLuong > 0 order by c.ngaySanXuat asc",
                         ChiTietLoThuoc.class)
@@ -85,7 +103,7 @@ public class HoaDonService implements IHoaDonService {
                 .getResultList();
 
         int canTru = soLuongCanMua;
-        String maLoKetQua = null;
+        List<FifoAllocation> allocations = new java.util.ArrayList<>();
         for (ChiTietLoThuoc loThuoc : loThuocs) {
             if (canTru <= 0) {
                 break;
@@ -95,13 +113,13 @@ public class HoaDonService implements IHoaDonService {
             loThuoc.setSoLuong(soLuongLo - soLuongTru);
             em.merge(loThuoc);
             canTru -= soLuongTru;
-            maLoKetQua = loThuoc.getId().getMaLo();
+            allocations.add(new FifoAllocation(loThuoc.getId().getMaLo(), soLuongTru));
         }
 
         if (canTru > 0) {
             throw new IllegalStateException("Khong du ton kho cho ma thuoc " + maThuoc + ", con thieu " + canTru);
         }
-        return maLoKetQua;
+        return allocations;
     }
 
     private void dongBoSoLuongTon(EntityManager em, String maThuoc) {
@@ -125,5 +143,18 @@ public class HoaDonService implements IHoaDonService {
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public Optional<HoaDon> getHoaDonById(String maHoaDon) {
+        return hoaDonRepository.findById(maHoaDon);
+    }
+
+    @Override
+    public List<HoaDon> findHoaDonByDateRange(java.time.LocalDate fromDate, java.time.LocalDate toDate) {
+        return hoaDonRepository.findByDateRange(fromDate, toDate);
+    }
+
+    private record FifoAllocation(String maLo, int soLuong) {
     }
 }
