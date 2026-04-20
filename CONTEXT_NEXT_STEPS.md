@@ -1,83 +1,128 @@
-# CONTEXT HANDOFF - JPA ORM MIGRATION + GUI BRIDGE
+# CONTEXT HANDOFF - NETWORK FLOW + GUI (LOGIN -> MAIN -> CAP NHAT THUOC)
 
-Updated: 2026-04-19
+Updated: 2026-04-20  
 Module: `jpa-orm-migration`
-DB target: **MariaDB**
 
-## 1) Mục tiêu đã chốt trong phiên này
-- Dùng project mới `jpa-orm-migration` làm nơi tích hợp dần GUI cũ.
-- Chuẩn hóa kiến trúc: **adapter -> service -> repository**.
-- Login frame phải validate qua JPA/MariaDB, không gọi `ConnectDB` trong `DangNhapFrame`.
+## 1) Tóm tắt phiên làm việc này
 
-## 2) Những gì đã làm
+- Đã phân tích mẫu socket request/response từ project tham chiếu (`Demo-Vaccine-Jpa-Socket`) để chốt hướng kiến trúc cho project hiện tại.
+- Đã áp dụng hướng **NetworkClient dùng chung + truyền session context qua GUI** vào code chính của project.
+- Đã tách server xử lý command theo kiểu **Dispatcher + Handler**, không còn dồn logic vào một hàm `process` lớn.
+- Đã nối thử 2 nghiệp vụ chạy theo network:
+  1. `LOGIN`
+  2. `THUOC_LIST_ALL` (dùng cho màn cập nhật thuốc).
 
-### 2.1 Core JPA/Migration
-- Sửa `HoaDonService` để trừ tồn FIFO đúng theo **nhiều lô** (không còn dồn vào 1 lô cuối).
-- Thêm `TonKhoJpaDAO`.
-- Thêm integration test `JpaMigrationIntegrationTest` cho:
-  - login
-  - list thuốc + giá
-  - tạo hóa đơn + trừ tồn FIFO
-- Đổi `hibernate.hbm2ddl.auto` sang `validate`.
+## 2) Những gì đã có trong code hiện tại
 
-### 2.2 Refactor kiến trúc adapter
-- `migration/TaiKhoanJpaDAO` đã đổi sang gọi service:
-  - `IAuthService/AuthService`
-  - `ITaiKhoanService/TaiKhoanService`
-- `migration/ThuocJpaDAO` đã đổi sang gọi `IThuocService/ThuocService`.
-- `migration/TonKhoJpaDAO` đã đổi sang gọi `ITonKhoService/TonKhoService`.
-- `migration/HoaDonJpaDAO` đã đổi sang gọi `IHoaDonService/HoaDonService` cho read + write.
-- Bổ sung service interfaces/impl mới:
-  - `ITaiKhoanService`, `IThuocService`, `ITonKhoService`
-  - `TaiKhoanService`, `ThuocService`, `TonKhoService`
-- Mở rộng `IHoaDonService` + `HoaDonService`:
-  - `getHoaDonById`
-  - `findHoaDonByDateRange`
+### 2.1 Network communication model
+- Package: `src/main/java/com/pillchill/migration/network/communication`
+- Các class:
+  - `CommandType` (đang có `LOGIN`, `THUOC_LIST_ALL`)
+  - `Request` (`commandType`, `data`, `sessionUserId`)
+  - `Response` (`success`, `data`, `message`)
+  - `LoginPayload`
 
-### 2.3 Bridge package `app.*` trong project mới
-Đã thêm các lớp tương thích ở `src/main/java/app`:
-- `app.DAO`: `TaiKhoanDAO`, `ThuocDAO`, `HoaDonDAO`, `TonKhoDAO`
-- `app.DTO`: `ThuocKemGiaDTO`
-- `app.Entity`: `TaiKhoan`, `HoaDon`
+### 2.2 Client side network
+- Package: `src/main/java/com/pillchill/migration/network/client`
+- `NetworkClient`:
+  - Giữ **persistent socket** + `ObjectInputStream/ObjectOutputStream` trong cùng phiên GUI.
+  - `send(Request)` là synchronized, request/response kiểu đồng bộ.
+- `AuthClientController`:
+  - Gói request login gửi lên server.
+- `ClientSessionContext`:
+  - Giữ `NetworkClient` + `userId` sau login để truyền qua các màn hình.
+- `ThuocClientController`:
+  - Gọi command `THUOC_LIST_ALL` với `sessionUserId`.
+  - Parse `Response.data` về `List<ThuocKemGiaView>`.
 
-Mục đích: cho GUI cũ gọi chữ ký quen thuộc (`app.DAO/...`) nhưng backend đi qua JPA migration.
+### 2.3 Server side command routing
+- Package: `src/main/java/com/pillchill/migration/network/server`
+- `Server`:
+  - Mở `ServerSocket`, dùng thread pool.
+  - Mỗi client connection vào `handleClient`.
+  - Trong `handleClient` có vòng lặp đọc request nhiều lần trên cùng socket.
+- `CommandDispatcher`:
+  - `Map<CommandType, CommandHandler>`.
+  - Nhận request, route đúng handler theo `commandType`.
+- `CommandHandler` interface + handlers:
+  - `AuthCommandHandler`: dùng `TaiKhoanJpaDAO.kiemTraDangNhap(...)`.
+  - `ThuocListCommandHandler`: dùng `ThuocJpaDAO.getAllThuocKemGia()` và trả danh sách.
 
-### 2.4 Login frame
-- File: `src/main/java/com/pillchill/migration/gui/DangNhapFrame.java`
-- Đã bỏ `ConnectDB.connect()` trong `validateLogin()`.
-- Login hiện gọi `TaiKhoanJpaDAO` (qua JPA/MariaDB) và có thông báo lỗi kết nối rõ ràng.
+### 2.4 GUI integration đã làm
 
-## 3) Trạng thái hiện tại cần lưu ý
-- Trong module mới hiện có `com/pillchill/migration/gui/DangNhapFrame.java`.
-- Trong `src/main/java/app` hiện có `DAO/DTO/Entity`, **chưa có `app/GUI` ở trạng thái hiện tại**.
-- Có nhiều file build output trong `target/` thay đổi do quá trình làm việc.
-- Môi trường này thiếu `mvn`/`javac` trong PATH nên chưa chạy verify bằng CLI tại đây.
+#### `DangNhapFrame`
+- Đã chuyển sang nhận `host/port` trong constructor.
+- Đăng nhập chạy bằng `SwingWorker` (không block EDT).
+- Tạo `NetworkClient` lần đầu khi login.
+- Login thành công:
+  - Tạo `ClientSessionContext(networkClient, userId)`.
+  - Mở `MainFrame(context)`.
+- Có đóng `networkClient` khi đóng cửa sổ login.
 
-## 4) Việc cần làm tiếp theo (ưu tiên)
-1. **Chuẩn hóa GUI location trong project mới**
-   - Quyết định 1 trong 2:
-   - A) Dùng `com.pillchill.migration.gui.*` làm GUI package chính, hoặc
-   - B) Copy full GUI cũ vào `app.GUI` rồi fix import cho đồng nhất.
+#### `MainFrame`
+- Constructor đổi sang nhận `ClientSessionContext`.
+- Giữ context trong frame để truyền tiếp cho panel.
+- `showCapNhatThuocPanel()` tạo panel bằng:
+  - `new CapNhatThuocPanel(new ThuocClientController(sessionContext))`.
 
-2. **Nếu chọn copy full GUI vào project mới**
-   - Copy toàn bộ `src/app/GUI/*.java` từ project cũ sang module mới.
-   - Resolve dependencies thiếu trong module mới (`KhachHangDAO`, `NhanVienDAO`, `KhuyenMaiDAO`, ...), hiện chưa migrate đủ.
+#### `CapNhatThuocPanel`
+- Constructor đã nhận `ThuocClientController`.
+- `loadThuocData()` dùng `SwingWorker` gọi `thuocClientController.getAllThuocItems()`.
+- Data table đang lấy từ server response thay vì gọi thẳng DAO cho load danh sách.
 
-3. **Hoàn thiện bridge/service cho các màn ngoài login/bán hàng**
-   - Các nghiệp vụ chưa migrate: điểm tích lũy, khuyến mãi chi tiết, phiếu đặt/đổi trả/nhập, thống kê.
+## 3) Flow network hiện tại (để phiên sau đọc nhanh)
 
-4. **Dọn trạng thái build**
-   - Không commit file sinh ra trong `target/`.
+1. GUI Login lấy `username/password`.
+2. `AuthClientController.login(...)` tạo `Request(LOGIN, LoginPayload, sessionUserId=null)`.
+3. `NetworkClient.send()` ghi request qua socket, chờ `readObject()` response.
+4. Server `handleClient` nhận request -> `CommandDispatcher.dispatch(...)`.
+5. `AuthCommandHandler` xác thực qua `TaiKhoanJpaDAO` -> trả `Response(success, userId, message)`.
+6. Client nhận response:
+   - Nếu fail: báo lỗi.
+   - Nếu success: tạo `ClientSessionContext` và mở `MainFrame`.
+7. Màn `CapNhatThuocPanel` gọi `ThuocClientController.getAllThuocItems()`.
+8. Client gửi `Request(THUOC_LIST_ALL, null, sessionUserId=userId)`.
+9. Server route qua `ThuocListCommandHandler`, gọi `ThuocJpaDAO.getAllThuocKemGia()`, trả list.
+10. Panel cập nhật JTable từ response.
 
-5. **Chạy verify khi máy có tool**
-   - `mvn clean compile`
-   - `mvn test`
+## 4) Lưu ý kỹ thuật quan trọng
 
-## 5) File quan trọng nên đọc trước khi tiếp tục
-- `src/main/java/com/pillchill/migration/migration/*.java`
-- `src/main/java/com/pillchill/migration/service/*.java`
-- `src/main/java/com/pillchill/migration/service/impl/*.java`
-- `src/main/java/com/pillchill/migration/gui/DangNhapFrame.java`
-- `src/main/java/app/DAO/*.java`
-- `src/test/java/com/pillchill/migration/integration/JpaMigrationIntegrationTest.java`
-- `src/main/resources/META-INF/persistence.xml`
+- `NetworkClient.send()` hiện là đồng bộ; async chưa làm.
+- Với mô hình async, vẫn cần một read-loop ở background thread để ghép response với request tương ứng (future/promise).
+- Server-side session check hiện chỉ kiểm tra `sessionUserId` non-empty; chưa có token/session store thật.
+- Host login hiện đang hard-code ở `DangNhapFrame.main()` (`DESKTOP-57QN5N0`, `9999`).
+- Trong môi trường CLI hiện tại không có `mvn` trong PATH nên chưa verify build/test bằng command line.
+
+## 5) Có thêm prototype tách riêng
+
+- Có một bản thử nghiệm trong folder:
+  - `prototype/networkdemo/**`
+- Mục tiêu: minh họa dispatcher/handler và command flow tách biệt.
+- Lưu ý: folder này nằm ngoài `src/main/java` (không thuộc main source mặc định của Maven), nên cần quyết định:
+  - Giữ để tham khảo kiến trúc, hoặc
+  - Di chuyển vào source chính / xóa nếu không dùng.
+
+## 6) Việc cần làm tiếp theo (ưu tiên)
+
+1. **Ổn định entrypoint server/client**
+   - Chốt class chạy server chính thức cho package `com.pillchill.migration.network.server`.
+   - Chuyển host/port ra config.
+
+2. **Chuẩn hóa vòng đời NetworkClient**
+   - Chốt nơi đóng connection (logout/app close).
+   - Tránh đóng client ở login frame nếu đã chuyển ownership sang main frame.
+
+3. **Migrate command theo module**
+   - Tạo thêm command + handler + client controller cho các màn còn lại (hóa đơn, tồn kho, ...).
+   - Mỗi module có handler riêng, không mở rộng switch lớn.
+
+4. **Nâng session/auth**
+   - Thay `sessionUserId` thuần bằng session token có lưu trạng thái ở server.
+
+5. **Dọn code chưa dùng**
+   - Xóa import/field thừa (ví dụ các chỗ còn giữ DAO cũ nhưng không dùng).
+   - Quyết định số phận folder `prototype/networkdemo`.
+
+6. **Verify khi có tool**
+   - Chạy `mvn clean compile`
+   - Chạy `mvn test`

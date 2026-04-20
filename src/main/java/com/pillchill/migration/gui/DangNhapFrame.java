@@ -1,21 +1,24 @@
 package com.pillchill.migration.gui;
 
-import app.DAO.TaiKhoanDAO;
 import com.pillchill.migration.entity.TaiKhoan;
-import com.pillchill.migration.migration.TaiKhoanJpaDAO;
+//import com.pillchill.migration.network.*;
+import com.pillchill.migration.network.client.AuthClientController;
+import com.pillchill.migration.network.client.ClientSessionContext;
+import com.pillchill.migration.network.client.NetworkClient;
+import com.pillchill.migration.network.communication.CommandType;
+import com.pillchill.migration.network.communication.Response;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class DangNhapFrame extends JFrame {
-    
+    private final String host;
+    private final int port;
     private JTextField txtMaNhanVien;
     private JPasswordField txtMatKhau;
     private JButton btnDangNhap;
@@ -23,27 +26,42 @@ public class DangNhapFrame extends JFrame {
     private JLabel lblMaNhanVien;
     private JLabel lblMatKhau;
     private JLabel lblHinhAnh;
-	private TaiKhoanJpaDAO taiKhoanDAO;
+	private NetworkClient networkClient;
 	
-    public DangNhapFrame() {
-        taiKhoanDAO = new TaiKhoanJpaDAO();
-		
+    public DangNhapFrame(String host, int port) {
+        this.host = host;
+        this.port = port;
+        initUI();
+    }
+
+    private void initUI() {
         setTitle("Đăng Nhập - Pill & Chill");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 700);
         setLocationRelativeTo(null);
-        
+
         JPanel pnlMain = new JPanel(new GridLayout(1, 2));
-        
+
         JPanel pnlLeft = taoTrangTrai();
         JPanel pnlRight = taoTrangPhai();
-        
+
         pnlMain.add(pnlLeft);
         pnlMain.add(pnlRight);
-        
+
         add(pnlMain);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (networkClient != null) {
+                    networkClient.close();
+                }
+            }
+        });
+
         setVisible(true);
     }
+
     
     private JPanel taoTrangTrai() {
         JPanel pnlLeft = new JPanel(new GridBagLayout());
@@ -127,6 +145,8 @@ public class DangNhapFrame extends JFrame {
         pnlMainPhai.add(r4);
         handleHotKey();
         pnlRight.add(pnlMainPhai, new GridBagConstraints());
+
+
 
         return pnlRight;
     }
@@ -222,30 +242,44 @@ public class DangNhapFrame extends JFrame {
 			JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-        TaiKhoan taiKhoan;
-		try {
-			taiKhoan = taiKhoanDAO.kiemTraDangNhap(user, pwd);
-		} catch (RuntimeException ex) {
-			JOptionPane.showMessageDialog(
-					this,
-					"Không thể kết nối MariaDB/JPA: " + ex.getMessage(),
-					"Lỗi kết nối",
-					JOptionPane.ERROR_MESSAGE
-			);
-			return;
-		}
-		if (taiKhoan != null) {
-			JOptionPane.showMessageDialog(this, "Đăng nhập thành công! Xin chào "+ taiKhoan.getMaNV(), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//			this.dispose();
-//			new MainFrame(taiKhoan.getMaNV());
-		} else {
-			JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không đúng, hoặc tài khoản của bạn đã bị khóa.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-			txtMatKhau.setText("");
-			txtMaNhanVien.requestFocus();
-		}
+        btnDangNhap.setEnabled(false);
+
+        SwingWorker<Response,Void> worker = new SwingWorker<>() {
+            @Override
+            protected Response doInBackground() throws Exception {
+                if(networkClient==null) {
+                    networkClient = new NetworkClient(host,port);
+                }
+                AuthClientController authClientController = new AuthClientController(networkClient);
+                return authClientController.login(user,pwd);
+            }
+            @Override
+            protected void done() {
+                btnDangNhap.setEnabled(true);
+                try{
+                    Response response = get();
+                    if(!response.isSuccess()) {
+                        JOptionPane.showMessageDialog(DangNhapFrame.this, response.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    String id = response.getData().toString();
+                    ClientSessionContext context = new ClientSessionContext(networkClient,id);
+                    JOptionPane.showMessageDialog(DangNhapFrame.this, "Đăng nhập thành công! Xin chào "+ id, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    new MainFrame(context);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+        worker.execute();
 	}
 
     public static void main(String[] args) {
-        DangNhapFrame dangNhapFrame = new DangNhapFrame();
+        SwingUtilities.invokeLater(() -> new DangNhapFrame("DESKTOP-57QN5N0", 9999));
+
+
     }
 }

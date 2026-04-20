@@ -29,4 +29,8 @@ public class ThuocJpaDAO {
     public ArrayList<ThuocKemGiaView> getAllThuocKemGia() {
         return new ArrayList<>(thuocService.getAllThuocKemGia());
     }
+
+    public static void main(String[] args) {
+        ThuocJpaDAO thuocJpaDAO = new ThuocJpaDAO();
+    }
 }

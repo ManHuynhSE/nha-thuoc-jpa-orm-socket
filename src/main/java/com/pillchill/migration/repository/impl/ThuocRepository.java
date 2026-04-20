@@ -6,11 +6,16 @@ import java.util.Optional;
 import com.pillchill.migration.entity.Thuoc;
 import com.pillchill.migration.repository.IThuocRepository;
 
-public class ThuocRepository extends RepositoryTemplate implements IThuocRepository {
+public class ThuocRepository extends AbstracGenericRepository<Thuoc,String> implements IThuocRepository {
+    private final Template template;
+     public ThuocRepository() {
+        super(Thuoc.class);
+         this.template = new Template();
+    }
 
     @Override
     public List<Thuoc> findAllActive() {
-        return execute(em -> em.createQuery(
+        return template.execute(em -> em.createQuery(
                         "select t from Thuoc t where t.isActive = true order by t.maThuoc",
                         Thuoc.class)
                 .getResultList());
@@ -18,12 +23,12 @@ public class ThuocRepository extends RepositoryTemplate implements IThuocReposit
 
     @Override
     public Optional<Thuoc> findById(String maThuoc) {
-        return execute(em -> Optional.ofNullable(em.find(Thuoc.class, maThuoc)));
+        return template.execute(em -> Optional.ofNullable(em.find(Thuoc.class, maThuoc)));
     }
 
     @Override
     public long countActive() {
-        return execute(em -> em.createQuery(
+        return template.execute(em -> em.createQuery(
                         "select count(t) from Thuoc t where t.isActive = true",
                         Long.class)
                 .getSingleResult());
@@ -31,12 +36,17 @@ public class ThuocRepository extends RepositoryTemplate implements IThuocReposit
 
     @Override
     public void updateSoLuongTon(String maThuoc, int soLuongTon) {
-        execute(em -> {
+        template.execute(em -> {
             em.createQuery("update Thuoc t set t.soLuongTon = :soLuongTon where t.maThuoc = :maThuoc")
                     .setParameter("soLuongTon", soLuongTon)
                     .setParameter("maThuoc", maThuoc)
                     .executeUpdate();
             return null;
         });
+    }
+
+    public static void main(String[] args) {
+        ThuocRepository thuocRepository = new ThuocRepository();
+        System.out.println(thuocRepository.findByID("T001"));
     }
 }

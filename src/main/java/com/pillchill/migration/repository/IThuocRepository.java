@@ -5,7 +5,7 @@ import com.pillchill.migration.entity.Thuoc;
 import java.util.List;
 import java.util.Optional;
 
-public interface IThuocRepository {
+public interface IThuocRepository extends GenericRepository<Thuoc,String> {
     List<Thuoc> findAllActive();
 
     Optional<Thuoc> findById(String maThuoc);
