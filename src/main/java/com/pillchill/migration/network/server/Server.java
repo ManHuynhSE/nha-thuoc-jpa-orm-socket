@@ -4,7 +4,7 @@ import com.pillchill.migration.migration.TaiKhoanJpaDAO;
 import com.pillchill.migration.migration.ThuocJpaDAO;
 import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThuocListCommandHandler;
+import com.pillchill.migration.network.server.handlers.ThuocCommandHandler;
 
 
 import java.io.EOFException;
@@ -22,13 +22,9 @@ public class Server {
     public Server(int port) {
         this.port = port;
         this.dispatcher = new CommandDispatcher();
-        initHandlers();
     }
 
-    private void initHandlers() {
-        dispatcher.register(CommandType.LOGIN, new AuthCommandHandler(new TaiKhoanJpaDAO()));
-        dispatcher.register(CommandType.THUOC_LIST_ALL, new ThuocListCommandHandler(new ThuocJpaDAO()));
-    }
+
 
     public void start() {
         ExecutorService executor = Executors.newFixedThreadPool(10);
