@@ -8,6 +8,8 @@ import java.util.List;
 public interface IChiTietLoThuocRepository {
     List<ChiTietLoThuoc> findActiveByMaThuocOrderByNgaySanXuat(String maThuoc);
 
+    List<ChiTietLoThuoc> findAllActiveWithThuocAndLo();
+
     ChiTietLoThuoc getReference(ChiTietLoThuocId id);
 
     void save(ChiTietLoThuoc chiTietLoThuoc);

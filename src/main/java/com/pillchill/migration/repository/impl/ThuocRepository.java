@@ -16,7 +16,11 @@ public class ThuocRepository extends AbstracGenericRepository<Thuoc,String> impl
     @Override
     public List<Thuoc> findAllActive() {
         return template.execute(em -> em.createQuery(
-                        "select t from Thuoc t where t.isActive = true order by t.maThuoc",
+                        "select t from Thuoc t " +
+                                "left join fetch t.donVi dv " +
+                                "left join fetch t.nhaSanXuat nsx " +
+                                "where t.isActive = true " +
+                                "order by t.maThuoc",
                         Thuoc.class)
                 .getResultList());
     }
@@ -45,8 +49,20 @@ public class ThuocRepository extends AbstracGenericRepository<Thuoc,String> impl
         });
     }
 
+
+    @Override
+    public boolean deactivateThuoc(String maThuoc) {
+        return template.execute(em -> {
+            int updated = em.createQuery(
+                            "update Thuoc t set t.isActive = false where t.maThuoc = :maThuoc and t.isActive = true")
+                    .setParameter("maThuoc", maThuoc)
+                    .executeUpdate();
+            return updated > 0;
+        });
+    }
+
     public static void main(String[] args) {
         ThuocRepository thuocRepository = new ThuocRepository();
-        System.out.println(thuocRepository.findByID("T001"));
+        System.out.println(thuocRepository.findAllActive());
     }
 }

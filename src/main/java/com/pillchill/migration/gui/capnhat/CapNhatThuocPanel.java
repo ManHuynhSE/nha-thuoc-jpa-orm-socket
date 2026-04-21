@@ -15,10 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -27,8 +24,7 @@ import javax.swing.table.JTableHeader;
 
 
 import com.pillchill.migration.dto.ThuocKemGiaView;
-import com.pillchill.migration.entity.Thuoc;
-import com.pillchill.migration.migration.ThuocJpaDAO;
+import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.client.ThuocClientController;
 
 public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseListener {
@@ -72,12 +68,10 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
     
     private ArrayList<ThuocKemGiaView> dsThuoc;
 //    private ArrayList<com.pillchill.migration.entity.Thuoc> dsThuoc;
-//    private ArrayList<DonVi> dsDonVi;
-    private Map<String,String> mapDonVi;
-//    private ArrayList<NhaSanXuat> dsNhaSanXuat;
+    private Set<String> dsDonVi;
+//    private Map<String,String> mapDonVi;
+    private Set<String> dsNhaSanXuat;
 //    private NhaSanXuatDAO nsxDAO;
-    private ThuocJpaDAO thuocJpaDAO;
-    private Map<String, String> mapNhaSanXuat;
 	private CardLayout cardLayout;
 	private JPanel mainContainer;
 
@@ -94,8 +88,9 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
 //        FlatLightLaf.setup();
 //        ConnectDB.getInstance().connect();
 //        nsxDAO = new NhaSanXuatDAO();
-        thuocJpaDAO = new ThuocJpaDAO();
-        mapNhaSanXuat = new HashMap<>();
+        dsThuoc = new ArrayList<>();
+        dsDonVi = new HashSet<>();
+        dsNhaSanXuat=  new HashSet<>();
         cardLayout = new CardLayout();
         mainContainer = new JPanel(cardLayout);
 
@@ -328,6 +323,9 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
             protected void done() {
                 try {
                     List<ThuocKemGiaView> items = get();
+                    dsThuoc = new ArrayList<>(items);
+                    dsDonVi.clear();
+                    dsNhaSanXuat.clear();
                     dtm.setRowCount(0);
                     for(ThuocKemGiaView thuoc : items) {
                         Object[] rowData = {
@@ -339,7 +337,11 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
                                 thuoc.getMaNSX()
                         };
                         dtm.addRow(rowData);
+                        dsDonVi.add(thuoc.getDonVi());
+                        dsNhaSanXuat.add(thuoc.getMaNSX());
                     }
+                    loadDonViData();
+                    loadNhaSanXuatData();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(
                             CapNhatThuocPanel.this,
@@ -356,23 +358,19 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
     }
     
     public void loadDonViData() {
-//        DonViDAO donViDAO = new DonViDAO();
-//        dsDonVi = donViDAO.getAllDonVi();
-//        mapDonVi = new HashMap<String, String>();
-//        cboDonVi.removeAllItems();
-//        for(DonVi dv : dsDonVi) {
-//            cboDonVi.addItem(dv.getTenDonVi());
-//            mapDonVi.put(dv.getTenDonVi(), dv.getMaDonVi());
-//        }
+        cboDonVi.removeAllItems();
+        for(String dv : dsDonVi) {
+            cboDonVi.addItem(dv);
+
+        }
     }
     
     public void loadNhaSanXuatData() {
 //        dsNhaSanXuat = nsxDAO.getAllNhaSanXuat();
-//        cboNhaSanXuat.removeAllItems();
-//        for(NhaSanXuat item : dsNhaSanXuat) {
-//            cboNhaSanXuat.addItem(item.getTenNSX());
-//            mapNhaSanXuat.put(item.getMaNSX(), item.getTenNSX());
-//        }
+        cboNhaSanXuat.removeAllItems();
+        for(String item : dsNhaSanXuat) {
+            cboNhaSanXuat.addItem(item);
+        }
     }
     
     public void xoaTrang() {
@@ -380,8 +378,13 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
         txtTenThuoc.setText("");
         txtGiaBanDau.setEnabled(true);
         txtSoLuongTon.setText("0");
-        cboDonVi.setSelectedIndex(0);
-        cboNhaSanXuat.setSelectedIndex(0);
+        if (cboDonVi.getItemCount() > 0) {
+            cboDonVi.setSelectedIndex(0);
+        }
+        if (cboNhaSanXuat.getItemCount() > 0) {
+            cboNhaSanXuat.setSelectedIndex(0);
+        }
+        txtGiaBanDau.setText("");
         tblThuoc.clearSelection();
         loadThuocData();
     }
@@ -402,17 +405,19 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
                     "Có chắc muốn xóa thuốc " + maThuoc , 
                     "Xác nhận", 
                     JOptionPane.YES_NO_OPTION);
-            
+             
             if(option == JOptionPane.YES_OPTION) {
-//                ThuocDAO thuocDAO = new ThuocDAO();
-//                boolean result = thuocDAO.deleteThuoc(maThuoc);
-//                if(result) {
-//                    JOptionPane.showMessageDialog(this, "Xóa thuốc thành công!");
-//                    loadThuocData();
-//                    xoaTrang();
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Xóa thuốc không thành công!");
-//                }
+                try {
+                    Response response = thuocClientController.deleteThuoc(maThuoc);
+                    if(response.isSuccess()) {
+                        JOptionPane.showMessageDialog(this, "Xóa thuốc thành công!");
+                        xoaTrang();
+                    } else {
+                        JOptionPane.showMessageDialog(this, response.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (RuntimeException ex) {
+                    JOptionPane.showMessageDialog(this, "Xóa thuốc thất bại: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         else if(o == btnThem) {
@@ -420,37 +425,24 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
                 String maThuoc = txtMaThuoc.getText().trim();
                 String tenThuoc = txtTenThuoc.getText().trim();
                 int soLuongTon = 0;
-                float giaBanDau = Float.parseFloat(txtGiaBanDau.getText().trim());
-                String tenDonVi = cboDonVi.getSelectedItem().toString();
-                String maDonVi = mapDonVi.get(tenDonVi);
-                
+                double giaBanDau = Double.parseDouble(txtGiaBanDau.getText().trim());
+                String tenDonVi = cboDonVi.getSelectedItem() == null ? "" : cboDonVi.getSelectedItem().toString();
+                 
                 int soLuongToiThieu = 0;
-                
-                String tenNSX = cboNhaSanXuat.getSelectedItem().toString();
-                String maNSX = "";
-                for (Map.Entry<String, String> item : mapNhaSanXuat.entrySet()) {
-                    if(tenNSX.equalsIgnoreCase(item.getValue())) {
-                        maNSX = item.getKey();
-                        break;
+                 
+                String tenNSX = cboNhaSanXuat.getSelectedItem() == null ? "" : cboNhaSanXuat.getSelectedItem().toString();
+
+                try {
+                    Response response = thuocClientController.createThuoc(maThuoc, tenThuoc, soLuongTon, tenDonVi, soLuongToiThieu, tenNSX, giaBanDau);
+                    if (response.isSuccess()) {
+                        JOptionPane.showMessageDialog(this, "Thêm thuốc thành công!");
+                        xoaTrang();
+                    } else {
+                        JOptionPane.showMessageDialog(this, response.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
+                } catch (RuntimeException ex) {
+                    JOptionPane.showMessageDialog(this, "Thêm thuốc thất bại: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-                
-//                ThuocDAO thuocDAO = new ThuocDAO();
-//                Thuoc thuocNew = new Thuoc(maThuoc, tenThuoc, soLuongTon,
-//                                           maDonVi, soLuongToiThieu, maNSX, true);
-//                boolean result1 = thuocDAO.addThuoc(thuocNew);
-//                boolean res2 = thuocDAO.capNhatGiaThuocBase(giaBanDau, maThuoc);
-                
-//                System.out.println("result1 = " + result1);
-//                System.out.println("res2 = " + res2);
-//
-//                if(result1 && res2) {
-//                    JOptionPane.showMessageDialog(this, "Thêm thuốc thành công!");
-//                    loadThuocData();
-//                    xoaTrang();
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Thêm thuốc không thành công!");
-//                }
             }
         }
         else if(o == btnSua) {
@@ -458,34 +450,23 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
                 String maThuoc = txtMaThuoc.getText().trim();
                 String tenThuoc = txtTenThuoc.getText().trim();
                 int soLuongTon = Integer.parseInt(txtSoLuongTon.getText().trim());
-               
-//                String donVi = cboDonVi.getSelectedItem().toString();  check
                 
-                
-                String tenDonVi = cboDonVi.getSelectedItem().toString();
-                String maDonVi = mapDonVi.get(tenDonVi);
+                String tenDonVi = cboDonVi.getSelectedItem() == null ? "" : cboDonVi.getSelectedItem().toString();
                 int soLuongToiThieu = 0;
-                
-                String tenNSX = cboNhaSanXuat.getSelectedItem().toString();
-                String maNSX = "";
-                for (Map.Entry<String, String> item : mapNhaSanXuat.entrySet()) {
-                    if(tenNSX.equals(item.getValue())) {
-                        maNSX = item.getKey();
-                        break;
+                 
+                String tenNSX = cboNhaSanXuat.getSelectedItem() == null ? "" : cboNhaSanXuat.getSelectedItem().toString();
+
+                try {
+                    Response response = thuocClientController.updateThuoc(maThuoc, tenThuoc, soLuongTon, tenDonVi, soLuongToiThieu, tenNSX);
+                    if (response.isSuccess()) {
+                        JOptionPane.showMessageDialog(this, "Cập nhật thuốc thành công!");
+                        xoaTrang();
+                    } else {
+                        JOptionPane.showMessageDialog(this, response.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
+                } catch (RuntimeException ex) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thuốc thất bại: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-                
-//                ThuocDAO thuocDAO = new ThuocDAO();
-//                Thuoc thuocUpdate = new Thuoc(maThuoc, tenThuoc, soLuongTon,
-//                                              maDonVi, soLuongToiThieu, maNSX, true);
-//                boolean result = thuocDAO.updateThuoc(thuocUpdate);
-//                if(result) {
-//                    JOptionPane.showMessageDialog(this, "Cập nhật thuốc thành công!");
-//                    loadThuocData();
-//                    xoaTrang();
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "Cập nhật thuốc không thành công!");
-//                }
             }
         }
         else if(o == btnXoaTrang) {
@@ -493,9 +474,6 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
         }
         else if(o == btnLamMoi) {
         	xoaTrang();
-            loadThuocData();
-            loadDonViData();
-            loadNhaSanXuatData();
         }
         else if(o == btnSuaTrangThai) {
 
@@ -530,6 +508,16 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
             txtTenThuoc.requestFocus();
             return false;
         }
+        if (cboDonVi.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị!");
+            cboDonVi.requestFocus();
+            return false;
+        }
+        if (cboNhaSanXuat.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà sản xuất!");
+            cboNhaSanXuat.requestFocus();
+            return false;
+        }
         
         
         String maThuoc = txtMaThuoc.getText().trim();
@@ -552,6 +540,20 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
                 JOptionPane.showMessageDialog(this, "Giá ban đầu phải là số");
     			return false;
     		}
+        }
+        else {
+            if (txtSoLuongTon.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Số lượng tồn không được để trống!");
+                txtSoLuongTon.requestFocus();
+                return false;
+            }
+            try {
+                Integer.parseInt(txtSoLuongTon.getText().trim());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Số lượng tồn phải là số nguyên");
+                txtSoLuongTon.requestFocus();
+                return false;
+            }
         }
         if (!maThuoc.matches("T\\d{3}")) {
             JOptionPane.showMessageDialog(this, "Mã thuốc phải có định dạng T kèm 3 ký số (Ví dụ: T001)!");

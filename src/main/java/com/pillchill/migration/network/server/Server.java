@@ -1,12 +1,5 @@
 package com.pillchill.migration.network.server;
 
-import com.pillchill.migration.migration.TaiKhoanJpaDAO;
-import com.pillchill.migration.migration.ThuocJpaDAO;
-import com.pillchill.migration.network.communication.CommandType;
-import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThuocCommandHandler;
-
-
 import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

@@ -1,0 +1,169 @@
+
+● Checkpoint #1
+
+  <overview>
+  User wanted to migrate a Java Swing pharmacy project to a socket request/response architecture where GUI acts as client, server handles business logic
+  via service/repository layers, and login + medicine screens were first targets. The work evolved from analysis and examples into concrete refactors:
+  shared `NetworkClient` session flow, command dispatch/handler server routing, CRUD integration for medicine update UI, then search UI migration and
+  finally lot-level medicine search (`1 row = 1 lot`). Constraints included preserving existing project conventions, reusing existing code where possible,
+   and documenting handoff status for continuation.
+  </overview>
+
+  <history>
+  1. User asked to read `CONTEXT_NEXT_STEPS.md` before starting.
+     - Read file and confirmed key context (JPA migration, adapter->service->repository, login via JPA, pending GUI/network work).
+
+  2. User asked to study socket structure from another project (`Demo-Vaccine-Jpa-Socket`) and compare.
+     - Read network files (`Request/Response/CommandType/Client/Server`).
+     - Summarized architecture and mapped it to current project.
+
+  3. User asked for concrete login example and guidance on reusing `NetworkClient` across screens.
+     - Inspected current `DangNhapFrame` and `TaiKhoanJpaDAO`.
+     - Explained current direct DAO login path and how to replace with socket request/response.
+     - Explained object reuse vs connection reuse tradeoff.
+
+  4. User asked how to avoid server `process()` becoming huge and whether controller/handler split is right.
+     - Proposed dispatcher + handler registry pattern.
+     - Suggested domain-based command handling structure.
+
+  5. User requested implementation prototype in separate folder first.
+     - Created a separate prototype network demo (initially attempted under `src/main/java`, effectively observed under `prototype/networkdemo`).
+     - Added command/request/response, client session sharing, server dispatcher/handlers, and simple prototype GUI.
+     - Could not run Maven verification because `mvn` missing in environment.
+
+  6. User asked about async send/read loop semantics.
+     - Clarified that async still needs a background read loop for persistent socket multiplexing.
+     - Clarified where current while loop exists (server side, not client).
+
+  7. User asked for session summary and network flow in Markdown.
+     - Rewrote `CONTEXT_NEXT_STEPS.md` with detailed handoff: architecture, current state, flow, risks, next tasks.
+
+  8. User asked to implement CRUD in medicine update UI via service/repository methods.
+     - Added/adjusted CRUD methods in repository/service/DAO and wired GUI buttons.
+     - User then clarified desired architecture is GUI -> network client (not GUI -> DAO).
+
+  9. User asked to refactor to network path.
+     - Refactored `CapNhatThuocPanel` to call `ThuocClientController` for create/update/delete.
+     - Added/updated network payloads, client methods, and server handler command processing.
+
+  10. User asked to review their changes to generic repository usage.
+     - Reviewed and confirmed core idea was correct but highlighted temporary API mismatch (GUI vs DAO method signatures at that moment).
+
+  11. User requested migration of old search GUI from legacy project.
+     - Read legacy `TimKiemThuocPanel.java`.
+     - Implemented new search panel in current project and integrated into `MainFrame` + `MenuBarPanel`, using network client data.
+
+  12. User asked to show medicine by lot (multiple lots per medicine).
+     - Implemented lot-level search end-to-end: new DTO, repository query, service method, DAO bridge, network command/client/server handling, and updated
+   search panel/table/filtering for lot rows.
+
+  13. Final request: create detailed compaction summary + mention `.md` handoff.
+     - Current response provides full checkpoint summary.
+  </history>
+
+  <work_done>
+  Files added:
+  - `src/main/java/com/pillchill/migration/network/communication/ThuocPayload.java`
+  - `src/main/java/com/pillchill/migration/dto/ThuocTheoLoView.java`
+  - `src/main/java/com/pillchill/migration/gui/timkiem/TimKiemThuocPanel.java` (new migrated/search-by-lot version)
+
+  Files modified (major):
+  - `CONTEXT_NEXT_STEPS.md` (comprehensive handoff already created earlier)
+  - `src/main/java/com/pillchill/migration/gui/capnhat/CapNhatThuocPanel.java`
+  - `src/main/java/com/pillchill/migration/gui/MainFrame.java`
+  - `src/main/java/com/pillchill/migration/gui/MenuBarPanel.java`
+  - `src/main/java/com/pillchill/migration/network/client/ThuocClientController.java`
+  - `src/main/java/com/pillchill/migration/network/client/AuthClientController.java`
+  - `src/main/java/com/pillchill/migration/network/server/CommandDispatcher.java`
+  - `src/main/java/com/pillchill/migration/network/server/Server.java`
+  - `src/main/java/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.java`
+  - `src/main/java/com/pillchill/migration/network/communication/command/ThuocCM.java`
+  - `src/main/java/com/pillchill/migration/service/IThuocService.java`
+  - `src/main/java/com/pillchill/migration/service/impl/ThuocService.java`
+  - `src/main/java/com/pillchill/migration/migration/ThuocJpaDAO.java`
+  - `src/main/java/com/pillchill/migration/repository/IChiTietLoThuocRepository.java`
+  - `src/main/java/com/pillchill/migration/repository/impl/ChiTietLoThuocRepository.java`
+  - Also earlier CRUD-related repository/price files were touched (`IThuocRepository`, `ThuocRepository`, `IGiaThuocRepository`, `GiaThuocRepository`).
+
+  Current state:
+  - Login + medicine update + medicine search are aligned to network-client architecture at GUI layer.
+  - Search panel now displays lot-level rows and filters client-side on lot dataset from server.
+  - Server has `THUOC.LIST_BY_LO` support.
+  - Build/tests not executed in this environment due missing `mvn`/`javac` in PATH.
+  </work_done>
+
+  <technical_details>
+  - Architecture now follows: GUI -> `ThuocClientController` -> socket `Request` -> `CommandDispatcher` -> `ThuocCommandHandler` -> service/repository.
+  - Request protocol uses string command keys (`AUTH.*`, `THUOC.*`) rather than single global enum dispatch.
+  - `NetworkClient` is persistent per app session and synchronized for request/response; currently synchronous call style.
+  - Dispatcher issue fixed: changed immutable `Map.of(...)` to mutable map initialization to avoid runtime failure when registering.
+  - Lot-level retrieval implemented with JPA query joining `ChiTietLoThuoc` + `Thuoc` + `LoThuoc` (+ eager joins for unit/manufacturer), filtered active
+  and `soLuong > 0`.
+  - New lot DTO: `ThuocTheoLoView` with `maLo`, `hanSuDung`, `soLuongLo` etc.
+  - `CapNhatThuocPanel` no longer uses `ThuocJpaDAO` directly; all CRUD actions go through network responses.
+  - Important environment quirk: no `mvn` and no `javac` available in PATH, so verification remains manual/static.
+  - There are many unrelated existing worktree changes (including `target/` artifacts and other modified files); no cleanup/revert performed.
+  - Potential unresolved consistency: both old and newer CRUD-related method shapes were changed across layers during iterations; code should be
+  recompiled in a proper dev environment to confirm no signature drift remains.
+  </technical_details>
+
+  <important_files>
+  - `CONTEXT_NEXT_STEPS.md`
+    - Main handoff document for continuation.
+    - Contains architecture decisions, current flow, and prioritized next actions.
+    - Updated significantly during session.
+
+  - `src/main/java/com/pillchill/migration/network/client/ThuocClientController.java`
+    - Central GUI client API for medicine commands.
+    - Added CRUD calls and lot-list call (`LIST_BY_LO`), plus response parsing helpers.
+
+  - `src/main/java/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.java`
+    - Server-side command execution for medicine domain.
+    - Handles `LIST_ALL`, `LIST_BY_LO`, `CREATE`, `UPDATE`, `DELETE`.
+
+  - `src/main/java/com/pillchill/migration/network/communication/command/ThuocCM.java`
+    - Command contract for medicine domain.
+    - Added `LIST_BY_LO`.
+
+  - `src/main/java/com/pillchill/migration/gui/capnhat/CapNhatThuocPanel.java`
+    - Medicine update GUI.
+    - Refactored to network-only CRUD calls (no local DAO calls).
+
+  - `src/main/java/com/pillchill/migration/gui/timkiem/TimKiemThuocPanel.java`
+    - Newly migrated/implemented search UI.
+    - Now supports lot-level display and filtering.
+
+  - `src/main/java/com/pillchill/migration/service/impl/ThuocService.java`
+    - Business orchestration for medicine operations.
+    - Added lot-view mapping and repository integration for lot query.
+    - Contains relation resolution logic (`DonVi`/`NhaSanXuat`) for create/update flows.
+
+  - `src/main/java/com/pillchill/migration/repository/impl/ChiTietLoThuocRepository.java`
+    - Data access for lot details.
+    - Added `findAllActiveWithThuocAndLo()` query for lot-level search backend.
+
+  - `src/main/java/com/pillchill/migration/gui/MainFrame.java` and `.../MenuBarPanel.java`
+    - Navigation integration points.
+    - Search menu now opens migrated `TimKiemThuocPanel`.
+  </important_files>
+
+  <next_steps>
+  1. Run full compile/test in a machine with Maven/JDK tools:
+     - `mvn clean compile`
+     - `mvn test`
+     - Fix any signature mismatch or imports surfaced by compiler.
+
+  2. Validate runtime socket flows end-to-end:
+     - login -> open main -> open update/search panels
+     - verify `THUOC.CREATE/UPDATE/DELETE/LIST_BY_LO` responses and error handling.
+
+  3. Consider server-side search criteria command (optional improvement):
+     - currently search filters are client-side after fetching all lot rows.
+     - add `THUOC.SEARCH_BY_LO(criteria)` for large data scalability.
+
+  4. Clean up code/worktree:
+     - remove unused imports/comments left from migration.
+     - avoid committing `target/` artifacts and unrelated modified files.
+
+  5. Update handoff markdown if more changes are made after compaction.
+  </next_steps>

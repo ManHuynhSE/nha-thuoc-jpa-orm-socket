@@ -6,6 +6,7 @@ import javax.swing.*;
 //import app.DAO.LoThuocDAO;
 //import app.DAO.NhanVienDAO;
 import com.pillchill.migration.gui.capnhat.CapNhatThuocPanel;
+import com.pillchill.migration.gui.timkiem.TimKiemThuocPanel;
 import com.pillchill.migration.network.client.ClientSessionContext;
 import com.pillchill.migration.network.client.ThuocClientController;
 
@@ -16,7 +17,7 @@ public class MainFrame extends JFrame {
     private String maNhanVien;
     private MenuBarPanel menuBarPanel;
     private JPanel contentPanel;
-//    private TimKiemThuocPanel timKiemThuocPanel;
+    private TimKiemThuocPanel timKiemThuocPanel;
 //    private LapHoaDonPanel lapHoaDonPanel;
 //    private CapNhatKhachHangPanel capNhatKhachHangPanel;
 //    private CapNhatNhanVienPanel capNhatNhanVienPanel;
@@ -81,7 +82,7 @@ public class MainFrame extends JFrame {
     
     private void initializePanels() {
         // Khởi tạo các panel chức năng (lazy loading)
-//        timKiemThuocPanel = null;
+        timKiemThuocPanel = null;
 //        lapHoaDonPanel = null;
 //        capNhatKhachHangPanel = null;
 //        capNhatNhanVienPanel = null;
@@ -137,13 +138,13 @@ public class MainFrame extends JFrame {
         return panel;
     }
     
-//    public void showTimKiemThuocPanel() {
-//        if (timKiemThuocPanel == null) {
-//            timKiemThuocPanel = new TimKiemThuocPanel();
-//        }
-//        showPanel(timKiemThuocPanel);
-//    }
-//
+    public void showTimKiemThuocPanel() {
+        if (timKiemThuocPanel == null) {
+            timKiemThuocPanel = new TimKiemThuocPanel(new ThuocClientController(sessionContext));
+        }
+        showPanel(timKiemThuocPanel);
+    }
+
 //    public void showLapHoaDonPanel() {
 //        if (lapHoaDonPanel == null) {
 //            lapHoaDonPanel = new LapHoaDonPanel(maNhanVien);
@@ -406,7 +407,8 @@ public class MainFrame extends JFrame {
 //            thongKeTheoKhachHangPanel, thongKeTheoHSDPanel, thongKeTheoThuocPanel,
 //            thongKeTheoThuePanel, timKiemKhachHangPanel, timKiemNhanVienPanel,timKiemChiTietLoThuocPanel,
 //            xemPhieuNhapPanel
-                capNhatThuocPanel
+                capNhatThuocPanel,
+                timKiemThuocPanel
         };
         
         

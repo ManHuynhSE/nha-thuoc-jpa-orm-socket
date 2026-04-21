@@ -18,6 +18,20 @@ public class ChiTietLoThuocRepository extends RepositoryTemplate implements IChi
     }
 
     @Override
+    public List<ChiTietLoThuoc> findAllActiveWithThuocAndLo() {
+        return execute(em -> em.createQuery(
+                        "select c from ChiTietLoThuoc c " +
+                                "join fetch c.thuoc t " +
+                                "join fetch c.loThuoc l " +
+                                "left join fetch t.donVi " +
+                                "left join fetch t.nhaSanXuat " +
+                                "where c.isActive = true and c.soLuong > 0 and t.isActive = true and l.isActive = true " +
+                                "order by t.maThuoc, c.hanSuDung, l.maLo",
+                        ChiTietLoThuoc.class)
+                .getResultList());
+    }
+
+    @Override
     public ChiTietLoThuoc getReference(ChiTietLoThuocId id) {
         return execute(em -> em.find(ChiTietLoThuoc.class, id));
     }
@@ -38,5 +52,10 @@ public class ChiTietLoThuocRepository extends RepositoryTemplate implements IChi
                 .setParameter("maThuoc", maThuoc)
                 .getSingleResult()
                 .intValue());
+    }
+
+    public static void main(String[] args) {
+        ChiTietLoThuocRepository chiTietLoThuocRepository = new ChiTietLoThuocRepository();
+        System.out.println(chiTietLoThuocRepository.findAllActiveWithThuocAndLo());
     }
 }

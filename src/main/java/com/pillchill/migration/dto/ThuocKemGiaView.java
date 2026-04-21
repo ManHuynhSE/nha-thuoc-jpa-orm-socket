@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
 public class ThuocKemGiaView implements Serializable{
     private  String maThuoc;
