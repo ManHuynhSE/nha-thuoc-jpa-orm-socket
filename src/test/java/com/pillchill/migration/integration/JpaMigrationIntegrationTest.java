@@ -248,12 +248,12 @@ class JpaMigrationIntegrationTest {
         List<ThuocKemGiaView> thuocKemGiaViews = thuocJpaDAO.getAllThuocKemGia();
 
         ThuocKemGiaView thuocView = thuocKemGiaViews.stream()
-                .filter(t -> t.maThuoc().equals(maThuoc))
+                .filter(t -> t.getMaThuoc().equals(maThuoc))
                 .findFirst()
                 .orElseThrow();
 
-        assertEquals(15000d, thuocView.giaBan(), 0.001d);
-        assertEquals(15, thuocView.soLuongTon());
+        assertEquals(15000d, thuocView.getGiaBan(), 0.001d);
+        assertEquals(15, thuocView.getSoLuongTon());
     }
 
     @Test

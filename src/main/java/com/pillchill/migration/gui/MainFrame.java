@@ -5,8 +5,12 @@ import javax.swing.*;
 
 //import app.DAO.LoThuocDAO;
 //import app.DAO.NhanVienDAO;
-import com.pillchill.migration.gui.capnhat.CapNhatThuocPanel;
+import com.pillchill.migration.gui.capnhat.*;
+import com.pillchill.migration.network.client.ChucVuClientController;
 import com.pillchill.migration.network.client.ClientSessionContext;
+import com.pillchill.migration.network.client.DonViClientController;
+import com.pillchill.migration.network.client.KhuyenMaiClientController;
+import com.pillchill.migration.network.client.NhanVienClientController;
 import com.pillchill.migration.network.client.ThuocClientController;
 
 
@@ -19,11 +23,11 @@ public class MainFrame extends JFrame {
 //    private TimKiemThuocPanel timKiemThuocPanel;
 //    private LapHoaDonPanel lapHoaDonPanel;
 //    private CapNhatKhachHangPanel capNhatKhachHangPanel;
-//    private CapNhatNhanVienPanel capNhatNhanVienPanel;
+    private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
-//    private CapNhatDonViPanel capNhatDonViPanel;
+    private CapNhatDonViPanel capNhatDonViPanel;
 //    private CapNhatBangGiaPanel capNhatBangGiaPanel;
-//    private CapNhatKhuyenMaiPanel capNhatKhuyenMaiPanel;
+    private CapNhatKhuyenMaiPanel capNhatKhuyenMaiPanel;
 //    private LapPhieuDatThuocPanel lapPhieuDatThuocPanel;
 //    private NhapThuocPanel nhapThuocPanel;
 //    private LapPhieuTraThuocPanel lapPhieuTraThuocPanel;
@@ -38,7 +42,7 @@ public class MainFrame extends JFrame {
 //    private TimKiemNhanVienPanel timKiemNhanVienPanel;
 //    private TimKiemChiTietLoThuocPanel timKiemChiTietLoThuocPanel;
 //    private TaiKhoanPanel taiKhoanPanel;
-//    private CapNhatChucVuPanel capNhatChucVuPanel;
+    private CapNhatChucVuPanel capNhatChucVuPanel;
 //    private XemPhieuNhapPanel xemPhieuNhapPanel;
 //
 //    private DanhMucHoaDon danhMucHoaDonPanel;
@@ -84,9 +88,9 @@ public class MainFrame extends JFrame {
 //        timKiemThuocPanel = null;
 //        lapHoaDonPanel = null;
 //        capNhatKhachHangPanel = null;
-//        capNhatNhanVienPanel = null;
+        capNhatNhanVienPanel = null;
         capNhatThuocPanel = null;
-//        capNhatKhuyenMaiPanel = null;
+        capNhatKhuyenMaiPanel = null;
 //        lapPhieuDatThuocPanel = null;
 //        nhapThuocPanel = null;
 //        lapPhieuTraThuocPanel = null;
@@ -103,7 +107,7 @@ public class MainFrame extends JFrame {
 //        timKiemNhanVienPanel = null;
 //        timKiemChiTietLoThuocPanel = null;
 //        taiKhoanPanel = null;
-//        capNhatChucVuPanel = null;
+        capNhatChucVuPanel = null;
 //        xemPhieuNhapPanel = null;
 //
 //        danhMucHoaDonPanel = null;
@@ -172,16 +176,16 @@ public class MainFrame extends JFrame {
 //        showPanel(capNhatKhachHangPanel);
 //    }
 //
-//    public void showCapNhatNhanVienPanel() {
+    public void showCapNhatNhanVienPanel() {
 //    	if(!isQuanLy) {
 //    		JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 //    		return;
 //    	}
-//        if (capNhatNhanVienPanel == null) {
-//            capNhatNhanVienPanel = new CapNhatNhanVienPanel(maNhanVien); /// check later
-//        }
-//        showPanel(capNhatNhanVienPanel);
-//    }
+        if (capNhatNhanVienPanel == null) {
+            capNhatNhanVienPanel = new CapNhatNhanVienPanel(maNhanVien, new NhanVienClientController(sessionContext), new ChucVuClientController(sessionContext)); /// check later
+        }
+        showPanel(capNhatNhanVienPanel);
+    }
     
     public void showCapNhatThuocPanel() {
         if (capNhatThuocPanel == null) {
@@ -190,12 +194,12 @@ public class MainFrame extends JFrame {
         showPanel(capNhatThuocPanel);
     }
     
-//    public void showCapNhatKhuyenMaiPanel() {
-//        if (capNhatKhuyenMaiPanel == null) {
-//            capNhatKhuyenMaiPanel = new CapNhatKhuyenMaiPanel();
-//        }
-//        showPanel(capNhatKhuyenMaiPanel);
-//    }
+    public void showCapNhatKhuyenMaiPanel() {
+        if (capNhatKhuyenMaiPanel == null) {
+            capNhatKhuyenMaiPanel = new CapNhatKhuyenMaiPanel(new KhuyenMaiClientController(sessionContext));
+        }
+        showPanel(capNhatKhuyenMaiPanel);
+    }
 //
 //    // TODO: Thêm các method này khi có TimKiemKhachHangPanel và TimKiemNhanVienPanel
 //    public void showTimKiemKhachHangPanel() {
@@ -314,25 +318,25 @@ public class MainFrame extends JFrame {
 //        }
 //        showPanel(thongKeTheoThuePanel);
 //    }
-//    public void showCapNhatChucVuPanel() {
+    public void showCapNhatChucVuPanel() {
 //    	if(!isQuanLy) {
 //    		JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
 //    		return;
 //    	}
-//		if(capNhatChucVuPanel == null) {
-//			capNhatChucVuPanel = new CapNhatChucVuPanel();
-//		}
-//		showPanel(capNhatChucVuPanel);
-//
-//	}
-//
-//    public void showCapNhatDonViPanel() {
-//		if(capNhatDonViPanel == null) {
-//			capNhatDonViPanel = new CapNhatDonViPanel();
-//		}
-//		showPanel(capNhatDonViPanel);
-//
-//	}
+		if(capNhatChucVuPanel == null) {
+			capNhatChucVuPanel = new CapNhatChucVuPanel(new ChucVuClientController(sessionContext));
+		}
+		showPanel(capNhatChucVuPanel);
+
+	}
+
+    public void showCapNhatDonViPanel() {
+		if(capNhatDonViPanel == null) {
+            capNhatDonViPanel = new CapNhatDonViPanel(new DonViClientController(sessionContext));
+		}
+		showPanel(capNhatDonViPanel);
+
+	}
 //    public void showCapNhatBangGiaPanel() {
 //    	if(!isQuanLy) {
 //    		JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);

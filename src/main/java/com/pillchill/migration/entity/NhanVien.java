@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +24,7 @@ import lombok.ToString;
 @ToString(exclude = {"chucVu"})
 @Entity
 @Table(name = "NhanVien")
-public class NhanVien {
+public class NhanVien implements Serializable {
     @Id
     @Column(name = "maNV", length = 50, nullable = false)
     private String maNV;
@@ -30,7 +32,7 @@ public class NhanVien {
     @Column(name = "tenNV", length = 100)
     private String tenNV;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "maChucVu")
     private ChucVu chucVu;
 
