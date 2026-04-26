@@ -6,8 +6,12 @@ import javax.swing.*;
 //import app.DAO.LoThuocDAO;
 //import app.DAO.NhanVienDAO;
 import com.pillchill.migration.gui.capnhat.CapNhatThuocPanel;
+import com.pillchill.migration.gui.timkiem.TimKiemKhachHangPanel;
+import com.pillchill.migration.gui.timkiem.TimKiemNhanVienPanel;
 import com.pillchill.migration.gui.timkiem.TimKiemThuocPanel;
 import com.pillchill.migration.network.client.ClientSessionContext;
+import com.pillchill.migration.network.client.KhachHangClientController;
+import com.pillchill.migration.network.client.NhanVienClientController;
 import com.pillchill.migration.network.client.ThuocClientController;
 
 
@@ -18,7 +22,7 @@ public class MainFrame extends JFrame {
     private MenuBarPanel menuBarPanel;
     private JPanel contentPanel;
     private TimKiemThuocPanel timKiemThuocPanel;
-//    private LapHoaDonPanel lapHoaDonPanel;
+    //    private LapHoaDonPanel lapHoaDonPanel;
 //    private CapNhatKhachHangPanel capNhatKhachHangPanel;
 //    private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
@@ -35,8 +39,8 @@ public class MainFrame extends JFrame {
 //    private ThongKeTheoHSDPanel thongKeTheoHSDPanel;
 //    private ThongKeTheoThuocPanel thongKeTheoThuocPanel;
 //    private ThongKeTheoThuePanel thongKeTheoThuePanel;
-//    private TimKiemKhachHangPanel timKiemKhachHangPanel;
-//    private TimKiemNhanVienPanel timKiemNhanVienPanel;
+    private TimKiemKhachHangPanel timKiemKhachHangPanel;
+    private TimKiemNhanVienPanel timKiemNhanVienPanel;
 //    private TimKiemChiTietLoThuocPanel timKiemChiTietLoThuocPanel;
 //    private TaiKhoanPanel taiKhoanPanel;
 //    private CapNhatChucVuPanel capNhatChucVuPanel;
@@ -45,9 +49,9 @@ public class MainFrame extends JFrame {
 //    private DanhMucHoaDon danhMucHoaDonPanel;
 //    private DanhMucPhieuDoiTra danhMucPhieuDoiTra;
 //    private DanhMucPhieuDat danhMucPhieuDat;
-    
+
     private boolean isQuanLy = false;
-    
+
     public MainFrame(ClientSessionContext sessionContext) {
         this.sessionContext = sessionContext;
         this.maNhanVien = sessionContext.getUserId();
@@ -59,18 +63,18 @@ public class MainFrame extends JFrame {
 //        	isQuanLy=  nvDAO.isQuanLy(maNhanVien);
 //        }
     }
-    
+
     private void initializeFrame() {
         setTitle("Hệ thống quản lý nhà thuốc - Nhân viên: " + maNhanVien);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        
+
         // Tạo menu bar panel
         menuBarPanel = new MenuBarPanel(maNhanVien, this);
         add(menuBarPanel, BorderLayout.NORTH);
-        
+
         // Tạo content panel chính
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(Color.WHITE);
@@ -79,7 +83,7 @@ public class MainFrame extends JFrame {
 //             loDAO.capNhatThuocHetHan();
         setVisible(true);
     }
-    
+
     private void initializePanels() {
         // Khởi tạo các panel chức năng (lazy loading)
         timKiemThuocPanel = null;
@@ -100,8 +104,8 @@ public class MainFrame extends JFrame {
 //        thongKeTheoThuocPanel = null;
 //        thongKeTheoThuePanel = null;
 //
-//        timKiemKhachHangPanel = null;
-//        timKiemNhanVienPanel = null;
+        timKiemKhachHangPanel = null;
+        timKiemNhanVienPanel = null;
 //        timKiemChiTietLoThuocPanel = null;
 //        taiKhoanPanel = null;
 //        capNhatChucVuPanel = null;
@@ -111,22 +115,22 @@ public class MainFrame extends JFrame {
 //        danhMucPhieuDoiTra = null;
 //        danhMucPhieuDat = null;
     }
-    
+
     private void showDefaultContent() {
         // Hiển thị trang chào mừng mặc định
         JPanel welcomePanel = createWelcomePanel();
         showPanel(welcomePanel);
     }
-    
+
     private JPanel createWelcomePanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
-        
+
         // Thêm hình ảnh nền
         try {
-        	ImageIcon img = new ImageIcon(getClass().getResource("/resources/image/pharmacy_gemini.png"));
-        	JLabel lblImg = new JLabel();
-        	lblImg.setIcon(img);
+            ImageIcon img = new ImageIcon(getClass().getResource("/resources/image/pharmacy_gemini.png"));
+            JLabel lblImg = new JLabel();
+            lblImg.setIcon(img);
             panel.add(lblImg, BorderLayout.CENTER);
         } catch (Exception e) {
             // Nếu không tìm thấy hình ảnh, hiển thị text
@@ -137,7 +141,7 @@ public class MainFrame extends JFrame {
         }
         return panel;
     }
-    
+
     public void showTimKiemThuocPanel() {
         if (timKiemThuocPanel == null) {
             timKiemThuocPanel = new TimKiemThuocPanel(new ThuocClientController(sessionContext));
@@ -183,14 +187,14 @@ public class MainFrame extends JFrame {
 //        }
 //        showPanel(capNhatNhanVienPanel);
 //    }
-    
+
     public void showCapNhatThuocPanel() {
         if (capNhatThuocPanel == null) {
             capNhatThuocPanel = new CapNhatThuocPanel(new ThuocClientController(sessionContext));
         }
         showPanel(capNhatThuocPanel);
     }
-    
+
 //    public void showCapNhatKhuyenMaiPanel() {
 //        if (capNhatKhuyenMaiPanel == null) {
 //            capNhatKhuyenMaiPanel = new CapNhatKhuyenMaiPanel();
@@ -199,19 +203,19 @@ public class MainFrame extends JFrame {
 //    }
 //
 //    // TODO: Thêm các method này khi có TimKiemKhachHangPanel và TimKiemNhanVienPanel
-//    public void showTimKiemKhachHangPanel() {
-//        if (timKiemKhachHangPanel == null) {
-//            timKiemKhachHangPanel = new TimKiemKhachHangPanel();
-//        }
-//        showPanel(timKiemKhachHangPanel);
-//    }
-//
-//    public void showTimKiemNhanVienPanel() {
-//        if (timKiemNhanVienPanel == null) {
-//            timKiemNhanVienPanel = new TimKiemNhanVienPanel();
-//        }
-//        showPanel(timKiemNhanVienPanel);
-//    }
+    public void showTimKiemKhachHangPanel() {
+        if (timKiemKhachHangPanel == null) {
+            timKiemKhachHangPanel = new TimKiemKhachHangPanel(new KhachHangClientController(sessionContext));
+        }
+        showPanel(timKiemKhachHangPanel);
+    }
+
+    public void showTimKiemNhanVienPanel() {
+        if (timKiemNhanVienPanel == null) {
+            timKiemNhanVienPanel = new TimKiemNhanVienPanel(new NhanVienClientController(sessionContext));
+        }
+        showPanel(timKiemNhanVienPanel);
+    }
 //    public void showTimKiemChiTietLoThuocPanel() {
 //        if (timKiemChiTietLoThuocPanel == null) {
 //            timKiemChiTietLoThuocPanel = new TimKiemChiTietLoThuocPanel();
@@ -379,48 +383,50 @@ public class MainFrame extends JFrame {
 //		}
 //		showPanel(danhMucPhieuDoiTra);
 //	}
-	
-	
+
+
     public void resetApplication() {
         // Xóa nội dung hiện tại trên màn hình
         contentPanel.removeAll();
         contentPanel.revalidate();
         contentPanel.repaint();
-        
+
         // Dispose các panels cũ nếu cần (giải phóng resources)
         disposeAllPanels();
-        
+
         // Set tất cả panels về null
         initializePanels();
-        
+
         // Hiển thị trang chào mừng
         showDefaultContent();
     }
-    
+
     private void disposeAllPanels() {
-        
+
         JPanel[] allPanels = {
 //            timKiemThuocPanel, lapHoaDonPanel, capNhatKhachHangPanel,
 //            capNhatNhanVienPanel, capNhatThuocPanel, capNhatKhuyenMaiPanel,
 //            capNhatChucVuPanel, lapPhieuDatThuocPanel, lapPhieuTraThuocPanel,
 //            nhapThuocPanel, thongKeTheoDoanhThuPanel, thongKeTheoNhanVienPanel,
 //            thongKeTheoKhachHangPanel, thongKeTheoHSDPanel, thongKeTheoThuocPanel,
-//            thongKeTheoThuePanel, timKiemKhachHangPanel, timKiemNhanVienPanel,timKiemChiTietLoThuocPanel,
+//            thongKeTheoThuePanel, , ,timKiemChiTietLoThuocPanel,
 //            xemPhieuNhapPanel
+                timKiemKhachHangPanel,
+                timKiemNhanVienPanel,
                 capNhatThuocPanel,
                 timKiemThuocPanel
         };
-        
-        
+
+
         for (JPanel panel : allPanels) {
             if (panel != null) {
                 panel.removeAll();
             }
         }
-        
+
     }
-    
-    
+
+
     // Show panel - đổi panel khi chọn tab khác
     private void showPanel(JPanel panel) {
         contentPanel.removeAll();
@@ -428,15 +434,14 @@ public class MainFrame extends JFrame {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-    
-    public void dangXuatHandle() {
-    	this.dispose();
-//    	new DangNhapFrame();
-   }
 
-    
+    public void dangXuatHandle() {
+        this.dispose();
+//    	new DangNhapFrame();
+    }
+
+
 
 }
-
 
 
