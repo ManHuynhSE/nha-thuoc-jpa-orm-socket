@@ -6,10 +6,13 @@ import javax.swing.*;
 //import app.DAO.LoThuocDAO;
 //import app.DAO.NhanVienDAO;
 import com.pillchill.migration.gui.capnhat.CapNhatThuocPanel;
+import com.pillchill.migration.gui.timkiem.TimKiemChiTietLoThuocPanel;
+import com.pillchill.migration.gui.timkiem.TimKiemHoaDonPanel;
 import com.pillchill.migration.gui.timkiem.TimKiemKhachHangPanel;
 import com.pillchill.migration.gui.timkiem.TimKiemNhanVienPanel;
 import com.pillchill.migration.gui.timkiem.TimKiemThuocPanel;
 import com.pillchill.migration.network.client.ClientSessionContext;
+import com.pillchill.migration.network.client.HoaDonClientController;
 import com.pillchill.migration.network.client.KhachHangClientController;
 import com.pillchill.migration.network.client.NhanVienClientController;
 import com.pillchill.migration.network.client.ThuocClientController;
@@ -41,7 +44,8 @@ public class MainFrame extends JFrame {
 //    private ThongKeTheoThuePanel thongKeTheoThuePanel;
     private TimKiemKhachHangPanel timKiemKhachHangPanel;
     private TimKiemNhanVienPanel timKiemNhanVienPanel;
-//    private TimKiemChiTietLoThuocPanel timKiemChiTietLoThuocPanel;
+    private TimKiemChiTietLoThuocPanel timKiemChiTietLoThuocPanel;
+    private TimKiemHoaDonPanel timKiemHoaDonPanel;
 //    private TaiKhoanPanel taiKhoanPanel;
 //    private CapNhatChucVuPanel capNhatChucVuPanel;
 //    private XemPhieuNhapPanel xemPhieuNhapPanel;
@@ -106,7 +110,7 @@ public class MainFrame extends JFrame {
 //
         timKiemKhachHangPanel = null;
         timKiemNhanVienPanel = null;
-//        timKiemChiTietLoThuocPanel = null;
+        timKiemChiTietLoThuocPanel = null;
 //        taiKhoanPanel = null;
 //        capNhatChucVuPanel = null;
 //        xemPhieuNhapPanel = null;
@@ -114,6 +118,7 @@ public class MainFrame extends JFrame {
 //        danhMucHoaDonPanel = null;
 //        danhMucPhieuDoiTra = null;
 //        danhMucPhieuDat = null;
+        timKiemHoaDonPanel = null;
     }
 
     private void showDefaultContent() {
@@ -216,12 +221,20 @@ public class MainFrame extends JFrame {
         }
         showPanel(timKiemNhanVienPanel);
     }
-//    public void showTimKiemChiTietLoThuocPanel() {
-//        if (timKiemChiTietLoThuocPanel == null) {
-//            timKiemChiTietLoThuocPanel = new TimKiemChiTietLoThuocPanel();
-//        }
-//        showPanel(timKiemChiTietLoThuocPanel);
-//    }
+
+    public void showTimKiemChiTietLoThuocPanel() {
+        if (timKiemChiTietLoThuocPanel == null) {
+            timKiemChiTietLoThuocPanel = new TimKiemChiTietLoThuocPanel(new ThuocClientController(sessionContext));
+        }
+        showPanel(timKiemChiTietLoThuocPanel);
+    }
+
+    public void showDanhMucHoaDonPanel() {
+        if (timKiemHoaDonPanel == null) {
+            timKiemHoaDonPanel = new TimKiemHoaDonPanel(new HoaDonClientController(sessionContext));
+        }
+        showPanel(timKiemHoaDonPanel);
+    }
 //
 //    public void showLapPhieuDatThuocPanel() {
 //        if (lapPhieuDatThuocPanel == null) {
@@ -414,7 +427,9 @@ public class MainFrame extends JFrame {
                 timKiemKhachHangPanel,
                 timKiemNhanVienPanel,
                 capNhatThuocPanel,
-                timKiemThuocPanel
+                timKiemThuocPanel,
+                timKiemChiTietLoThuocPanel,
+                timKiemHoaDonPanel
         };
 
 

@@ -3,11 +3,13 @@ package com.pillchill.migration.network.server;
 import com.pillchill.migration.migration.TaiKhoanJpaDAO;
 import com.pillchill.migration.migration.ThuocJpaDAO;
 import com.pillchill.migration.migration.KhachHangJpaDAO;
+import com.pillchill.migration.migration.HoaDonJpaDAO;
 import com.pillchill.migration.migration.NhanVienJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
 import com.pillchill.migration.network.server.handlers.ThuocCommandHandler;
+import com.pillchill.migration.network.server.handlers.HoaDonCommandHandler;
 import com.pillchill.migration.network.server.handlers.KhachHangCommandHandler;
 import com.pillchill.migration.network.server.handlers.NhanVienCommandHandler;
 
@@ -23,6 +25,7 @@ public class CommandDispatcher {
         domainHandlers.put("THUOC", new ThuocCommandHandler(new ThuocJpaDAO()));
         domainHandlers.put("KHACH_HANG", new KhachHangCommandHandler(new KhachHangJpaDAO()));
         domainHandlers.put("NHAN_VIEN", new NhanVienCommandHandler(new NhanVienJpaDAO()));
+        domainHandlers.put("HOA_DON", new HoaDonCommandHandler(new HoaDonJpaDAO()));
     }
 
     public void register(String command, CommandHandler handler) {

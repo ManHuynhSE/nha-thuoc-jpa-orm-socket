@@ -5,25 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/KhachHangCM.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/NhanVienCM.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/entity/ChucVu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/entity/ChucVu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/entity/KhachHang.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/entity/KhachHang.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/entity/NhanVien.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/entity/NhanVien.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MIGRATION_REPORT_KH_NV.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PHIEN_2026_04_26_TOM_TAT.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/HoaDonJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/HoaDonJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/ThuocJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/ThuocJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/ThuocClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/ThuocClientController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/ThuocCM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/ThuocCM.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/CommandDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/CommandDispatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/ChucVu$ChucVuBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/ChucVu$ChucVuBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/ChucVu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/ChucVu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/KhachHang$KhachHangBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/KhachHang$KhachHangBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/KhachHang.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/KhachHang.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/NhanVien$NhanVienBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/NhanVien$NhanVienBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/NhanVien.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/entity/NhanVien.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IChiTietHoaDonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IChiTietHoaDonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IHoaDonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IHoaDonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/ChiTietHoaDonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/ChiTietHoaDonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/HoaDonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/HoaDonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IHoaDonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IHoaDonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IThuocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IThuocService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/HoaDonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/HoaDonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/ThuocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/ThuocService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/HoaDonJpaDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/HoaDonJpaDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/ThuocJpaDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/ThuocJpaDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/client/ThuocClientController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/client/ThuocClientController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/communication/command/ThuocCM.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/communication/command/ThuocCM.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/CommandDispatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/CommandDispatcher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/ThuocCommandHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/ThuocCommandHandler$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/IChiTietHoaDonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/IChiTietHoaDonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/IHoaDonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/IHoaDonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/impl/ChiTietHoaDonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/impl/ChiTietHoaDonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/impl/HoaDonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/impl/HoaDonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IHoaDonService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IHoaDonService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IThuocService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IThuocService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/HoaDonService$FifoAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/HoaDonService$FifoAllocation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/HoaDonService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/HoaDonService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/ThuocService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/ThuocService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" afterDir="false" />
@@ -115,7 +133,7 @@
       <recent name="com.pillchill.migration.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.TestServer">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.App" />
       <module name="jpa-orm-migration" />
@@ -183,8 +201,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
         <item itemvalue="Application.TestServer" />
+        <item itemvalue="Application.App" />
         <item itemvalue="Application.KhachHangRepository" />
         <item itemvalue="Application.ThuocService" />
         <item itemvalue="Application.ChiTietLoThuocRepository" />
@@ -221,7 +239,8 @@
       <workItem from="1776770752525" duration="8177000" />
       <workItem from="1777203758680" duration="751000" />
       <workItem from="1777204521908" duration="1164000" />
-      <workItem from="1777205702611" duration="313000" />
+      <workItem from="1777205702611" duration="1098000" />
+      <workItem from="1777295335095" duration="1693000" />
     </task>
     <servers />
   </component>

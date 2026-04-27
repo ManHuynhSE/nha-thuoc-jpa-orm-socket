@@ -3,6 +3,7 @@ package com.pillchill.migration.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.pillchill.migration.dto.ChiTietHoaDonView;
 import com.pillchill.migration.entity.ChiTietHoaDon;
 import com.pillchill.migration.entity.ChiTietLoThuoc;
 import com.pillchill.migration.entity.HoaDon;
@@ -14,9 +15,12 @@ import com.pillchill.migration.entity.Thuoc;
 import com.pillchill.migration.entity.id.ChiTietHoaDonId;
 import com.pillchill.migration.entity.id.ChiTietLoThuocId;
 import com.pillchill.migration.dto.CreateHoaDonCommand;
+import com.pillchill.migration.dto.HoaDonView;
 import com.pillchill.migration.dto.HoaDonItemCommand;
 import com.pillchill.migration.db.JPAUtil;
+import com.pillchill.migration.repository.IChiTietHoaDonRepository;
 import com.pillchill.migration.repository.IHoaDonRepository;
+import com.pillchill.migration.repository.impl.ChiTietHoaDonRepository;
 import com.pillchill.migration.repository.impl.HoaDonRepository;
 import com.pillchill.migration.service.IHoaDonService;
 
@@ -25,13 +29,19 @@ import jakarta.persistence.EntityTransaction;
 
 public class HoaDonService implements IHoaDonService {
     private final IHoaDonRepository hoaDonRepository;
+    private final IChiTietHoaDonRepository chiTietHoaDonRepository;
+
+    public HoaDonService(IHoaDonRepository hoaDonRepository, IChiTietHoaDonRepository chiTietHoaDonRepository) {
+        this.hoaDonRepository = hoaDonRepository;
+        this.chiTietHoaDonRepository = chiTietHoaDonRepository;
+    }
 
     public HoaDonService(IHoaDonRepository hoaDonRepository) {
-        this.hoaDonRepository = hoaDonRepository;
+        this(hoaDonRepository, new ChiTietHoaDonRepository());
     }
 
     public HoaDonService() {
-        this.hoaDonRepository = new HoaDonRepository();
+        this(new HoaDonRepository(), new ChiTietHoaDonRepository());
     }
 
     @Override
@@ -153,6 +163,68 @@ public class HoaDonService implements IHoaDonService {
     @Override
     public List<HoaDon> findHoaDonByDateRange(java.time.LocalDate fromDate, java.time.LocalDate toDate) {
         return hoaDonRepository.findByDateRange(fromDate, toDate);
+    }
+
+    @Override
+    public List<HoaDonView> getAllHoaDonViews() {
+        return hoaDonRepository.findAllActiveWithNhanVienKhachHang()
+                .stream()
+                .map(this::toHoaDonView)
+                .toList();
+    }
+
+    @Override
+    public List<HoaDonView> getHoaDonViewsByMonthYear(int month, int year) {
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("Tháng không hợp lệ");
+        }
+        if (year < 1) {
+            throw new IllegalArgumentException("Năm không hợp lệ");
+        }
+        java.time.LocalDate fromDate = java.time.LocalDate.of(year, month, 1);
+        java.time.LocalDate toDate = fromDate.withDayOfMonth(fromDate.lengthOfMonth());
+        return hoaDonRepository.findByDateRange(fromDate, toDate)
+                .stream()
+                .map(this::toHoaDonView)
+                .toList();
+    }
+
+    @Override
+    public List<ChiTietHoaDonView> getChiTietHoaDonByMaHoaDon(String maHoaDon) {
+        if (maHoaDon == null || maHoaDon.isBlank()) {
+            throw new IllegalArgumentException("Mã hóa đơn không hợp lệ");
+        }
+        return chiTietHoaDonRepository.findByMaHoaDonWithThuoc(maHoaDon)
+                .stream()
+                .map(this::toChiTietHoaDonView)
+                .toList();
+    }
+
+    private HoaDonView toHoaDonView(HoaDon hoaDon) {
+        String maNhanVien = hoaDon.getNhanVien() == null ? null : hoaDon.getNhanVien().getMaNV();
+        String tenNhanVien = hoaDon.getNhanVien() == null ? null : hoaDon.getNhanVien().getTenNV();
+        String maKhachHang = hoaDon.getKhachHang() == null ? null : hoaDon.getKhachHang().getMaKH();
+        String tenKhachHang = hoaDon.getKhachHang() == null ? null : hoaDon.getKhachHang().getTenKH();
+        return new HoaDonView(
+                hoaDon.getMaHoaDon(),
+                maNhanVien,
+                tenNhanVien,
+                maKhachHang,
+                tenKhachHang,
+                hoaDon.getNgayBan(),
+                hoaDon.getGhiChu()
+        );
+    }
+
+    private ChiTietHoaDonView toChiTietHoaDonView(ChiTietHoaDon chiTietHoaDon) {
+        return new ChiTietHoaDonView(
+                chiTietHoaDon.getId().getMaHoaDon(),
+                chiTietHoaDon.getId().getMaThuoc(),
+                chiTietHoaDon.getThuoc() == null ? null : chiTietHoaDon.getThuoc().getTenThuoc(),
+                chiTietHoaDon.getId().getMaLo(),
+                chiTietHoaDon.getSoLuong(),
+                chiTietHoaDon.getDonGia()
+        );
     }
 
     private record FifoAllocation(String maLo, int soLuong) {

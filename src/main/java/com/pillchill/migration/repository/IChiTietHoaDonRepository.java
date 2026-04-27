@@ -8,6 +8,8 @@ import java.util.List;
 public interface IChiTietHoaDonRepository {
     List<ChiTietHoaDon> findByMaHoaDon(String maHoaDon);
 
+    List<ChiTietHoaDon> findByMaHoaDonWithThuoc(String maHoaDon);
+
     void save(ChiTietHoaDon chiTietHoaDon);
 
     void softDelete(ChiTietHoaDonId id);

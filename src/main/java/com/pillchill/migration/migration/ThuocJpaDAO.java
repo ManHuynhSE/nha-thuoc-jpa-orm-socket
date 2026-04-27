@@ -2,6 +2,7 @@ package com.pillchill.migration.migration;
 
 import java.util.ArrayList;
 
+import com.pillchill.migration.dto.ChiTietLoThuocView;
 import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.dto.ThuocTheoLoView;
 import com.pillchill.migration.entity.Thuoc;
@@ -33,6 +34,10 @@ public class ThuocJpaDAO {
 
     public ArrayList<ThuocTheoLoView> getAllThuocTheoLo() {
         return new ArrayList<>(thuocService.getAllThuocTheoLo());
+    }
+
+    public ArrayList<ChiTietLoThuocView> getAllChiTietLoThuoc() {
+        return new ArrayList<>(thuocService.getAllChiTietLoThuoc());
     }
 
     public Thuoc createThuoc(Thuoc thuoc) {

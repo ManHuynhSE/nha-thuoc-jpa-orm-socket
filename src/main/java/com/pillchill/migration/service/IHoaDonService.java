@@ -1,6 +1,8 @@
 package com.pillchill.migration.service;
 
+import com.pillchill.migration.dto.ChiTietHoaDonView;
 import com.pillchill.migration.dto.CreateHoaDonCommand;
+import com.pillchill.migration.dto.HoaDonView;
 import com.pillchill.migration.entity.ChiTietLoThuoc;
 import com.pillchill.migration.entity.HoaDon;
 
@@ -16,4 +18,10 @@ public interface IHoaDonService {
     Optional<HoaDon> getHoaDonById(String maHoaDon);
 
     List<HoaDon> findHoaDonByDateRange(LocalDate fromDate, LocalDate toDate);
+
+    List<HoaDonView> getAllHoaDonViews();
+
+    List<HoaDonView> getHoaDonViewsByMonthYear(int month, int year);
+
+    List<ChiTietHoaDonView> getChiTietHoaDonByMaHoaDon(String maHoaDon);
 }

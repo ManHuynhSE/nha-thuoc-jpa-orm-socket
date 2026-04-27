@@ -17,10 +17,26 @@ public class HoaDonRepository extends RepositoryTemplate implements IHoaDonRepos
     @Override
     public List<HoaDon> findByDateRange(LocalDate fromDate, LocalDate toDate) {
         return execute(em -> em.createQuery(
-                        "select h from HoaDon h where h.isActive = true and h.ngayBan between :fromDate and :toDate order by h.ngayBan desc, h.maHoaDon desc",
+                        "select h from HoaDon h " +
+                                "join fetch h.nhanVien nv " +
+                                "left join fetch h.khachHang kh " +
+                                "where h.isActive = true and nv.isActive = true and h.ngayBan between :fromDate and :toDate " +
+                                "order by h.ngayBan desc, h.maHoaDon desc",
                         HoaDon.class)
                 .setParameter("fromDate", fromDate)
                 .setParameter("toDate", toDate)
+                .getResultList());
+    }
+
+    @Override
+    public List<HoaDon> findAllActiveWithNhanVienKhachHang() {
+        return execute(em -> em.createQuery(
+                        "select h from HoaDon h " +
+                                "join fetch h.nhanVien nv " +
+                                "left join fetch h.khachHang kh " +
+                                "where h.isActive = true and nv.isActive = true " +
+                                "order by h.ngayBan desc, h.maHoaDon desc",
+                        HoaDon.class)
                 .getResultList());
     }
 

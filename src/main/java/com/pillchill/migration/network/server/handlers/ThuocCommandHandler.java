@@ -39,6 +39,9 @@ public class ThuocCommandHandler implements CommandHandler {
             case LIST_BY_LO -> {
                 return Response.success(thuocJpaDAO.getAllThuocTheoLo(), "Tải danh sách thuốc theo lô thành công");
             }
+            case LIST_CHI_TIET_LO -> {
+                return Response.success(thuocJpaDAO.getAllChiTietLoThuoc(), "Tải danh sách chi tiết lô thuốc thành công");
+            }
             case CREATE -> {
                 if (!(request.getData() instanceof ThuocPayload payload)) {
                     return Response.error("Payload tạo thuốc không hợp lệ");

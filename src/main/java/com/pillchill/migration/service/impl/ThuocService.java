@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.pillchill.migration.db.JPAUtil;
+import com.pillchill.migration.dto.ChiTietLoThuocView;
 import com.pillchill.migration.dto.ThuocTheoLoView;
 import com.pillchill.migration.entity.ChiTietLoThuoc;
 import com.pillchill.migration.entity.DonVi;
@@ -64,6 +65,14 @@ public class ThuocService implements IThuocService {
         return chiTietLoThuocRepository.findAllActiveWithThuocAndLo()
                 .stream()
                 .map(this::toThuocTheoLoView)
+                .toList();
+    }
+
+    @Override
+    public List<ChiTietLoThuocView> getAllChiTietLoThuoc() {
+        return chiTietLoThuocRepository.findAllActiveWithThuocAndLo()
+                .stream()
+                .map(this::toChiTietLoThuocView)
                 .toList();
     }
 
@@ -145,6 +154,19 @@ public class ThuocService implements IThuocService {
                 chiTietLoThuoc.getSoLuong(),
                 maDonVi,
                 maNSX
+        );
+    }
+
+    private ChiTietLoThuocView toChiTietLoThuocView(ChiTietLoThuoc chiTietLoThuoc) {
+        Thuoc thuoc = chiTietLoThuoc.getThuoc();
+        return new ChiTietLoThuocView(
+                chiTietLoThuoc.getLoThuoc().getMaLo(),
+                thuoc.getMaThuoc(),
+                thuoc.getTenThuoc(),
+                chiTietLoThuoc.getSoLuong(),
+                chiTietLoThuoc.getGiaNhap(),
+                chiTietLoThuoc.getNgaySanXuat(),
+                chiTietLoThuoc.getHanSuDung()
         );
     }
 

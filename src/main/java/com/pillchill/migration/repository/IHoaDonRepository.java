@@ -11,5 +11,7 @@ public interface IHoaDonRepository {
 
     List<HoaDon> findByDateRange(LocalDate fromDate, LocalDate toDate);
 
+    List<HoaDon> findAllActiveWithNhanVienKhachHang();
+
     void save(HoaDon hoaDon);
 }

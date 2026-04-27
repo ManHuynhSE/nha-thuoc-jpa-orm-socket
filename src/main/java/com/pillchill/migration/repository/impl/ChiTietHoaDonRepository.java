@@ -18,6 +18,19 @@ public class ChiTietHoaDonRepository extends RepositoryTemplate implements IChiT
     }
 
     @Override
+    public List<ChiTietHoaDon> findByMaHoaDonWithThuoc(String maHoaDon) {
+        return execute(em -> em.createQuery(
+                        "select c from ChiTietHoaDon c " +
+                                "join fetch c.thuoc t " +
+                                "join fetch c.loThuoc l " +
+                                "where c.id.maHoaDon = :maHoaDon and c.isActive = true and t.isActive = true and l.isActive = true " +
+                                "order by c.id.maThuoc, c.id.maLo",
+                        ChiTietHoaDon.class)
+                .setParameter("maHoaDon", maHoaDon)
+                .getResultList());
+    }
+
+    @Override
     public void save(ChiTietHoaDon chiTietHoaDon) {
         execute(em -> {
             em.merge(chiTietHoaDon);
