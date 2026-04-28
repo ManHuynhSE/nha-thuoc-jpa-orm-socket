@@ -1,9 +1,9 @@
 package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.entity.ChucVu;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.ChucVuCM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class ChucVuClientController {
 
     public Response getAllChucVuResponse() {
         Request request = new Request(
-                CommandType.CHUC_VU_LIST_ALL,
+            "CHUC_VU." + ChucVuCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
@@ -46,7 +46,7 @@ public class ChucVuClientController {
 
     public Response addChucVuResponse(ChucVu chucVu) {
         Request request = new Request(
-                CommandType.CHUC_VU_ADD,
+            "CHUC_VU." + ChucVuCM.CREATE.name(),
                 chucVu,
                 sessionContext.getUserId()
         );
@@ -55,7 +55,7 @@ public class ChucVuClientController {
 
     public Response updateChucVuResponse(ChucVu chucVu) {
         Request request = new Request(
-                CommandType.CHUC_VU_UPDATE,
+            "CHUC_VU." + ChucVuCM.UPDATE.name(),
                 chucVu,
                 sessionContext.getUserId()
         );
@@ -64,7 +64,7 @@ public class ChucVuClientController {
 
     public Response deleteChucVuResponse(String maChucVu) {
         Request request = new Request(
-                CommandType.CHUC_VU_DELETE,
+            "CHUC_VU." + ChucVuCM.DELETE.name(),
                 maChucVu,
                 sessionContext.getUserId()
         );

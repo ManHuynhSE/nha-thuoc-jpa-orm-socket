@@ -3,12 +3,11 @@ package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.dto.NhanVienDTO;
 import com.pillchill.migration.migration.NhanVienJpaDAO;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.NhanVienCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NhanVienCommandHandler implements CommandHandler {
@@ -26,38 +25,25 @@ public class NhanVienCommandHandler implements CommandHandler {
             return Response.error("Bạn chưa đăng nhập");
         }
 
+        if (request.getCommand() == null || !request.getCommand().startsWith("NHAN_VIEN.")) {
+            return Response.error("Command nhân viên không hợp lệ");
+        }
+
+        String action = request.getCommand().substring("NHAN_VIEN.".length());
         try {
-            CommandType commandType = request.getCommandType();
-            if (commandType == CommandType.NHAN_VIEN_LIST_ALL) {
-                return handleList();
-            }
-            if (commandType == CommandType.NHAN_VIEN_ADD) {
-                return handleAdd(request);
-            }
-            if (commandType == CommandType.NHAN_VIEN_UPDATE) {
-                return handleUpdate(request);
-            }
-            if (commandType == CommandType.NHAN_VIEN_DELETE) {
-                return handleDelete(request);
-            }
-            return Response.error("Lệnh không hỗ trợ: " + commandType);
-        } catch (Exception e) {
-            return Response.error(e.getMessage());
+            return switch (NhanVienCM.valueOf(action)) {
+                case LIST_ALL -> handleList();
+                case CREATE -> handleAdd(request);
+                case UPDATE -> handleUpdate(request);
+                case DELETE -> handleDelete(request);
+            };
+        } catch (IllegalArgumentException e) {
+            return Response.error("Command nhân viên không hỗ trợ: " + action);
         }
     }
 
     private Response handleList() {
-        List<NhanVienDTO> source = nhanVienJpaDAO.getAllNhanVien();
-        List<NhanVienDTO> result = new ArrayList<>();
-        for (NhanVienDTO item : source) {
-            result.add(NhanVienDTO.builder()
-                    .maNV(item.getMaNV())
-                    .tenNV(item.getTenNV())
-                    .soDienThoai(item.getSoDienThoai())
-                    .chucVu(item.getChucVu())
-                    .build());
-        }
-        return Response.success(result, "Tải danh sách nhân viên thành công");
+        return Response.success(nhanVienJpaDAO.getAllNhanVien(), "Tải danh sách nhân viên thành công");
     }
 
     private Response handleAdd(Request request) {

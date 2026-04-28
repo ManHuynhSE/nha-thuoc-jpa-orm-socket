@@ -2,9 +2,9 @@ package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.entity.KhuyenMai;
 import com.pillchill.migration.migration.KhuyenMaiJpaDAO;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.KhuyenMaiCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
 import java.util.ArrayList;
@@ -23,14 +23,21 @@ public class KhuyenMaiCommandHandler implements CommandHandler {
             return Response.error("Bạn chưa đăng nhập");
         }
 
-        CommandType commandType = request.getCommandType();
-        return switch (commandType) {
-            case KHUYEN_MAI_LIST_ALL -> handleList();
-            case KHUYEN_MAI_ADD -> handleAdd(request);
-            case KHUYEN_MAI_UPDATE -> handleUpdate(request);
-            case KHUYEN_MAI_DELETE -> handleDelete(request);
-            default -> Response.error("Lệnh không hợp lệ: " + commandType);
-        };
+        if (request.getCommand() == null || !request.getCommand().startsWith("KHUYEN_MAI.")) {
+            return Response.error("Command khuyến mãi không hợp lệ");
+        }
+
+        String action = request.getCommand().substring("KHUYEN_MAI.".length());
+        try {
+            return switch (KhuyenMaiCM.valueOf(action)) {
+                case LIST_ALL -> handleList();
+                case CREATE -> handleAdd(request);
+                case UPDATE -> handleUpdate(request);
+                case DELETE -> handleDelete(request);
+            };
+        } catch (IllegalArgumentException e) {
+            return Response.error("Command khuyến mãi không hỗ trợ: " + action);
+        }
     }
 
     private Response handleList() {

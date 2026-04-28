@@ -4,6 +4,7 @@ import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.migration.ThuocJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.ThuocCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
 
@@ -26,6 +27,22 @@ public class ThuocListCommandHandler implements CommandHandler {
             return Response.error("Bạn chưa đăng nhập");
         }
 
+        if (request.getCommand() == null || !request.getCommand().startsWith("THUOC.")) {
+            return Response.error("Command thuốc không hợp lệ");
+        }
+
+        String action = request.getCommand().substring("THUOC.".length());
+        try {
+            return switch (ThuocCM.valueOf(action)) {
+                case LIST_ALL -> handleList();
+            };
+        } catch (IllegalArgumentException e) {
+            return Response.error("Command thuốc không hỗ trợ: " + action);
+        }
+
+    }
+
+    private Response handleList() {
         List<com.pillchill.migration.dto.ThuocKemGiaView> thuocKemGiaViews = thuocJpaDAO.getAllThuocKemGia();
         List<ThuocKemGiaView> result = new ArrayList<>();
         for (com.pillchill.migration.dto.ThuocKemGiaView item : thuocKemGiaViews) {

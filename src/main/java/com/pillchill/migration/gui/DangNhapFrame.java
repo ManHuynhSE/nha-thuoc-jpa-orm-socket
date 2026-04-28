@@ -5,7 +5,6 @@ import com.pillchill.migration.entity.TaiKhoan;
 import com.pillchill.migration.network.client.AuthClientController;
 import com.pillchill.migration.network.client.ClientSessionContext;
 import com.pillchill.migration.network.client.NetworkClient;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Response;
 
 import javax.swing.*;

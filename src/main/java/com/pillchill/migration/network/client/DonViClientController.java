@@ -1,9 +1,9 @@
 package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.entity.DonVi;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.DonViCM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class DonViClientController {
 
     public Response getAllDonViResponse() {
         Request request = new Request(
-                CommandType.DON_VI_LIST_ALL,
+            "DON_VI." + DonViCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
@@ -47,7 +47,7 @@ public class DonViClientController {
 
     public Response addDonViResponse(DonVi donVi) {
         Request request = new Request(
-                CommandType.DON_VI_ADD,
+            "DON_VI." + DonViCM.CREATE.name(),
                 donVi,
                 sessionContext.getUserId()
         );
@@ -56,7 +56,7 @@ public class DonViClientController {
 
     public Response updateDonViResponse(DonVi donVi) {
         Request request = new Request(
-                CommandType.DON_VI_UPDATE,
+            "DON_VI." + DonViCM.UPDATE.name(),
                 donVi,
                 sessionContext.getUserId()
         );
@@ -65,7 +65,7 @@ public class DonViClientController {
 
     public Response deleteDonViResponse(String maDonVi) {
         Request request = new Request(
-                CommandType.DON_VI_DELETE,
+            "DON_VI." + DonViCM.DELETE.name(),
                 maDonVi,
                 sessionContext.getUserId()
         );

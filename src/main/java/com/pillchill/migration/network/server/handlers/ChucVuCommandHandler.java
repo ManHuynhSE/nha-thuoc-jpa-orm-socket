@@ -2,9 +2,9 @@ package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.entity.ChucVu;
 import com.pillchill.migration.migration.ChucVuJpaDAO;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.ChucVuCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
 import java.util.ArrayList;
@@ -23,14 +23,21 @@ public class ChucVuCommandHandler implements CommandHandler {
             return Response.error("Bạn chưa đăng nhập");
         }
 
-        CommandType commandType = request.getCommandType();
-        return switch (commandType) {
-            case CHUC_VU_LIST_ALL -> handleList();
-            case CHUC_VU_ADD -> handleAdd(request);
-            case CHUC_VU_UPDATE -> handleUpdate(request);
-            case CHUC_VU_DELETE -> handleDelete(request);
-            default -> Response.error("Lệnh không hợp lệ: " + commandType);
-        };
+        if (request.getCommand() == null || !request.getCommand().startsWith("CHUC_VU.")) {
+            return Response.error("Command chức vụ không hợp lệ");
+        }
+
+        String action = request.getCommand().substring("CHUC_VU.".length());
+        try {
+            return switch (ChucVuCM.valueOf(action)) {
+                case LIST_ALL -> handleList();
+                case CREATE -> handleAdd(request);
+                case UPDATE -> handleUpdate(request);
+                case DELETE -> handleDelete(request);
+            };
+        } catch (IllegalArgumentException e) {
+            return Response.error("Command chức vụ không hỗ trợ: " + action);
+        }
     }
 
     private Response handleList() {

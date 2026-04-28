@@ -2,9 +2,9 @@ package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.entity.DonVi;
 import com.pillchill.migration.migration.DonViJpaDAO;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.DonViCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
 import java.util.ArrayList;
@@ -23,14 +23,21 @@ public class DonViCommandHandler implements CommandHandler {
             return Response.error("Bạn chưa đăng nhập");
         }
 
-        CommandType commandType = request.getCommandType();
-        return switch (commandType) {
-            case DON_VI_LIST_ALL -> handleList();
-            case DON_VI_ADD -> handleAdd(request);
-            case DON_VI_UPDATE -> handleUpdate(request);
-            case DON_VI_DELETE -> handleDelete(request);
-            default -> Response.error("Lệnh không hợp lệ: " + commandType);
-        };
+        if (request.getCommand() == null || !request.getCommand().startsWith("DON_VI.")) {
+            return Response.error("Command đơn vị không hợp lệ");
+        }
+
+        String action = request.getCommand().substring("DON_VI.".length());
+        try {
+            return switch (DonViCM.valueOf(action)) {
+                case LIST_ALL -> handleList();
+                case CREATE -> handleAdd(request);
+                case UPDATE -> handleUpdate(request);
+                case DELETE -> handleDelete(request);
+            };
+        } catch (IllegalArgumentException e) {
+            return Response.error("Command đơn vị không hỗ trợ: " + action);
+        }
     }
 
     private Response handleList() {

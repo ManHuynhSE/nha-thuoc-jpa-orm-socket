@@ -1,9 +1,9 @@
 package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.dto.ThuocKemGiaView;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.ThuocCM;
 
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class ThuocClientController {
 
     public Response getAllThuoc() {
         Request request = new Request(
-                CommandType.THUOC_LIST_ALL,
+                "THUOC." + ThuocCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );

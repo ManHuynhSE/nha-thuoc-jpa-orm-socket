@@ -6,7 +6,6 @@ import com.pillchill.migration.migration.KhuyenMaiJpaDAO;
 import com.pillchill.migration.migration.NhanVienJpaDAO;
 import com.pillchill.migration.migration.TaiKhoanJpaDAO;
 import com.pillchill.migration.migration.ThuocJpaDAO;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
 import com.pillchill.migration.network.server.handlers.ChucVuCommandHandler;
 import com.pillchill.migration.network.server.handlers.DonViCommandHandler;
@@ -34,31 +33,12 @@ public class Server {
     }
 
     private void initHandlers() {
-        dispatcher.register(CommandType.LOGIN, new AuthCommandHandler(new TaiKhoanJpaDAO()));
-        dispatcher.register(CommandType.THUOC_LIST_ALL, new ThuocListCommandHandler(new ThuocJpaDAO()));
-        NhanVienCommandHandler nhanVienCommandHandler = new NhanVienCommandHandler(new NhanVienJpaDAO());
-        dispatcher.register(CommandType.NHAN_VIEN_LIST_ALL, nhanVienCommandHandler);
-        dispatcher.register(CommandType.NHAN_VIEN_ADD, nhanVienCommandHandler);
-        dispatcher.register(CommandType.NHAN_VIEN_UPDATE, nhanVienCommandHandler);
-        dispatcher.register(CommandType.NHAN_VIEN_DELETE, nhanVienCommandHandler);
-
-        ChucVuCommandHandler chucVuCommandHandler = new ChucVuCommandHandler(new ChucVuJpaDAO());
-        dispatcher.register(CommandType.CHUC_VU_LIST_ALL, chucVuCommandHandler);
-        dispatcher.register(CommandType.CHUC_VU_ADD, chucVuCommandHandler);
-        dispatcher.register(CommandType.CHUC_VU_UPDATE, chucVuCommandHandler);
-        dispatcher.register(CommandType.CHUC_VU_DELETE, chucVuCommandHandler);
-
-        KhuyenMaiCommandHandler khuyenMaiCommandHandler = new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO());
-        dispatcher.register(CommandType.KHUYEN_MAI_LIST_ALL, khuyenMaiCommandHandler);
-        dispatcher.register(CommandType.KHUYEN_MAI_ADD, khuyenMaiCommandHandler);
-        dispatcher.register(CommandType.KHUYEN_MAI_UPDATE, khuyenMaiCommandHandler);
-        dispatcher.register(CommandType.KHUYEN_MAI_DELETE, khuyenMaiCommandHandler);
-
-        DonViCommandHandler donViCommandHandler = new DonViCommandHandler(new DonViJpaDAO());
-        dispatcher.register(CommandType.DON_VI_LIST_ALL, donViCommandHandler);
-        dispatcher.register(CommandType.DON_VI_ADD, donViCommandHandler);
-        dispatcher.register(CommandType.DON_VI_UPDATE, donViCommandHandler);
-        dispatcher.register(CommandType.DON_VI_DELETE, donViCommandHandler);
+        dispatcher.register("AUTH", new AuthCommandHandler(new TaiKhoanJpaDAO()));
+        dispatcher.register("THUOC", new ThuocListCommandHandler(new ThuocJpaDAO()));
+        dispatcher.register("NHAN_VIEN", new NhanVienCommandHandler(new NhanVienJpaDAO()));
+        dispatcher.register("CHUC_VU", new ChucVuCommandHandler(new ChucVuJpaDAO()));
+        dispatcher.register("KHUYEN_MAI", new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO()));
+        dispatcher.register("DON_VI", new DonViCommandHandler(new DonViJpaDAO()));
     }
 
     public void start() {

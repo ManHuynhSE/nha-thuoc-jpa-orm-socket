@@ -4,18 +4,19 @@ import java.io.Serializable;
 
 public class Request implements Serializable {
 
-    private final CommandType commandType;
+    private final String command;
     private final Object data;
     private final String sessionUserId;
 
-    public Request(CommandType commandType, Object data, String sessionUserId) {
-        this.commandType = commandType;
+    public Request(String command, Object data, String sessionUserId) {
+        this.command = command;
         this.data = data;
         this.sessionUserId = sessionUserId;
     }
 
-    public CommandType getCommandType() {
-        return commandType;
+
+    public String getCommand() {
+        return command;
     }
 
     public Object getData() {

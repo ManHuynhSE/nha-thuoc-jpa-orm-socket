@@ -1,11 +1,9 @@
 package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.dto.NhanVienDTO;
-import com.pillchill.migration.dto.ThuocKemGiaView;
-import com.pillchill.migration.entity.NhanVien;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.NhanVienCM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ public class NhanVienClientController {
 
     public Response getAllNhanVienResponse() {
         Request request = new Request(
-                CommandType.NHAN_VIEN_LIST_ALL,
+            "NHAN_VIEN." + NhanVienCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
@@ -48,7 +46,7 @@ public class NhanVienClientController {
 
     public void addNhanVien(NhanVienDTO nhanVienDTO) {
         Request request = new Request(
-                CommandType.NHAN_VIEN_ADD,
+            "NHAN_VIEN." + NhanVienCM.CREATE.name(),
                 nhanVienDTO,
                 sessionContext.getUserId()
         );
@@ -60,7 +58,7 @@ public class NhanVienClientController {
 
     public void updateNhanVien(NhanVienDTO nhanVienDTO) {
         Request request = new Request(
-                CommandType.NHAN_VIEN_UPDATE,
+            "NHAN_VIEN." + NhanVienCM.UPDATE.name(),
                 nhanVienDTO,
                 sessionContext.getUserId()
         );
@@ -72,7 +70,7 @@ public class NhanVienClientController {
 
     public void deleteNhanVien(String maNhanVien) {
         Request request = new Request(
-                CommandType.NHAN_VIEN_DELETE,
+            "NHAN_VIEN." + NhanVienCM.DELETE.name(),
                 maNhanVien,
                 sessionContext.getUserId()
         );

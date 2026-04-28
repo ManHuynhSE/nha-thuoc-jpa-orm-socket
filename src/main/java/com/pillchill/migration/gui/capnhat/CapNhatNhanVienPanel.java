@@ -349,7 +349,6 @@ public class CapNhatNhanVienPanel extends JPanel implements ActionListener, Mous
                         cboChucVu.addItem(item.getTenChucVu());
                         mapChucVu.put(item.getMaChucVu(), item.getTenChucVu());
                     }
-                    
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(
                             CapNhatNhanVienPanel.this,

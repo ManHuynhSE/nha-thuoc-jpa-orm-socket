@@ -5,10 +5,8 @@ import com.pillchill.migration.migration.TaiKhoanJpaDAO;
 import com.pillchill.migration.network.communication.LoginPayload;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
-
+import com.pillchill.migration.network.communication.command.AuthCM;
 import com.pillchill.migration.network.server.CommandHandler;
-
-
 
 public class AuthCommandHandler implements CommandHandler {
     private final TaiKhoanJpaDAO taiKhoanJpaDAO;
@@ -19,6 +17,21 @@ public class AuthCommandHandler implements CommandHandler {
 
     @Override
     public Response handle(Request request) {
+        if (request.getCommand() == null || !request.getCommand().startsWith("AUTH.")) {
+            return Response.error("Command auth không hợp lệ");
+        }
+
+        String action = request.getCommand().substring("AUTH.".length());
+        try {
+            return switch (AuthCM.valueOf(action)) {
+                case LOGIN -> handleLogin(request);
+            };
+        } catch (IllegalArgumentException e) {
+            return Response.error("Command auth không hỗ trợ: " + action);
+        }
+    }
+
+    private Response handleLogin(Request request) {
         Object payload = request.getData();
         if (!(payload instanceof LoginPayload loginPayload)) {
             return Response.error("Payload đăng nhập không hợp lệ");
@@ -30,6 +43,4 @@ public class AuthCommandHandler implements CommandHandler {
         }
         return Response.success(taiKhoan.getMaNV(), "Đăng nhập thành công");
     }
-
-
 }
