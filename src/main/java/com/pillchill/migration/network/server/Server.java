@@ -8,10 +8,18 @@ import com.pillchill.migration.migration.TaiKhoanJpaDAO;
 import com.pillchill.migration.migration.ThuocJpaDAO;
 import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
 import com.pillchill.migration.network.server.handlers.ChucVuCommandHandler;
+import com.pillchill.migration.network.server.handlers.DoanhThuCommandHandler;
 import com.pillchill.migration.network.server.handlers.DonViCommandHandler;
 import com.pillchill.migration.network.server.handlers.KhuyenMaiCommandHandler;
 import com.pillchill.migration.network.server.handlers.NhanVienCommandHandler;
 import com.pillchill.migration.network.server.handlers.ThuocListCommandHandler;
+import com.pillchill.migration.network.server.handlers.ThongKeNhanVienCommandHandler;
+import com.pillchill.migration.network.server.handlers.ThongKeKhachHangCommandHandler;
+import com.pillchill.migration.network.server.handlers.ThongKeHSDCommandHandler;
+import com.pillchill.migration.service.impl.DoanhThuService;
+import com.pillchill.migration.service.impl.ThongKeNhanVienService;
+import com.pillchill.migration.service.impl.ThongKeKhachHangService;
+import com.pillchill.migration.service.impl.ThongKeHSDService;
 
 
 import java.io.EOFException;
@@ -36,9 +44,13 @@ public class Server {
         dispatcher.register("AUTH", new AuthCommandHandler(new TaiKhoanJpaDAO()));
         dispatcher.register("THUOC", new ThuocListCommandHandler(new ThuocJpaDAO()));
         dispatcher.register("NHAN_VIEN", new NhanVienCommandHandler(new NhanVienJpaDAO()));
+        dispatcher.register("THONG_KE_NHAN_VIEN", new ThongKeNhanVienCommandHandler(new ThongKeNhanVienService()));
         dispatcher.register("CHUC_VU", new ChucVuCommandHandler(new ChucVuJpaDAO()));
         dispatcher.register("KHUYEN_MAI", new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO()));
         dispatcher.register("DON_VI", new DonViCommandHandler(new DonViJpaDAO()));
+        dispatcher.register("DOANH_THU", new DoanhThuCommandHandler(new DoanhThuService()));
+        dispatcher.register("THONG_KE_KHACH_HANG", new ThongKeKhachHangCommandHandler(new ThongKeKhachHangService()));
+        dispatcher.register("THONG_KE_HSD", new ThongKeHSDCommandHandler(new ThongKeHSDService()));
     }
 
     public void start() {

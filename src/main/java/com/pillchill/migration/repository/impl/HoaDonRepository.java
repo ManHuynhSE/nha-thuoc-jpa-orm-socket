@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.pillchill.migration.entity.HoaDon;
 import com.pillchill.migration.repository.IHoaDonRepository;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureQuery;
 
 public class HoaDonRepository extends RepositoryTemplate implements IHoaDonRepository {
 
@@ -13,6 +15,7 @@ public class HoaDonRepository extends RepositoryTemplate implements IHoaDonRepos
     public Optional<HoaDon> findById(String maHoaDon) {
         return execute(em -> Optional.ofNullable(em.find(HoaDon.class, maHoaDon)));
     }
+    
 
     @Override
     public List<HoaDon> findByDateRange(LocalDate fromDate, LocalDate toDate) {

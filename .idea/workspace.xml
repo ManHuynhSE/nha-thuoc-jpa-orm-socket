@@ -5,16 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Data/procedure.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/DoanhThuHoaDonDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/DoanhThuTheoThangDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/HoaDonKemGiaDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/LoThuocHetHan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/ThongKeNhanVienDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/ThongKeDoanhThuTheoThangPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/ThongKeTheoHSDPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/ThongKeTheoKhachHangPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/XemChiTietDoanhThuTheoNhanVien.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/XemChiTietDoanhThuTheoThangFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IDoanhThuRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/DoanhThuRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/capnhat/CapNhatNhanVienPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/HoaDonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/HoaDonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/impl/HoaDonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/repository/impl/HoaDonRepository.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +39,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="116" />
+    <option name="cachedIndexableFilesCount" value="158" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -84,6 +101,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "feature",
+    "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/Coding_Project/All_Java/sokect-project/nha-thuoc-jpa-orm-socket",
@@ -138,12 +156,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NhanVienRepository" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.repository.impl.NhanVienRepository" />
+    <configuration name="CreateDBSchema" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.CreateDBSchema" />
       <module name="jpa-orm-migration" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.pillchill.migration.repository.impl.*" />
+          <option name="PATTERN" value="com.pillchill.migration.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -194,9 +212,9 @@
       <list>
         <item itemvalue="Application.com.pillchill.migration.gui.DangNhapFrame" />
         <item itemvalue="Application.TestServer" />
+        <item itemvalue="Application.CreateDBSchema" />
         <item itemvalue="Application.NhanVienService" />
         <item itemvalue="Application.ChucVuRepository" />
-        <item itemvalue="Application.NhanVienRepository" />
       </list>
     </recent_temporary>
   </component>
@@ -229,6 +247,15 @@
       <workItem from="1776684739886" duration="13318000" />
       <workItem from="1776699139443" duration="10795000" />
       <workItem from="1776763193873" duration="11711000" />
+      <workItem from="1777436430554" duration="5989000" />
+      <workItem from="1777467247796" duration="734000" />
+      <workItem from="1777474765343" duration="3414000" />
+      <workItem from="1777479967255" duration="2078000" />
+      <workItem from="1777555260150" duration="92000" />
+      <workItem from="1777557326750" duration="4364000" />
+      <workItem from="1777563776212" duration="389000" />
+      <workItem from="1777566403194" duration="2626000" />
+      <workItem from="1777571715926" duration="1792000" />
     </task>
     <servers />
   </component>
@@ -240,7 +267,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/Server.java</url>
-          <line>65</line>
+          <line>71</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
