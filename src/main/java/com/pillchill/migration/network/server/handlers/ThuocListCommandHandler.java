@@ -35,6 +35,7 @@ public class ThuocListCommandHandler implements CommandHandler {
         try {
             return switch (ThuocCM.valueOf(action)) {
                 case LIST_ALL -> handleList();
+                default -> Response.error("Command thuốc chưa được hỗ trợ ở handler cũ: " + action);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command thuốc không hỗ trợ: " + action);

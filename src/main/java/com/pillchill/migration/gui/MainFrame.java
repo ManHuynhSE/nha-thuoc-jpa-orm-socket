@@ -9,12 +9,14 @@ import com.pillchill.migration.gui.capnhat.*;
 import com.pillchill.migration.gui.thongke.ThongKeDoanhThuTheoNamPanel;
 import com.pillchill.migration.gui.thongke.ThongKeDoanhThuTheoThangPanel;
 import com.pillchill.migration.gui.thongke.ThongKeTheoNhanVienPanel;
+import com.pillchill.migration.gui.thongke.ThongKeTheoThuocPanel;
 import com.pillchill.migration.gui.thongke.ThongKeTheoKhachHangPanel;
 import com.pillchill.migration.gui.thongke.ThongKeTheoHSDPanel;
 import com.pillchill.migration.network.client.ChucVuClientController;
 import com.pillchill.migration.network.client.ClientSessionContext;
 import com.pillchill.migration.network.client.DoanhThuClientController;
 import com.pillchill.migration.network.client.DonViClientController;
+import com.pillchill.migration.network.client.HoaDonClientController;
 import com.pillchill.migration.network.client.KhuyenMaiClientController;
 import com.pillchill.migration.network.client.NhanVienClientController;
 import com.pillchill.migration.network.client.ThuocClientController;
@@ -44,7 +46,7 @@ public class MainFrame extends JFrame {
     private ThongKeTheoNhanVienPanel thongKeTheoNhanVienPanel;
     private ThongKeTheoKhachHangPanel thongKeTheoKhachHangPanel;
     private ThongKeTheoHSDPanel thongKeTheoHSDPanel;
-    // private ThongKeTheoThuocPanel thongKeTheoThuocPanel;
+    private ThongKeTheoThuocPanel thongKeTheoThuocPanel;
     // private ThongKeTheoThuePanel thongKeTheoThuePanel;
     // private TimKiemKhachHangPanel timKiemKhachHangPanel;
     // private TimKiemNhanVienPanel timKiemNhanVienPanel;
@@ -291,17 +293,22 @@ public class MainFrame extends JFrame {
         }
         showPanel(thongKeTheoHSDPanel);
     }
-    // public void showThongKeTheoThuocPanel() {
+    public void showThongKeTheoThuocPanel() {
     // if(!isQuanLy) {
     // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
     // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
     // return;
     // }
-    // if (thongKeTheoThuocPanel == null) {
-    // thongKeTheoThuocPanel = new ThongKeTheoThuocPanel();
-    // }
-    // showPanel(thongKeTheoThuocPanel);
-    // }
+    if (thongKeTheoThuocPanel == null) {
+    thongKeTheoThuocPanel = new ThongKeTheoThuocPanel(
+            new ThuocClientController(sessionContext),
+            new HoaDonClientController(sessionContext)
+    );
+    } else {
+        thongKeTheoThuocPanel.refresh();
+    }
+    showPanel(thongKeTheoThuocPanel);
+    }
     public void showThongKeTheoDoanhThuPanelTheoThang() {
         // if(!isQuanLy) {
         // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
