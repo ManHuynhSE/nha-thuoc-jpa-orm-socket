@@ -3,14 +3,14 @@ package com.pillchill.migration.network.server.handlers;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.DoanhThuCM;
+import com.pillchill.migration.migration.DoanhThuJpaDAO;
 import com.pillchill.migration.network.server.CommandHandler;
-import com.pillchill.migration.service.IDoanhThuService;
 
 public class DoanhThuCommandHandler implements CommandHandler {
-    private final IDoanhThuService doanhThuService;
+    private final DoanhThuJpaDAO doanhThuJpaDAO;
 
-    public DoanhThuCommandHandler(IDoanhThuService doanhThuService) {
-        this.doanhThuService = doanhThuService;
+    public DoanhThuCommandHandler(DoanhThuJpaDAO doanhThuJpaDAO) {
+        this.doanhThuJpaDAO = doanhThuJpaDAO;
     }
 
     @Override
@@ -28,36 +28,36 @@ public class DoanhThuCommandHandler implements CommandHandler {
             return switch (DoanhThuCM.valueOf(action)) {
                 case DOANH_THU_THANG -> {
                     int[] values = extractMonthYear(request);
-                    yield Response.success(doanhThuService.getDoanhThuCuaThang(values[0], values[1]), "Lấy doanh thu tháng thành công");
+                    yield Response.success(doanhThuJpaDAO.getDoanhThuCuaThang(values[0], values[1]), "Lấy doanh thu tháng thành công");
                 }
                 case SO_HOA_DON_THANG -> {
                     int[] values = extractMonthYear(request);
-                    yield Response.success(doanhThuService.getSoHoaDonTheoThang(values[0], values[1]), "Lấy số hóa đơn tháng thành công");
+                    yield Response.success(doanhThuJpaDAO.getSoHoaDonTheoThang(values[0], values[1]), "Lấy số hóa đơn tháng thành công");
                 }
                 case SO_KHACH_HANG_THANG -> {
                     int[] values = extractMonthYear(request);
-                    yield Response.success(doanhThuService.getSoKhachHangCuaThang(values[0], values[1]), "Lấy số khách hàng tháng thành công");
+                    yield Response.success(doanhThuJpaDAO.getSoKhachHangCuaThang(values[0], values[1]), "Lấy số khách hàng tháng thành công");
                 }
                 case DOANH_THU_TRUNG_BINH_NGAY -> {
                     int[] values = extractMonthYear(request);
-                    yield Response.success(doanhThuService.getDoanhThuTrungBinhTheoNgay(values[0], values[1]), "Lấy doanh thu trung bình ngày thành công");
+                    yield Response.success(doanhThuJpaDAO.getDoanhThuTrungBinhTheoNgay(values[0], values[1]), "Lấy doanh thu trung bình ngày thành công");
                 }
                 case HOA_DON_TRONG_THANG -> {
                     int[] values = extractMonthYear(request);
-                    yield Response.success(doanhThuService.getHoaDonTrongThang(values[0], values[1]), "Lấy hóa đơn trong tháng thành công");
+                    yield Response.success(doanhThuJpaDAO.getHoaDonTrongThang(values[0], values[1]), "Lấy hóa đơn trong tháng thành công");
                 }
                 case HOA_DON_TRONG_NAM -> {
                     int year = extractYear(request);
-                    yield Response.success(doanhThuService.getHoaDonTrongNam(year), "Lấy hóa đơn trong năm thành công");
+                    yield Response.success(doanhThuJpaDAO.getHoaDonTrongNam(year), "Lấy hóa đơn trong năm thành công");
                 }
-                case NAM_CO_HOA_DON -> Response.success(doanhThuService.getNamCoHoaDon(), "Lấy danh sách năm có hóa đơn thành công");
+                case NAM_CO_HOA_DON -> Response.success(doanhThuJpaDAO.getNamCoHoaDon(), "Lấy danh sách năm có hóa đơn thành công");
                 case THANG_CO_HOA_DON_TRONG_NAM -> {
                     int year = extractYear(request);
-                    yield Response.success(doanhThuService.getThangCoHoaDonTrongNam(year), "Lấy danh sách tháng có hóa đơn thành công");
+                    yield Response.success(doanhThuJpaDAO.getThangCoHoaDonTrongNam(year), "Lấy danh sách tháng có hóa đơn thành công");
                 }
                 case DOANH_THU_THEO_NGAY -> {
                     int[] values = extractMonthYear(request);
-                    yield Response.success(doanhThuService.getDoanhThuTheoNgay(values[0], values[1]), "Lấy doanh thu theo ngày thành công");
+                    yield Response.success(doanhThuJpaDAO.getDoanhThuTheoNgay(values[0], values[1]), "Lấy doanh thu theo ngày thành công");
                 }
             };
         } catch (IllegalArgumentException e) {

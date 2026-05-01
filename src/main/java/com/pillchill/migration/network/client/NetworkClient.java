@@ -29,6 +29,7 @@ public class NetworkClient implements Closeable {
         try {
             outputStream.writeObject(request);
             outputStream.flush();
+            outputStream.reset();
             return (Response) inputStream.readObject();
         } catch (Exception e) {
             throw new RuntimeException("Lỗi gửi/nhận request: " + e.getMessage(), e);

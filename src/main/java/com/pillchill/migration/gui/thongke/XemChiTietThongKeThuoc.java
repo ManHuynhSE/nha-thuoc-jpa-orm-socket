@@ -195,7 +195,8 @@ public class XemChiTietThongKeThuoc extends JFrame implements MouseListener {
                         df.format(item.getDoanhThu())
                 });
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
             // Keep table empty when API fails in detail dialog.
         }
     }

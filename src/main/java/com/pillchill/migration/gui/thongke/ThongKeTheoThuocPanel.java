@@ -290,6 +290,7 @@ public class ThongKeTheoThuocPanel extends JPanel implements ActionListener {
                     break;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             dsThongKe = new ArrayList<>();
         }
     }

@@ -23,6 +23,7 @@ import com.pillchill.migration.network.client.ThuocClientController;
 import com.pillchill.migration.network.client.ThongKeNhanVienClientController;
 import com.pillchill.migration.network.client.ThongKeKhachHangClientController;
 import com.pillchill.migration.network.client.ThongKeHSDClientController;
+import com.pillchill.migration.network.client.NhaSanXuatClientController;
 
 public class MainFrame extends JFrame {
     private final ClientSessionContext sessionContext;
@@ -203,7 +204,11 @@ public class MainFrame extends JFrame {
 
     public void showCapNhatThuocPanel() {
         if (capNhatThuocPanel == null) {
-            capNhatThuocPanel = new CapNhatThuocPanel(new ThuocClientController(sessionContext));
+            capNhatThuocPanel = new CapNhatThuocPanel(
+                new ThuocClientController(sessionContext),
+                new DonViClientController(sessionContext),
+                new NhaSanXuatClientController(sessionContext)
+            );
         }
         showPanel(capNhatThuocPanel);
     }
@@ -300,14 +305,13 @@ public class MainFrame extends JFrame {
     // return;
     // }
     if (thongKeTheoThuocPanel == null) {
-    thongKeTheoThuocPanel = new ThongKeTheoThuocPanel(
-            new ThuocClientController(sessionContext),
-            new HoaDonClientController(sessionContext)
-    );
+        thongKeTheoThuocPanel = new ThongKeTheoThuocPanel(
+                new ThuocClientController(sessionContext),
+                new HoaDonClientController(sessionContext));
     } else {
         thongKeTheoThuocPanel.refresh();
     }
-    showPanel(thongKeTheoThuocPanel);
+        showPanel(thongKeTheoThuocPanel);
     }
     public void showThongKeTheoDoanhThuPanelTheoThang() {
         // if(!isQuanLy) {

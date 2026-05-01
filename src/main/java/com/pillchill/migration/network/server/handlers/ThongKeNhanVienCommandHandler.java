@@ -3,19 +3,19 @@ package com.pillchill.migration.network.server.handlers;
 import com.pillchill.migration.dto.DoanhThuTheoThangDTO;
 import com.pillchill.migration.dto.HoaDonKemGiaDTO;
 import com.pillchill.migration.dto.ThongKeNhanVienDTO;
+import com.pillchill.migration.migration.ThongKeNhanVienJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.ThongKeNhanVienCM;
 import com.pillchill.migration.network.server.CommandHandler;
-import com.pillchill.migration.service.IThongKeNhanVienService;
 
 import java.util.List;
 
 public class ThongKeNhanVienCommandHandler implements CommandHandler {
-    private final IThongKeNhanVienService thongKeNhanVienService;
+    private final ThongKeNhanVienJpaDAO thongKeNhanVienJpaDAO;
 
-    public ThongKeNhanVienCommandHandler(IThongKeNhanVienService thongKeNhanVienService) {
-        this.thongKeNhanVienService = thongKeNhanVienService;
+    public ThongKeNhanVienCommandHandler(ThongKeNhanVienJpaDAO thongKeNhanVienJpaDAO) {
+        this.thongKeNhanVienJpaDAO = thongKeNhanVienJpaDAO;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ThongKeNhanVienCommandHandler implements CommandHandler {
         String action = request.getCommand().substring("THONG_KE_NHAN_VIEN.".length());
         try {
             return switch (ThongKeNhanVienCM.valueOf(action)) {
-                case NAM_CO_HOA_DON -> Response.success(thongKeNhanVienService.getNamCoHoaDon(), "Lấy danh sách năm có hóa đơn thành công");
+                case NAM_CO_HOA_DON -> Response.success(thongKeNhanVienJpaDAO.getNamCoHoaDon(), "Lấy danh sách năm có hóa đơn thành công");
                 case THONG_KE_DOANH_THU -> handleThongKeDoanhThu(request);
                 case THONG_KE_DOANH_THU_THEO_THANG -> handleThongKeDoanhThuTheoThang(request);
                 case HOA_DON_TRONG_NAM -> handleHoaDonTrongNam(request);
@@ -45,7 +45,7 @@ public class ThongKeNhanVienCommandHandler implements CommandHandler {
 
     private Response handleThongKeDoanhThu(Request request) {
         int nam = extractYear(request.getData());
-        List<ThongKeNhanVienDTO> result = thongKeNhanVienService.getThongKeDoanhThuNhanVien(nam);
+        List<ThongKeNhanVienDTO> result = thongKeNhanVienJpaDAO.getThongKeDoanhThuNhanVien(nam);
         return Response.success(result, "Lấy thống kê doanh thu nhân viên thành công");
     }
 
@@ -53,7 +53,7 @@ public class ThongKeNhanVienCommandHandler implements CommandHandler {
         Object[] payload = extractEmployeeYear(request.getData());
         String maNV = (String) payload[0];
         int nam = (Integer) payload[1];
-        List<DoanhThuTheoThangDTO> result = thongKeNhanVienService.getThongKeDoanhThuNhanVienTheoThang(maNV, nam);
+        List<DoanhThuTheoThangDTO> result = thongKeNhanVienJpaDAO.getThongKeDoanhThuNhanVienTheoThang(maNV, nam);
         return Response.success(result, "Lấy doanh thu theo tháng của nhân viên thành công");
     }
 
@@ -61,7 +61,7 @@ public class ThongKeNhanVienCommandHandler implements CommandHandler {
         Object[] payload = extractEmployeeYear(request.getData());
         String maNV = (String) payload[0];
         int nam = (Integer) payload[1];
-        List<HoaDonKemGiaDTO> result = thongKeNhanVienService.getHoaDonTrongNamCuaNhanVien(nam, maNV);
+        List<HoaDonKemGiaDTO> result = thongKeNhanVienJpaDAO.getHoaDonTrongNamCuaNhanVien(nam, maNV);
         return Response.success(result, "Lấy hóa đơn trong năm của nhân viên thành công");
     }
 

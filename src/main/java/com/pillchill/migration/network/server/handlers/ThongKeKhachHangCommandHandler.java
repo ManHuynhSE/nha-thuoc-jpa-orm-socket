@@ -2,19 +2,19 @@ package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.dto.HoaDonKemGiaDTO;
 import com.pillchill.migration.dto.ThongKeKhachHangDTO;
+import com.pillchill.migration.migration.ThongKeKhachHangJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.ThongKeKhachHangCM;
 import com.pillchill.migration.network.server.CommandHandler;
-import com.pillchill.migration.service.IThongKeKhachHangService;
 
 import java.util.List;
 
 public class ThongKeKhachHangCommandHandler implements CommandHandler {
-    private final IThongKeKhachHangService thongKeKhachHangService;
+    private final ThongKeKhachHangJpaDAO thongKeKhachHangJpaDAO;
 
-    public ThongKeKhachHangCommandHandler(IThongKeKhachHangService thongKeKhachHangService) {
-        this.thongKeKhachHangService = thongKeKhachHangService;
+    public ThongKeKhachHangCommandHandler(ThongKeKhachHangJpaDAO thongKeKhachHangJpaDAO) {
+        this.thongKeKhachHangJpaDAO = thongKeKhachHangJpaDAO;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ThongKeKhachHangCommandHandler implements CommandHandler {
         try {
             return switch (ThongKeKhachHangCM.valueOf(action)) {
                 case DOANH_THU_TAT_CA -> {
-                    List<ThongKeKhachHangDTO> result = thongKeKhachHangService.getDoanhThuTatCaKhachHang();
+                    List<ThongKeKhachHangDTO> result = thongKeKhachHangJpaDAO.getDoanhThuTatCaKhachHang();
                     yield Response.success(result, "Lấy doanh thu tất cả khách hàng thành công");
                 }
                 case DOANH_THU_THEO_THANG_NAM -> handleDoanhThuTheoThangNam(request);
@@ -51,31 +51,31 @@ public class ThongKeKhachHangCommandHandler implements CommandHandler {
         Object[] payload = extractIntPair(request.getData());
         int thang = (Integer) payload[0];
         int nam = (Integer) payload[1];
-        List<ThongKeKhachHangDTO> result = thongKeKhachHangService.getDoanhThuKhachHangTheoThangNam(thang, nam);
+        List<ThongKeKhachHangDTO> result = thongKeKhachHangJpaDAO.getDoanhThuKhachHangTheoThangNam(thang, nam);
         return Response.success(result, "Lấy doanh thu khách hàng theo tháng/năm thành công");
     }
 
     private Response handleTimKiemTheoMa(Request request) {
         String maKH = extractString(request.getData());
-        List<ThongKeKhachHangDTO> result = thongKeKhachHangService.timKiemTheoMaKH(maKH);
+        List<ThongKeKhachHangDTO> result = thongKeKhachHangJpaDAO.timKiemTheoMaKH(maKH);
         return Response.success(result, "Tìm kiếm theo mã khách hàng thành công");
     }
 
     private Response handleTimKiemTheoTen(Request request) {
         String tenKH = extractString(request.getData());
-        List<ThongKeKhachHangDTO> result = thongKeKhachHangService.timKiemTheoTenKH(tenKH);
+        List<ThongKeKhachHangDTO> result = thongKeKhachHangJpaDAO.timKiemTheoTenKH(tenKH);
         return Response.success(result, "Tìm kiếm theo tên khách hàng thành công");
     }
 
     private Response handleTimKiemTheoSdt(Request request) {
         String sdt = extractString(request.getData());
-        List<ThongKeKhachHangDTO> result = thongKeKhachHangService.timKiemTheoSoDienThoai(sdt);
+        List<ThongKeKhachHangDTO> result = thongKeKhachHangJpaDAO.timKiemTheoSoDienThoai(sdt);
         return Response.success(result, "Tìm kiếm theo số điện thoại thành công");
     }
 
     private Response handleHoaDonTheoKhachHang(Request request) {
         String maKH = extractString(request.getData());
-        List<HoaDonKemGiaDTO> result = thongKeKhachHangService.getHoaDonTheoKhachHang(maKH);
+        List<HoaDonKemGiaDTO> result = thongKeKhachHangJpaDAO.getHoaDonTheoKhachHang(maKH);
         return Response.success(result, "Lấy hóa đơn của khách hàng thành công");
     }
 

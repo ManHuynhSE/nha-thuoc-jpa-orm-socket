@@ -26,4 +26,10 @@ public interface IThuocService {
     double getTongDoanhThuThuocTheoThang(int thang, int nam);
 
     double getTongDoanhThuThuocTheoNam(int nam);
+
+    boolean addThuoc(Thuoc thuoc);
+
+    boolean updateThuoc(Thuoc thuoc);
+
+    boolean deleteThuoc(String maThuoc);
 }

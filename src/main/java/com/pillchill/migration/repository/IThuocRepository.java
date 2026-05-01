@@ -1,6 +1,7 @@
 package com.pillchill.migration.repository;
 
 import com.pillchill.migration.dto.ThongKeThuoc;
+import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.entity.Thuoc;
 
 import java.sql.Date;
@@ -15,6 +16,8 @@ public interface IThuocRepository extends GenericRepository<Thuoc,String> {
     long countActive();
 
     void updateSoLuongTon(String maThuoc, int soLuongTon);
+
+    List<ThuocKemGiaView> getAllThuocKemGia();
 
     List<ThongKeThuoc> thongKeThuocTheoNgay(Date ngay, int topN);
 

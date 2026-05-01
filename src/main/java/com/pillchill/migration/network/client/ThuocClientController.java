@@ -69,7 +69,7 @@ public class ThuocClientController {
         List<ThuocKemGiaView> result = new ArrayList<>();
         for (Object item : rawList) {
             if (!(item instanceof ThuocKemGiaView thuocItem)) {
-                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+                throw new RuntimeException("Dữ liệu trả về không hợp lệ");
             }
             result.add(thuocItem);
         }
@@ -134,6 +134,18 @@ public class ThuocClientController {
             return thuoc;
         }
         return null;
+    }
+
+    public Response addThuoc(Thuoc thuoc) {
+        return send(ThuocCM.CREATE, thuoc);
+    }
+
+    public Response updateThuoc(Thuoc thuoc) {
+        return send(ThuocCM.UPDATE, thuoc);
+    }
+
+    public Response deleteThuoc(String maThuoc) {
+        return send(ThuocCM.DELETE, maThuoc);
     }
 }
 

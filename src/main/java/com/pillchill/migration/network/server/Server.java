@@ -1,10 +1,16 @@
 package com.pillchill.migration.network.server;
 
 import com.pillchill.migration.migration.ChucVuJpaDAO;
+import com.pillchill.migration.migration.DoanhThuJpaDAO;
 import com.pillchill.migration.migration.DonViJpaDAO;
 import com.pillchill.migration.migration.KhuyenMaiJpaDAO;
 import com.pillchill.migration.migration.NhanVienJpaDAO;
+import com.pillchill.migration.migration.ThongKeHSDJpaDAO;
+import com.pillchill.migration.migration.ThongKeKhachHangJpaDAO;
+import com.pillchill.migration.migration.ThongKeNhanVienJpaDAO;
 import com.pillchill.migration.migration.TaiKhoanJpaDAO;
+import com.pillchill.migration.migration.ThuocJpaDAO;
+import com.pillchill.migration.migration.NhaSanXuatJpaDAO;
 import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
 import com.pillchill.migration.network.server.handlers.ChucVuCommandHandler;
 import com.pillchill.migration.network.server.handlers.DoanhThuCommandHandler;
@@ -16,11 +22,7 @@ import com.pillchill.migration.network.server.handlers.ThuocCommandHandler;
 import com.pillchill.migration.network.server.handlers.ThongKeNhanVienCommandHandler;
 import com.pillchill.migration.network.server.handlers.ThongKeKhachHangCommandHandler;
 import com.pillchill.migration.network.server.handlers.ThongKeHSDCommandHandler;
-import com.pillchill.migration.service.impl.DoanhThuService;
-import com.pillchill.migration.service.impl.ThongKeNhanVienService;
-import com.pillchill.migration.service.impl.ThongKeKhachHangService;
-import com.pillchill.migration.service.impl.ThongKeHSDService;
-import com.pillchill.migration.service.impl.ThuocService;
+import com.pillchill.migration.network.server.handlers.NhaSanXuatCommandHandler;
 
 
 import java.io.EOFException;
@@ -43,16 +45,17 @@ public class Server {
 
     private void initHandlers() {
         dispatcher.register("AUTH", new AuthCommandHandler(new TaiKhoanJpaDAO()));
-        dispatcher.register("THUOC", new ThuocCommandHandler(new ThuocService()));
+        dispatcher.register("THUOC", new ThuocCommandHandler(new ThuocJpaDAO()));
         dispatcher.register("HOA_DON", new HoaDonCommandHandler());
         dispatcher.register("NHAN_VIEN", new NhanVienCommandHandler(new NhanVienJpaDAO()));
-        dispatcher.register("THONG_KE_NHAN_VIEN", new ThongKeNhanVienCommandHandler(new ThongKeNhanVienService()));
+        dispatcher.register("THONG_KE_NHAN_VIEN", new ThongKeNhanVienCommandHandler(new ThongKeNhanVienJpaDAO()));
         dispatcher.register("CHUC_VU", new ChucVuCommandHandler(new ChucVuJpaDAO()));
         dispatcher.register("KHUYEN_MAI", new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO()));
         dispatcher.register("DON_VI", new DonViCommandHandler(new DonViJpaDAO()));
-        dispatcher.register("DOANH_THU", new DoanhThuCommandHandler(new DoanhThuService()));
-        dispatcher.register("THONG_KE_KHACH_HANG", new ThongKeKhachHangCommandHandler(new ThongKeKhachHangService()));
-        dispatcher.register("THONG_KE_HSD", new ThongKeHSDCommandHandler(new ThongKeHSDService()));
+        dispatcher.register("DOANH_THU", new DoanhThuCommandHandler(new DoanhThuJpaDAO()));
+        dispatcher.register("THONG_KE_KHACH_HANG", new ThongKeKhachHangCommandHandler(new ThongKeKhachHangJpaDAO()));
+        dispatcher.register("THONG_KE_HSD", new ThongKeHSDCommandHandler(new ThongKeHSDJpaDAO()));
+        dispatcher.register("NHA_SAN_XUAT", new NhaSanXuatCommandHandler(new NhaSanXuatJpaDAO()));
     }
 
     public void start() {
@@ -84,6 +87,7 @@ public class Server {
                 }
                 outputStream.writeObject(dispatcher.dispatch((com.pillchill.migration.network.communication.Request) raw));
                 outputStream.flush();
+                outputStream.reset();
             }
         } catch (Exception e) {
             throw new RuntimeException("Lỗi xử lý client: " + e.getMessage(), e);

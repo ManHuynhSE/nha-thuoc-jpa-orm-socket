@@ -1,22 +1,22 @@
 package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.dto.ThongKeThuoc;
+import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.entity.Thuoc;
+import com.pillchill.migration.migration.ThuocJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.ThuocCM;
 import com.pillchill.migration.network.server.CommandHandler;
-import com.pillchill.migration.service.IThuocService;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class ThuocCommandHandler implements CommandHandler {
-    private final IThuocService thuocService;
+    private final ThuocJpaDAO thuocJpaDAO;
 
-    public ThuocCommandHandler(IThuocService thuocService) {
-        this.thuocService = thuocService;
+    public ThuocCommandHandler(ThuocJpaDAO thuocJpaDAO) {
+        this.thuocJpaDAO = thuocJpaDAO;
     }
 
     @Override
@@ -36,42 +36,60 @@ public class ThuocCommandHandler implements CommandHandler {
                     Object[] values = extractDateAndTopN(request);
                     Date ngay = (Date) values[0];
                     int topN = (int) values[1];
-                    List<ThongKeThuoc> result = thuocService.thongKeThuocTheoNgay(ngay, topN);
+                    List<ThongKeThuoc> result = thuocJpaDAO.thongKeThuocTheoNgay(ngay, topN);
                     yield Response.success(result, "Lấy thống kê thuốc theo ngày thành công");
                 }
                 case THONG_KE_THEO_THANG -> {
                     int[] values = extractMonthYearAndTopN(request);
-                    List<ThongKeThuoc> result = thuocService.thongKeThuocTheoThang(values[0], values[1], values[2]);
+                    List<ThongKeThuoc> result = thuocJpaDAO.thongKeThuocTheoThang(values[0], values[1], values[2]);
                     yield Response.success(result, "Lấy thống kê thuốc theo tháng thành công");
                 }
                 case THONG_KE_THEO_NAM -> {
                     int[] values = extractYearAndTopN(request);
-                    List<ThongKeThuoc> result = thuocService.thongKeThuocTheoNam(values[0], values[1]);
+                    List<ThongKeThuoc> result = thuocJpaDAO.thongKeThuocTheoNam(values[0], values[1]);
                     yield Response.success(result, "Lấy thống kê thuốc theo năm thành công");
                 }
                 case TONG_DOANH_THU_THUOC_NGAY -> {
                     Date ngay = extractDate(request);
-                    double result = thuocService.getTongDoanhThuThuocTheoNgay(ngay);
+                    double result = thuocJpaDAO.getTongDoanhThuThuocTheoNgay(ngay);
                     yield Response.success(result, "Lấy tổng doanh thu thuốc theo ngày thành công");
                 }
                 case TONG_DOANH_THU_THUOC_THANG -> {
                     int[] values = extractMonthYear(request);
-                    double result = thuocService.getTongDoanhThuThuocTheoThang(values[0], values[1]);
+                    double result = thuocJpaDAO.getTongDoanhThuThuocTheoThang(values[0], values[1]);
                     yield Response.success(result, "Lấy tổng doanh thu thuốc theo tháng thành công");
                 }
                 case TONG_DOANH_THU_THUOC_NAM -> {
                     int year = extractYear(request);
-                    double result = thuocService.getTongDoanhThuThuocTheoNam(year);
+                    double result = thuocJpaDAO.getTongDoanhThuThuocTheoNam(year);
                     yield Response.success(result, "Lấy tổng doanh thu thuốc theo năm thành công");
                 }
                 case GET_BY_ID -> {
                     String maThuoc = (String) request.getData();
-                    Optional<Thuoc> result = thuocService.getThuocById(maThuoc);
-                    yield Response.success(result.orElse(null), result.isPresent() ? "Lấy thuốc thành công" : "Không tìm thấy thuốc");
+                    Thuoc result = thuocJpaDAO.getThuocById(maThuoc);
+                    yield Response.success(result, result != null ? "Lấy thuốc thành công" : "Không tìm thấy thuốc");
                 }
                 case LIST_ALL -> {
-                    List<Thuoc> result = thuocService.getAllThuoc();
+                    List<ThuocKemGiaView> result = thuocJpaDAO.getAllThuocKemGia();
                     yield Response.success(result, "Lấy danh sách thuốc thành công");
+                }
+                case CREATE -> {
+                    Thuoc payload = (Thuoc) request.getData();
+                    boolean success = thuocJpaDAO.addThuoc(payload);
+                    yield success ? Response.success(null, "Thêm thuốc thành công") 
+                                  : Response.error("Không thể thêm thuốc");
+                }
+                case UPDATE -> {
+                    Thuoc payload = (Thuoc) request.getData();
+                    boolean success = thuocJpaDAO.updateThuoc(payload);
+                    yield success ? Response.success(null, "Cập nhật thuốc thành công") 
+                                  : Response.error("Không thể cập nhật thuốc");
+                }
+                case DELETE -> {
+                    String maThuoc = (String) request.getData();
+                    boolean success = thuocJpaDAO.deleteThuoc(maThuoc);
+                    yield success ? Response.success(null, "Xóa thuốc thành công") 
+                                  : Response.error("Không thể xóa thuốc");
                 }
             };
         } catch (IllegalArgumentException e) {

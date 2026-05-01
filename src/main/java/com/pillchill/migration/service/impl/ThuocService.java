@@ -7,24 +7,19 @@ import java.util.Optional;
 import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.entity.Thuoc;
-import com.pillchill.migration.repository.IGiaThuocRepository;
 import com.pillchill.migration.repository.IThuocRepository;
-import com.pillchill.migration.repository.impl.GiaThuocRepository;
 import com.pillchill.migration.repository.impl.ThuocRepository;
 import com.pillchill.migration.service.IThuocService;
 
 public class ThuocService implements IThuocService {
     private final IThuocRepository thuocRepository;
-    private final IGiaThuocRepository giaThuocRepository;
 
-    public ThuocService(IThuocRepository thuocRepository, IGiaThuocRepository giaThuocRepository) {
+    public ThuocService(IThuocRepository thuocRepository) {
         this.thuocRepository = thuocRepository;
-        this.giaThuocRepository = giaThuocRepository;
     }
 
     public ThuocService() {
         this.thuocRepository = new ThuocRepository();
-        this.giaThuocRepository = new GiaThuocRepository();
     }
 
     @Override
@@ -39,55 +34,57 @@ public class ThuocService implements IThuocService {
 
     @Override
     public List<ThuocKemGiaView> getAllThuocKemGia() {
-        return thuocRepository.findAllActive()
-                .stream()
-                .map(this::toThuocKemGiaView)
-                .toList();
-    }
-
-    private ThuocKemGiaView toThuocKemGiaView(Thuoc thuoc) {
-        double gia = giaThuocRepository.getGiaHienTaiByMaThuoc(thuoc.getMaThuoc()).orElse(0.0);
-        String maDonVi = thuoc.getDonVi() == null ? null : thuoc.getDonVi().getMaDonVi();
-        String maNSX = thuoc.getNhaSanXuat() == null ? null : thuoc.getNhaSanXuat().getMaNSX();
-        return new ThuocKemGiaView(
-                thuoc.getMaThuoc(),
-                thuoc.getTenThuoc(),
-                thuoc.getSoLuongTon(),
-                gia,
-                maDonVi,
-                thuoc.getSoLuongToiThieu() == null ? 0 : thuoc.getSoLuongToiThieu(),
-                maNSX,
-                thuoc.isActive()
-        );
+        return thuocRepository.getAllThuocKemGia();
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoNgay(Date ngay, int topN) {
-        return List.of();
+        return thuocRepository.thongKeThuocTheoNgay(ngay, topN);
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoThang(int thang, int nam, int topN) {
-        return List.of();
+        return thuocRepository.thongKeThuocTheoThang(thang, nam, topN);
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoNam(int nam, int topN) {
-        return List.of();
+        return thuocRepository.thongKeThuocTheoNam(nam, topN);
     }
 
     @Override
     public double getTongDoanhThuThuocTheoNgay(Date ngay) {
-        return 0;
+        return thuocRepository.getTongDoanhThuThuocTheoNgay(ngay);
     }
 
     @Override
     public double getTongDoanhThuThuocTheoThang(int thang, int nam) {
-        return 0;
+        return thuocRepository.getTongDoanhThuThuocTheoThang(thang, nam);
     }
 
     @Override
     public double getTongDoanhThuThuocTheoNam(int nam) {
-        return 0;
+        return thuocRepository.getTongDoanhThuThuocTheoNam(nam);
+    }
+
+    @Override
+    public boolean addThuoc(Thuoc thuoc) {
+        return thuocRepository.create(thuoc) != null;
+    }
+
+    @Override
+    public boolean updateThuoc(Thuoc thuoc) {
+        return thuocRepository.update(thuoc) != null;
+    }
+
+    @Override
+    public boolean deleteThuoc(String maThuoc) {
+        Optional<Thuoc> thuocOpt = thuocRepository.findById(maThuoc);
+        if (thuocOpt.isPresent()) {
+            Thuoc thuoc = thuocOpt.get();
+            thuoc.setActive(false);
+            return thuocRepository.update(thuoc) != null;
+        }
+        return false;
     }
 }

@@ -1,9 +1,11 @@
 package com.pillchill.migration.dto;
 
+import java.io.Serializable;
+
 /**
  * Entity class representing medicine sales statistics
  */
-public class ThongKeThuoc {
+public class ThongKeThuoc implements Serializable {
     // Thông tin cơ bản về thuốc
     private String maThuoc;
     private String tenThuoc;
@@ -53,6 +55,14 @@ public class ThongKeThuoc {
         this.tenThuoc = tenThuoc;
         this.soLuongBan = soLuongBan;
         this.doanhThu = doanhThu;
+    }
+
+    // Constructor dùng cho JPA Query (vì SUM thường trả về Long và Double)
+    public ThongKeThuoc(String maThuoc, String tenThuoc, Long soLuongBan, Double doanhThu) {
+        this.maThuoc = maThuoc;
+        this.tenThuoc = tenThuoc;
+        this.soLuongBan = soLuongBan != null ? soLuongBan.intValue() : 0;
+        this.doanhThu = doanhThu != null ? doanhThu : 0.0;
     }
     
     // Getters and Setters

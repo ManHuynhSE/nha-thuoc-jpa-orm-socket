@@ -8,5 +8,8 @@ public enum ThuocCM {
     TONG_DOANH_THU_THUOC_NGAY,
     TONG_DOANH_THU_THUOC_THANG,
     TONG_DOANH_THU_THUOC_NAM,
-    GET_BY_ID
+    GET_BY_ID,
+    CREATE,
+    UPDATE,
+    DELETE
 }
