@@ -51,4 +51,9 @@ public class KhachHangService implements IKhachHangService {
     public long countActive() {
         return khachHangRepository.countActive();
     }
+
+    @Override
+    public KhachHang findByPhone(String phone) {
+        return khachHangRepository.findByPhone(phone);
+    }
 }

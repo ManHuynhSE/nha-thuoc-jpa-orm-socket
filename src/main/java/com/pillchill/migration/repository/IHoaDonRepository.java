@@ -9,9 +9,10 @@ import java.util.Optional;
 public interface IHoaDonRepository {
     Optional<HoaDon> findById(String maHoaDon);
 
+    String getLatestHoaDon();
+
     List<HoaDon> findByDateRange(LocalDate fromDate, LocalDate toDate);
 
     List<HoaDon> findAllActiveWithNhanVienKhachHang();
 
-    void save(HoaDon hoaDon);
 }

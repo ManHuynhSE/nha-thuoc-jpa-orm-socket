@@ -48,6 +48,18 @@ public class KhachHangRepository extends AbstracGenericRepository<KhachHang, Str
         });
     }
 
+    @Override
+    public KhachHang findByPhone(String phone) {
+        return template.execute(em -> {
+            List<KhachHang> results = em.createQuery(
+                            "select k from KhachHang k where k.soDienThoai = :phone and k.isActive = true",
+                            KhachHang.class)
+                    .setParameter("phone", phone)
+                    .getResultList();
+            return results.isEmpty() ? null : results.get(0);
+        });
+    }
+
     public static void main(String[] args) {
         KhachHangRepository khachHangRepository = new KhachHangRepository();
         System.out.println(khachHangRepository.findAllActive());

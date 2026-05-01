@@ -60,6 +60,20 @@ public class KhachHangCommandHandler implements CommandHandler {
                 }
                 return Response.success(null, "Xóa khách hàng thành công");
             }
+            case FIND_BY_PHONE -> {
+                if (!(request.getData() instanceof String phone) || phone.isBlank()) {
+                    return Response.error("Số điện thoại không hợp lệ");
+                }
+                KhachHang khachHang = khachHangJpaDAO.findByPhone(phone);
+                return Response.success(khachHang, "Tìm khách hàng thành công");
+            }
+            case FIND_BY_MA -> {
+                if (!(request.getData() instanceof String maKH) || maKH.isBlank()) {
+                    return Response.error("Mã khách hàng không hợp lệ");
+                }
+                KhachHang khachHang = khachHangJpaDAO.findById(maKH);
+                return Response.success(khachHang, "Tìm khách hàng thành công");
+            }
         }
         return Response.error("Command khách hàng không hỗ trợ");
     }

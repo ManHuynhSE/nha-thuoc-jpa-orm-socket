@@ -17,6 +17,7 @@ import com.pillchill.migration.gui.timkiem.TimKiemThuocPanel;
 import com.pillchill.migration.network.client.ClientSessionContext;
 import com.pillchill.migration.network.client.HoaDonClientController;
 import com.pillchill.migration.network.client.KhachHangClientController;
+import com.pillchill.migration.network.client.KhuyenMaiClientController;
 import com.pillchill.migration.network.client.NhanVienClientController;
 import com.pillchill.migration.network.client.PhieuDatClientController;
 import com.pillchill.migration.network.client.PhieuDoiTraClientController;
@@ -31,7 +32,7 @@ public class MainFrame extends JFrame {
     private MenuBarPanel menuBarPanel;
     private JPanel contentPanel;
     private TimKiemThuocPanel timKiemThuocPanel;
-    //    private LapHoaDonPanel lapHoaDonPanel;
+    private LapHoaDonPanel lapHoaDonPanel;
 //    private CapNhatKhachHangPanel capNhatKhachHangPanel;
 //    private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
@@ -100,7 +101,7 @@ public class MainFrame extends JFrame {
     private void initializePanels() {
         // Khởi tạo các panel chức năng (lazy loading)
         timKiemThuocPanel = null;
-//        lapHoaDonPanel = null;
+        lapHoaDonPanel = null;
 //        capNhatKhachHangPanel = null;
 //        capNhatNhanVienPanel = null;
         capNhatThuocPanel = null;
@@ -167,27 +168,20 @@ public class MainFrame extends JFrame {
         showPanel(timKiemThuocPanel);
     }
 
-//    public void showLapHoaDonPanel() {
-//        if (lapHoaDonPanel == null) {
-//            lapHoaDonPanel = new LapHoaDonPanel(maNhanVien);
-//        }
-//        // Luôn làm mới dữ liệu khi hiển thị panel này, bất kể là mới tạo hay đã tồn tại
-//        lapHoaDonPanel.reloadDataFromDatabase();
-//        showPanel(lapHoaDonPanel);
-//    }
-//
-//    /**
-//     * Trả về panel LapHoaDon hiện tại
-//     * Thêm phương thức này để có thể gọi các phương thức của LapHoaDonPanel từ bên ngoài
-//     * @return LapHoaDonPanel đang được sử dụng
-//     */
-//    public LapHoaDonPanel getLapHoaDonPanel() {
-//        if (lapHoaDonPanel == null) {
-//            lapHoaDonPanel = new LapHoaDonPanel(maNhanVien);
-//        }
-//        return lapHoaDonPanel;
-//    }
-//
+    public void showLapHoaDonPanel() {
+        if (lapHoaDonPanel == null) {
+            lapHoaDonPanel = new LapHoaDonPanel(
+                    new ThuocClientController(sessionContext),
+                    new HoaDonClientController(sessionContext),
+                    new KhachHangClientController(sessionContext),
+                    new KhuyenMaiClientController(sessionContext),
+                    maNhanVien
+            );
+        }
+        lapHoaDonPanel.reloadDataFromDatabase();
+        showPanel(lapHoaDonPanel);
+    }
+
 //    public void showCapNhatKhachHangPanel() {
 //        if (capNhatKhachHangPanel == null) {
 //            capNhatKhachHangPanel = new CapNhatKhachHangPanel();
@@ -451,7 +445,7 @@ public class MainFrame extends JFrame {
     private void disposeAllPanels() {
 
         JPanel[] allPanels = {
-//            timKiemThuocPanel, lapHoaDonPanel, capNhatKhachHangPanel,
+//            timKiemThuocPanel, capNhatKhachHangPanel,
 //            capNhatNhanVienPanel, capNhatThuocPanel, capNhatKhuyenMaiPanel,
 //            capNhatChucVuPanel, lapPhieuDatThuocPanel, lapPhieuTraThuocPanel,
 //            nhapThuocPanel, thongKeTheoDoanhThuPanel, thongKeTheoNhanVienPanel,
@@ -467,7 +461,8 @@ public class MainFrame extends JFrame {
                 timKiemPhieuDatPanel,
                 timKiemPhieuDoiTraPanel,
                 timKiemPhieuNhapPanel,
-                nhapThuocPanel
+                nhapThuocPanel,
+                lapHoaDonPanel
         };
 
 

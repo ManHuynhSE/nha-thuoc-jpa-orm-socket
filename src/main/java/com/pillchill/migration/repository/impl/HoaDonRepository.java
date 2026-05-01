@@ -15,6 +15,19 @@ public class HoaDonRepository extends RepositoryTemplate implements IHoaDonRepos
     }
 
     @Override
+    public String getLatestHoaDon() {
+        HoaDon latest = execute(entityManager ->
+                entityManager.createQuery(
+                        "select h from HoaDon h order by h.maHoaDon desc",
+                        HoaDon.class
+                ).setMaxResults(1).getSingleResult()
+        );
+
+        if (latest == null) return null;
+        return latest.getMaHoaDon();
+    }
+
+    @Override
     public List<HoaDon> findByDateRange(LocalDate fromDate, LocalDate toDate) {
         return execute(em -> em.createQuery(
                         "select h from HoaDon h " +
@@ -40,11 +53,10 @@ public class HoaDonRepository extends RepositoryTemplate implements IHoaDonRepos
                 .getResultList());
     }
 
-    @Override
-    public void save(HoaDon hoaDon) {
-        execute(em -> {
-            em.merge(hoaDon);
-            return null;
-        });
+
+
+    public static void main(String[] args) {
+        HoaDonRepository hoaDonRepository = new HoaDonRepository();
+        System.out.println(hoaDonRepository.getLatestHoaDon());
     }
 }

@@ -8,6 +8,7 @@ import com.pillchill.migration.migration.NhanVienJpaDAO;
 import com.pillchill.migration.migration.PhieuDatJpaDAO;
 import com.pillchill.migration.migration.PhieuDoiTraJpaDAO;
 import com.pillchill.migration.migration.PhieuNhapJpaDAO;
+import com.pillchill.migration.migration.KhuyenMaiJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
@@ -18,6 +19,7 @@ import com.pillchill.migration.network.server.handlers.NhanVienCommandHandler;
 import com.pillchill.migration.network.server.handlers.PhieuDatCommandHandler;
 import com.pillchill.migration.network.server.handlers.PhieuDoiTraCommandHandler;
 import com.pillchill.migration.network.server.handlers.PhieuNhapCommandHandler;
+import com.pillchill.migration.network.server.handlers.KhuyenMaiCommandHandler;
 
 
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class CommandDispatcher {
         domainHandlers.put("PHIEU_DAT", new PhieuDatCommandHandler(new PhieuDatJpaDAO()));
         domainHandlers.put("PHIEU_DOI_TRA", new PhieuDoiTraCommandHandler(new PhieuDoiTraJpaDAO()));
         domainHandlers.put("PHIEU_NHAP", new PhieuNhapCommandHandler(new PhieuNhapJpaDAO()));
+        domainHandlers.put("KHUYEN_MAI", new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO()));
     }
 
     public void register(String command, CommandHandler handler) {

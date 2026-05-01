@@ -40,5 +40,12 @@ public class KhachHangJpaDAO {
     public long countActive() {
         return khachHangService.countActive();
     }
-}
 
+    public KhachHang findByPhone(String phone) {
+        return khachHangService.findByPhone(phone);
+    }
+
+    public KhachHang findById(String maKH) {
+        return getKhachHangById(maKH);
+    }
+}

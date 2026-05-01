@@ -278,8 +278,8 @@ public class MenuBarPanel extends JPanel implements ActionListener {
         else if (o == mniPhieuDatThuoc) parentFrame.showDanhMucPhieuDatThuocPanel();
         else if (o == mniPhieuDoiTra) parentFrame.showDanhMucPhieuDoiTraPanel();
         
-//        // --- Xử lý ---
-//        else if (o == mniLapHoaDon) parentFrame.showLapHoaDonPanel();
+        // --- Xử lý ---
+        else if (o == mniLapHoaDon) parentFrame.showLapHoaDonPanel();
 //        else if (o == mniLapPhieuDatThuoc) parentFrame.showLapPhieuDatThuocPanel();
 //        else if (o == mniLapPhieuTraThuoc) parentFrame.showLapPhieuDoiThuocPanel();
         else if (o == mniNhapThuoc) parentFrame.showNhapThuocPanel();

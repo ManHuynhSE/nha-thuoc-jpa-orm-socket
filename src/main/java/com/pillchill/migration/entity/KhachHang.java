@@ -35,4 +35,6 @@ public class KhachHang implements Serializable {
 
     @Column(name = "isActive")
     private boolean isActive;
+
+
 }

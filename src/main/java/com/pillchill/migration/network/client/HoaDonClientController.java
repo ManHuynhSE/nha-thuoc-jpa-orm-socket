@@ -2,6 +2,7 @@ package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.dto.ChiTietHoaDonView;
 import com.pillchill.migration.dto.HoaDonView;
+import com.pillchill.migration.network.communication.HoaDonCreatePayload;
 import com.pillchill.migration.network.communication.HoaDonFilterPayload;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
@@ -44,6 +45,24 @@ public class HoaDonClientController {
         return sessionContext.getNetworkClient().send(request);
     }
 
+    public Response createHoaDon(HoaDonCreatePayload payload) {
+        Request request = new Request(
+                "HOA_DON." + HoaDonCM.CREATE,
+                payload,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response getHoaDonGanNhat() {
+        Request request = new Request(
+                "HOA_DON." + HoaDonCM.GET_LATEST,
+                "",
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
     public List<HoaDonView> getAllHoaDonItems() {
         Response response = getAllHoaDon();
         return parseHoaDonList(response);
@@ -52,6 +71,18 @@ public class HoaDonClientController {
     public List<HoaDonView> getHoaDonByMonthYearItems(int month, int year) {
         Response response = getHoaDonByMonthYear(month, year);
         return parseHoaDonList(response);
+    }
+
+    public String getMaHoaDonGanNhat() {
+        Response response = getHoaDonGanNhat();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof String maHoaDon) || maHoaDon.isBlank()) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+        return maHoaDon;
     }
 
     public List<ChiTietHoaDonView> getChiTietHoaDonItems(String maHoaDon) {
@@ -72,6 +103,18 @@ public class HoaDonClientController {
             result.add(chiTietHoaDonView);
         }
         return result;
+    }
+
+    public String createHoaDonAndGetMa(HoaDonCreatePayload payload) {
+        Response response = createHoaDon(payload);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof String maHoaDon) || maHoaDon.isBlank()) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+        return maHoaDon;
     }
 
     private List<HoaDonView> parseHoaDonList(Response response) {

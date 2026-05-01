@@ -17,4 +17,6 @@ public interface IKhachHangService {
     boolean deactivateKhachHang(String maKH);
 
     long countActive();
+
+    KhachHang findByPhone(String phone);
 }

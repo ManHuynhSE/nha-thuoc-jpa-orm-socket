@@ -13,4 +13,6 @@ public interface IKhachHangRepository extends GenericRepository<KhachHang, Strin
     long countActive();
 
     boolean deactivateKhachHang(String maKH);
+
+    KhachHang findByPhone(String phone);
 }

@@ -48,4 +48,6 @@ public class HoaDonJpaDAO {
     public HoaDon getHoaDonById(String id) {
         return hoaDonService.getHoaDonById(id).orElse(null);
     }
+
+    public String getLatestHoaDon() {return hoaDonService.getLatestHoaDon();};
 }

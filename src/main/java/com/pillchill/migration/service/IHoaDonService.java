@@ -24,4 +24,6 @@ public interface IHoaDonService {
     List<HoaDonView> getHoaDonViewsByMonthYear(int month, int year);
 
     List<ChiTietHoaDonView> getChiTietHoaDonByMaHoaDon(String maHoaDon);
+
+    String getLatestHoaDon();
 }

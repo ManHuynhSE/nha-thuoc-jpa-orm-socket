@@ -73,7 +73,9 @@ public class HoaDonService implements IHoaDonService {
 
             for (HoaDonItemCommand item : command.items()) {
                 Thuoc thuoc = em.getReference(Thuoc.class, item.maThuoc());
-                List<FifoAllocation> allocations = truTonKhoTheoFIFO(em, item.maThuoc(), item.soLuong());
+                List<FifoAllocation> allocations = item.maLo() != null && !item.maLo().isBlank()
+                        ? truTonKhoTheoLoDuocChon(em, item.maThuoc(), item.maLo(), item.soLuong())
+                        : truTonKhoTheoFIFO(em, item.maThuoc(), item.soLuong());
                 for (FifoAllocation allocation : allocations) {
                     LoThuoc loThuoc = em.getReference(LoThuoc.class, allocation.maLo());
                     ChiTietHoaDon chiTietHoaDon = ChiTietHoaDon.builder()
@@ -130,6 +132,24 @@ public class HoaDonService implements IHoaDonService {
             throw new IllegalStateException("Khong du ton kho cho ma thuoc " + maThuoc + ", con thieu " + canTru);
         }
         return allocations;
+    }
+
+    private List<FifoAllocation> truTonKhoTheoLoDuocChon(EntityManager em, String maThuoc, String maLo, int soLuongCanMua) {
+        if (soLuongCanMua <= 0) {
+            throw new IllegalArgumentException("So luong mua phai lon hon 0");
+        }
+        ChiTietLoThuoc chiTietLoThuoc = em.find(ChiTietLoThuoc.class, new ChiTietLoThuocId(maLo, maThuoc));
+        if (chiTietLoThuoc == null || !chiTietLoThuoc.isActive()) {
+            throw new IllegalStateException("Lo thuoc khong hop le: " + maThuoc + " - " + maLo);
+        }
+        if (chiTietLoThuoc.getSoLuong() < soLuongCanMua) {
+            throw new IllegalStateException(
+                    "Khong du ton kho cho lo " + maLo + " cua ma thuoc " + maThuoc + ", con thieu " + (soLuongCanMua - chiTietLoThuoc.getSoLuong()));
+        }
+
+        chiTietLoThuoc.setSoLuong(chiTietLoThuoc.getSoLuong() - soLuongCanMua);
+        em.merge(chiTietLoThuoc);
+        return List.of(new FifoAllocation(maLo, soLuongCanMua));
     }
 
     private void dongBoSoLuongTon(EntityManager em, String maThuoc) {
@@ -198,6 +218,11 @@ public class HoaDonService implements IHoaDonService {
                 .stream()
                 .map(this::toChiTietHoaDonView)
                 .toList();
+    }
+
+    @Override
+    public String getLatestHoaDon() {
+        return hoaDonRepository.getLatestHoaDon();
     }
 
     private HoaDonView toHoaDonView(HoaDon hoaDon) {
