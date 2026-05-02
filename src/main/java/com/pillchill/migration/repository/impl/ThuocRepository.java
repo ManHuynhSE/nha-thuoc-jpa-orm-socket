@@ -63,38 +63,105 @@ public class ThuocRepository extends AbstracGenericRepository<Thuoc,String> impl
         });
     }
 
-    public static void main(String[] args) {
-        ThuocRepository thuocRepository = new ThuocRepository();
-        System.out.println(thuocRepository.findAllActive());
-    }
-
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoNgay(Date ngay, int topN) {
-        return List.of();
+        return template.execute(em -> {
+            var query = em.createQuery(
+                            "SELECT new com.pillchill.migration.dto.ThongKeThuoc(t.maThuoc, t.tenThuoc, SUM(CAST(ct.soLuong AS long)), SUM(CAST(ct.soLuong * ct.donGia AS double))) " +
+                                    "FROM ChiTietHoaDon ct " +
+                                    "JOIN ct.thuoc t " +
+                                    "JOIN ct.hoaDon hd " +
+                                    "WHERE hd.ngayBan = :ngay " +
+                                    "GROUP BY t.maThuoc, t.tenThuoc " +
+                                    "ORDER BY SUM(ct.soLuong) DESC", ThongKeThuoc.class)
+                    .setParameter("ngay", ngay.toLocalDate());
+            if (topN > 0) {
+                query.setMaxResults(topN);
+            }
+            return new java.util.ArrayList<>(query.getResultList());
+        });
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoThang(int thang, int nam, int topN) {
-        return List.of();
+        return template.execute(em -> {
+            var query = em.createQuery(
+                            "SELECT new com.pillchill.migration.dto.ThongKeThuoc(t.maThuoc, t.tenThuoc, SUM(CAST(ct.soLuong AS long)), SUM(CAST(ct.soLuong * ct.donGia AS double))) " +
+                                    "FROM ChiTietHoaDon ct " +
+                                    "JOIN ct.thuoc t " +
+                                    "JOIN ct.hoaDon hd " +
+                                    "WHERE YEAR(hd.ngayBan) = :nam AND MONTH(hd.ngayBan) = :thang " +
+                                    "GROUP BY t.maThuoc, t.tenThuoc " +
+                                    "ORDER BY SUM(ct.soLuong) DESC", ThongKeThuoc.class)
+                    .setParameter("nam", nam)
+                    .setParameter("thang", thang);
+            if (topN > 0) {
+                query.setMaxResults(topN);
+            }
+            return new java.util.ArrayList<>(query.getResultList());
+        });
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoNam(int nam, int topN) {
-        return List.of();
+        return template.execute(em -> {
+            var query = em.createQuery(
+                            "SELECT new com.pillchill.migration.dto.ThongKeThuoc(t.maThuoc, t.tenThuoc, SUM(CAST(ct.soLuong AS long)), SUM(CAST(ct.soLuong * ct.donGia AS double))) " +
+                                    "FROM ChiTietHoaDon ct " +
+                                    "JOIN ct.thuoc t " +
+                                    "JOIN ct.hoaDon hd " +
+                                    "WHERE YEAR(hd.ngayBan) = :nam " +
+                                    "GROUP BY t.maThuoc, t.tenThuoc " +
+                                    "ORDER BY SUM(ct.soLuong) DESC", ThongKeThuoc.class)
+                    .setParameter("nam", nam);
+            if (topN > 0) {
+                query.setMaxResults(topN);
+            }
+            return new java.util.ArrayList<>(query.getResultList());
+        });
     }
 
     @Override
     public double getTongDoanhThuThuocTheoNgay(Date ngay) {
-        return 0;
+        return template.execute(em -> {
+            Double result = em.createQuery(
+                            "SELECT SUM(CAST(ct.soLuong * ct.donGia AS double)) " +
+                                    "FROM ChiTietHoaDon ct " +
+                                    "JOIN ct.hoaDon hd " +
+                                    "WHERE hd.ngayBan = :ngay", Double.class)
+                    .setParameter("ngay", ngay.toLocalDate())
+                    .getSingleResult();
+            return result != null ? result : 0.0;
+        });
     }
 
     @Override
     public double getTongDoanhThuThuocTheoThang(int thang, int nam) {
-        return 0;
+        return template.execute(em -> {
+            Double result = em.createQuery(
+                            "SELECT SUM(CAST(ct.soLuong * ct.donGia AS double)) " +
+                                    "FROM ChiTietHoaDon ct " +
+                                    "JOIN ct.hoaDon hd " +
+                                    "WHERE YEAR(hd.ngayBan) = :nam AND MONTH(hd.ngayBan) = :thang", Double.class)
+                    .setParameter("nam", nam)
+                    .setParameter("thang", thang)
+                    .getSingleResult();
+            return result != null ? result : 0.0;
+        });
     }
 
     @Override
     public double getTongDoanhThuThuocTheoNam(int nam) {
-        return 0;
+        return template.execute(em -> {
+            Double result = em.createQuery(
+                            "SELECT SUM(CAST(ct.soLuong * ct.donGia AS double)) " +
+                                    "FROM ChiTietHoaDon ct " +
+                                    "JOIN ct.hoaDon hd " +
+                                    "WHERE YEAR(hd.ngayBan) = :nam", Double.class)
+                    .setParameter("nam", nam)
+                    .getSingleResult();
+            return result != null ? result : 0.0;
+        });
     }
+
 }

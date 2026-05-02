@@ -74,33 +74,34 @@ public class ThuocService implements IThuocService {
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoNgay(Date ngay, int topN) {
-        return List.of();
+        return thuocRepository.thongKeThuocTheoNgay(ngay, topN);
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoThang(int thang, int nam, int topN) {
-        return List.of();
+        return thuocRepository.thongKeThuocTheoThang(thang, nam, topN);
     }
 
     @Override
     public List<ThongKeThuoc> thongKeThuocTheoNam(int nam, int topN) {
-        return List.of();
+        return thuocRepository.thongKeThuocTheoNam(nam, topN);
     }
 
     @Override
     public double getTongDoanhThuThuocTheoNgay(Date ngay) {
-        return 0;
+        return thuocRepository.getTongDoanhThuThuocTheoNgay(ngay);
     }
 
     @Override
     public double getTongDoanhThuThuocTheoThang(int thang, int nam) {
-        return 0;
+        return thuocRepository.getTongDoanhThuThuocTheoThang(thang, nam);
     }
 
     @Override
     public double getTongDoanhThuThuocTheoNam(int nam) {
-        return 0;
+        return thuocRepository.getTongDoanhThuThuocTheoNam(nam);
     }
+
 
     @Override
     public List<ThuocTheoLoView> getAllThuocTheoLo() {

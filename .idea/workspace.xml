@@ -7,23 +7,10 @@
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Procedure.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Procedure.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/LapHoaDonPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/LapHoaDonPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/NhapThuocPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/NhapThuocPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/XacNhanLapHoaDonFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/XacNhanLapHoaDonFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/LapHoaDonPanel$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/LapHoaDonPanel$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/LapHoaDonPanel$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/LapHoaDonPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/NhapThuocPanel$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/NhapThuocPanel$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/NhapThuocPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/XacNhanLapHoaDonFrame$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/XacNhanLapHoaDonFrame$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/XacNhanLapHoaDonFrame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/ThongKeThuoc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/ThongKeThuoc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/ThongKeTheoThuocPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/thongke/ThongKeTheoThuocPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/ThuocRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/ThuocRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/ThuocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/ThuocService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" afterDir="false" />
@@ -231,7 +218,8 @@
       <workItem from="1777562965666" duration="1648000" />
       <workItem from="1777604653017" duration="424000" />
       <workItem from="1777686635008" duration="11394000" />
-      <workItem from="1777721182806" duration="827000" />
+      <workItem from="1777721182806" duration="1018000" />
+      <workItem from="1777726347338" duration="1323000" />
     </task>
     <servers />
   </component>
