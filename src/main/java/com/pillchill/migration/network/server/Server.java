@@ -32,6 +32,7 @@ public class Server {
         dispatcher.register("THUOC", new ThuocCommandHandler(new ThuocService()));
         dispatcher.register("HOA_DON", new HoaDonCommandHandler());
         dispatcher.register("NHAN_VIEN", new NhanVienCommandHandler(new NhanVienJpaDAO()));
+        dispatcher.register("KHACH_HANG", new KhachHangCommandHandler(new KhachHangJpaDAO()));
         dispatcher.register("THONG_KE_NHAN_VIEN", new ThongKeNhanVienCommandHandler(new ThongKeNhanVienService()));
         dispatcher.register("CHUC_VU", new ChucVuCommandHandler(new ChucVuJpaDAO()));
         dispatcher.register("KHUYEN_MAI", new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO()));

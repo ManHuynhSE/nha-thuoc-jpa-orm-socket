@@ -6,12 +6,7 @@ import javax.swing.*;
 //import app.DAO.LoThuocDAO;
 //import app.DAO.NhanVienDAO;
 import com.pillchill.migration.gui.capnhat.*;
-import com.pillchill.migration.gui.thongke.ThongKeDoanhThuTheoNamPanel;
-import com.pillchill.migration.gui.thongke.ThongKeDoanhThuTheoThangPanel;
-import com.pillchill.migration.gui.thongke.ThongKeTheoNhanVienPanel;
-import com.pillchill.migration.gui.thongke.ThongKeTheoThuocPanel;
-import com.pillchill.migration.gui.thongke.ThongKeTheoKhachHangPanel;
-import com.pillchill.migration.gui.thongke.ThongKeTheoHSDPanel;
+import com.pillchill.migration.gui.thongke.*;
 import com.pillchill.migration.gui.timkiem.*;
 import com.pillchill.migration.network.client.*;
 
@@ -39,8 +34,8 @@ public class MainFrame extends JFrame {
     private ThongKeTheoHSDPanel thongKeTheoHSDPanel;
     private ThongKeTheoThuocPanel thongKeTheoThuocPanel;
     // private ThongKeTheoThuePanel thongKeTheoThuePanel;
-//     private TimKiemNhanVienPanel timKiemNhanVienPanel;
-//     private TimKiemChiTietLoThuocPanel timKiemChiTietLoThuocPanel;
+     private TimKiemNhanVienPanel timKiemNhanVienPanel;
+     private TimKiemChiTietLoThuocPanel timKiemChiTietLoThuocPanel;
     // private TaiKhoanPanel taiKhoanPanel;
     private CapNhatChucVuPanel capNhatChucVuPanel;
     // private XemPhieuNhapPanel xemPhieuNhapPanel;
@@ -50,6 +45,7 @@ public class MainFrame extends JFrame {
     private TimKiemPhieuDatPanel timKiemPhieuDatPanel;
     private TimKiemPhieuDoiTraPanel timKiemPhieuDoiTraPanel;
     private TimKiemPhieuNhapPanel timKiemPhieuNhapPanel;
+    private TimKiemHoaDonPanel timKiemHoaDonPanel;
 
     private boolean isQuanLy = false;
 
@@ -112,7 +108,7 @@ public class MainFrame extends JFrame {
         capNhatChucVuPanel = null;
         // xemPhieuNhapPanel = null;
         //
-        // danhMucHoaDonPanel = null;
+         timKiemHoaDonPanel = null;
         // danhMucPhieuDoiTra = null;
         // danhMucPhieuDat = null;
         timKiemThuocPanel = null;
@@ -245,18 +241,25 @@ public class MainFrame extends JFrame {
      showPanel(timKiemKhachHangPanel);
      }
     //
-    // public void showTimKiemNhanVienPanel() {
-    // if (timKiemNhanVienPanel == null) {
-    // timKiemNhanVienPanel = new TimKiemNhanVienPanel();
-    // }
-    // showPanel(timKiemNhanVienPanel);
-    // }
-    // public void showTimKiemChiTietLoThuocPanel() {
-    // if (timKiemChiTietLoThuocPanel == null) {
-    // timKiemChiTietLoThuocPanel = new TimKiemChiTietLoThuocPanel();
-    // }
-    // showPanel(timKiemChiTietLoThuocPanel);
-    // }
+     public void showTimKiemNhanVienPanel() {
+     if (timKiemNhanVienPanel == null) {
+     timKiemNhanVienPanel = new TimKiemNhanVienPanel(new NhanVienClientController(sessionContext));
+     }
+     showPanel(timKiemNhanVienPanel);
+     }
+     public void showTimKiemChiTietLoThuocPanel() {
+     if (timKiemChiTietLoThuocPanel == null) {
+     timKiemChiTietLoThuocPanel = new TimKiemChiTietLoThuocPanel(new ThuocClientController(sessionContext));
+     }
+     showPanel(timKiemChiTietLoThuocPanel);
+     }
+
+    public void showTimKiemHoaDon() {
+        if (timKiemHoaDonPanel == null) {
+            timKiemHoaDonPanel = new TimKiemHoaDonPanel(new HoaDonClientController(sessionContext));
+        }
+        showPanel(timKiemHoaDonPanel);
+    }
     //
     // public void showLapPhieuDatThuocPanel() {
     // if (lapPhieuDatThuocPanel == null) {

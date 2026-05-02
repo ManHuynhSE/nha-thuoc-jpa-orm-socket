@@ -6,10 +6,7 @@ import com.pillchill.migration.dto.HoaDonItemCommand;
 import com.pillchill.migration.dto.HoaDonView;
 import com.pillchill.migration.entity.HoaDon;
 import com.pillchill.migration.migration.HoaDonJpaDAO;
-import com.pillchill.migration.network.communication.HoaDonCreateItemPayload;
-import com.pillchill.migration.network.communication.HoaDonCreatePayload;
-import com.pillchill.migration.network.communication.Request;
-import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.*;
 import com.pillchill.migration.network.communication.command.HoaDonCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
@@ -45,6 +42,9 @@ public class HoaDonCommandHandler implements CommandHandler {
                 case LIST_ALL, GET_5_FIELD_ALL -> {
                     List<HoaDon> result = hoaDonJpaDAO.findAllActiveHoaDon();
                     yield Response.success(result, "Lấy danh sách hóa đơn thành công");
+                }
+                case LIST_ALL_VIEW -> {
+                    yield Response.success(hoaDonJpaDAO.getAllHoaDonViews(), "Tải danh sách hóa đơn thành công");
                 }
                 case GET_BY_ID -> {
                     String maHoaDon = (String) request.getData();
@@ -125,6 +125,25 @@ public class HoaDonCommandHandler implements CommandHandler {
                     );
                     hoaDonJpaDAO.addHoaDon(command);
                     yield Response.success(maHoaDon.trim(), "Tạo hóa đơn thành công");
+                }
+                case LIST_BY_MONTH_YEAR -> {
+                    if (!(request.getData() instanceof HoaDonFilterPayload payload)
+                            || payload.getMonth() == null || payload.getYear() == null) {
+                        yield Response.error("Payload lọc hóa đơn không hợp lệ");
+                    }
+                    yield Response.success(
+                            hoaDonJpaDAO.getHoaDonViewsByMonthYear(payload.getMonth(), payload.getYear()),
+                            "Tải danh sách hóa đơn theo tháng/năm thành công"
+                    );
+                }
+                case LIST_CHI_TIET -> {
+                    if (!(request.getData() instanceof String maHoaDon) || maHoaDon.isBlank()) {
+                        yield Response.error("Mã hóa đơn không hợp lệ");
+                    }
+                    yield Response.success(
+                            hoaDonJpaDAO.getChiTietHoaDonByMaHoaDon(maHoaDon),
+                            "Tải chi tiết hóa đơn thành công"
+                    );
                 }
             };
         } catch (IllegalArgumentException e) {

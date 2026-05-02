@@ -9,5 +9,6 @@ public enum ThuocCM {
     TONG_DOANH_THU_THUOC_THANG,
     TONG_DOANH_THU_THUOC_NAM,
     GET_BY_ID,
-    LIST_BY_LO
+    LIST_BY_LO,
+    LIST_CHI_TIET_LO,
 }

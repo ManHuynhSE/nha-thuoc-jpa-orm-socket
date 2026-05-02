@@ -125,7 +125,10 @@ public class ThuocService implements IThuocService {
 
     @Override
     public List<ChiTietLoThuocView> getAllChiTietLoThuoc() {
-        return List.of();
+        return chiTietLoThuocRepository.findAllActiveWithThuocAndLo()
+                .stream()
+                .map(this::toChiTietLoThuocView)
+                .toList();
     }
 
     private ThuocTheoLoView toThuocTheoLoView(ChiTietLoThuoc chiTietLoThuoc) {
@@ -142,4 +145,17 @@ public class ThuocService implements IThuocService {
                 maNSX
         );
     }
+    private ChiTietLoThuocView toChiTietLoThuocView(ChiTietLoThuoc chiTietLoThuoc) {
+        Thuoc thuoc = chiTietLoThuoc.getThuoc();
+        return new ChiTietLoThuocView(
+                chiTietLoThuoc.getLoThuoc().getMaLo(),
+                thuoc.getMaThuoc(),
+                thuoc.getTenThuoc(),
+                chiTietLoThuoc.getSoLuong(),
+                chiTietLoThuoc.getGiaNhap(),
+                chiTietLoThuoc.getNgaySanXuat(),
+                chiTietLoThuoc.getHanSuDung()
+        );
+    }
+
 }

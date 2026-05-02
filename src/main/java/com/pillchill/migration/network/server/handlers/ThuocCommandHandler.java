@@ -76,6 +76,9 @@ public class ThuocCommandHandler implements CommandHandler {
                 case LIST_BY_LO -> {
                     yield Response.success(thuocService.getAllThuocTheoLo(), "Tải danh sách thuốc theo lô thành công");
                 }
+                case LIST_CHI_TIET_LO -> {
+                    yield Response.success(thuocService.getAllChiTietLoThuoc(), "Tải danh sách chi tiết lô thuốc thành công");
+                }
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command thuốc không hỗ trợ: " + action);

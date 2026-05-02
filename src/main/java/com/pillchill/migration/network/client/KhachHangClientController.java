@@ -18,7 +18,7 @@ public class KhachHangClientController {
 
     public Response getAllKhachHang() {
         Request request = new Request(
-                "KHACH_HANG." + KhachHangCM.LIST_ALL.toString(),
+                "KHACH_HANG." + KhachHangCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
