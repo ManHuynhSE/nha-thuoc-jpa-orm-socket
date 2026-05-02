@@ -8,6 +8,8 @@ import javax.swing.*;
 import com.pillchill.migration.gui.capnhat.*;
 import com.pillchill.migration.gui.thongke.*;
 import com.pillchill.migration.gui.timkiem.*;
+import com.pillchill.migration.gui.xuly.LapHoaDonPanel;
+import com.pillchill.migration.gui.xuly.NhapThuocPanel;
 import com.pillchill.migration.network.client.*;
 
 public class MainFrame extends JFrame {
@@ -17,7 +19,7 @@ public class MainFrame extends JFrame {
     private MenuBarPanel menuBarPanel;
     private JPanel contentPanel;
      private TimKiemThuocPanel timKiemThuocPanel;
-    // private LapHoaDonPanel lapHoaDonPanel;
+     private LapHoaDonPanel lapHoaDonPanel;
     // private CapNhatKhachHangPanel capNhatKhachHangPanel;
     private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
@@ -25,7 +27,7 @@ public class MainFrame extends JFrame {
     // private CapNhatBangGiaPanel capNhatBangGiaPanel;
     private CapNhatKhuyenMaiPanel capNhatKhuyenMaiPanel;
     // private LapPhieuDatThuocPanel lapPhieuDatThuocPanel;
-    // private NhapThuocPanel nhapThuocPanel;
+     private NhapThuocPanel nhapThuocPanel;
     // private LapPhieuTraThuocPanel lapPhieuTraThuocPanel;
     private ThongKeDoanhThuTheoNamPanel thongKeTheoDoanhThuPanel;
     private ThongKeDoanhThuTheoThangPanel thongKeTheoDoanhThuTheoThangPanel;
@@ -151,15 +153,15 @@ public class MainFrame extends JFrame {
     // showPanel(timKiemThuocPanel);
     // }
     //
-    // public void showLapHoaDonPanel() {
-    // if (lapHoaDonPanel == null) {
-    // lapHoaDonPanel = new LapHoaDonPanel(maNhanVien);
-    // }
-    // // Luôn làm mới dữ liệu khi hiển thị panel này, bất kể là mới tạo hay đã tồn
-    // tại
-    // lapHoaDonPanel.reloadDataFromDatabase();
-    // showPanel(lapHoaDonPanel);
-    // }
+//     public void showLapHoaDonPanel() {
+//     if (lapHoaDonPanel == null) {
+//     lapHoaDonPanel = new LapHoaDonPanel(new ThuocClientController(sessionContext));
+//     }
+//     // Luôn làm mới dữ liệu khi hiển thị panel này, bất kể là mới tạo hay đã tồn
+//
+//     lapHoaDonPanel.reloadDataFromDatabase();
+//     showPanel(lapHoaDonPanel);
+//     }
     //
     // /**
     // * Trả về panel LapHoaDon hiện tại
@@ -276,12 +278,26 @@ public class MainFrame extends JFrame {
     // lapPhieuTraThuocPanel.reloadDataFromDatabase();
     // showPanel(lapPhieuTraThuocPanel);
     // }
-    // public void showNhapThuocPanel() {
-    // if (nhapThuocPanel == null) {
-    // nhapThuocPanel = new NhapThuocPanel();
-    // }
-    // showPanel(nhapThuocPanel);
-    // }
+
+    public void showLapHoaDonPanel() {
+        if (lapHoaDonPanel == null) {
+            lapHoaDonPanel = new LapHoaDonPanel(
+                    new ThuocClientController(sessionContext),
+                    new HoaDonClientController(sessionContext),
+                    new KhachHangClientController(sessionContext),
+                    new KhuyenMaiClientController(sessionContext),
+                    maNhanVien
+            );
+        }
+        lapHoaDonPanel.reloadDataFromDatabase();
+        showPanel(lapHoaDonPanel);
+    }
+     public void showNhapThuocPanel() {
+     if (nhapThuocPanel == null) {
+     nhapThuocPanel = new NhapThuocPanel(new PhieuNhapClientController(sessionContext));
+     }
+     showPanel(nhapThuocPanel);
+     }
     public void showThongKeTheoNhanVienPanel() {
         // if(!isQuanLy) {
         // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng

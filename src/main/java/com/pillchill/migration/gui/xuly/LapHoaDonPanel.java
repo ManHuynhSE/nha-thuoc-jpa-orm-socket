@@ -1,7 +1,8 @@
-package com.pillchill.migration.gui;
+package com.pillchill.migration.gui.xuly;
 
 import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.dto.ThuocTheoLoView;
+import com.pillchill.migration.gui.xuly.XacNhanLapHoaDonFrame;
 import com.pillchill.migration.network.client.HoaDonClientController;
 import com.pillchill.migration.network.client.KhachHangClientController;
 import com.pillchill.migration.network.client.KhuyenMaiClientController;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class LapHoaDonPanel extends JPanel implements HoaDonCallback {
+public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gui.HoaDonCallback {
     private final ThuocClientController thuocClientController;
     private final HoaDonClientController hoaDonClientController;
     private final KhachHangClientController khachHangClientController;

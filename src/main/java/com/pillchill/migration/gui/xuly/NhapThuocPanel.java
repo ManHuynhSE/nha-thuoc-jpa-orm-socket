@@ -1,4 +1,4 @@
-package com.pillchill.migration.gui;
+package com.pillchill.migration.gui.xuly;
 
 import com.pillchill.migration.dto.PhieuNhapImportItem;
 import com.pillchill.migration.network.client.PhieuNhapClientController;

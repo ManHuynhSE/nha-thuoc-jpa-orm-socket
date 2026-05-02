@@ -105,7 +105,7 @@ public class MenuBarPanel extends JPanel implements ActionListener {
 
         JLabel lblUserIcon = new JLabel(loadIcon("/resources/icon/profile.png")); // Icon user 
         JLabel lblWelcome = new JLabel("Chào, ");
-        JLabel lblName = new JLabel("null");
+        JLabel lblName = new JLabel("Nhân viên: "+maNV);
         
         lblWelcome.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lblWelcome.setForeground(Color.GRAY);
@@ -279,10 +279,10 @@ public class MenuBarPanel extends JPanel implements ActionListener {
         else if (o == mniPhieuDoiTra) parentFrame.showDanhMucPhieuDoiTraPanel();
         
 //        // --- Xử lý ---
-//        else if (o == mniLapHoaDon) parentFrame.showLapHoaDonPanel();
+        else if (o == mniLapHoaDon) parentFrame.showLapHoaDonPanel();
 //        else if (o == mniLapPhieuDatThuoc) parentFrame.showLapPhieuDatThuocPanel();
 //        else if (o == mniLapPhieuTraThuoc) parentFrame.showLapPhieuDoiThuocPanel();
-//        else if (o == mniNhapThuoc) parentFrame.showNhapThuocPanel();
+        else if (o == mniNhapThuoc) parentFrame.showNhapThuocPanel();
 //
 //        // --- Thống kê ---
        else if (o == mniDoanhThuTheoThang) parentFrame.showThongKeTheoDoanhThuPanelTheoThang();
