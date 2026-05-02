@@ -51,4 +51,8 @@ public class KhuyenMaiJpaDAO {
         existing.setActive(false);
         khuyenMaiRepository.updateKhuyenMai(existing);
     }
+
+    public KhuyenMai getKhuyenMaiById(String maKhuyenMai) {
+        return khuyenMaiRepository.findById(maKhuyenMai);
+    }
 }

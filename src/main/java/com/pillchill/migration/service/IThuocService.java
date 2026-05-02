@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
+import com.pillchill.migration.dto.ThuocTheoLoView;
 import com.pillchill.migration.entity.Thuoc;
 
 public interface IThuocService {
@@ -26,4 +27,6 @@ public interface IThuocService {
     double getTongDoanhThuThuocTheoThang(int thang, int nam);
 
     double getTongDoanhThuThuocTheoNam(int nam);
+
+    List<ThuocTheoLoView> getAllThuocTheoLo();
 }

@@ -71,4 +71,28 @@ public class KhuyenMaiClientController {
         );
         return sessionContext.getNetworkClient().send(request);
     }
+
+    public Response findByMa(String maKhuyenMai) {
+        Request request = new Request(
+            "KHUYEN_MAI." + KhuyenMaiCM.FIND_BY_MA.name(),
+                maKhuyenMai,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public KhuyenMai findByMaItem(String maKhuyenMai) {
+        Response response = findByMa(maKhuyenMai);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (data == null) {
+            return null;
+        }
+        if (!(data instanceof KhuyenMai khuyenMai)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+        return khuyenMai;
+    }
 }

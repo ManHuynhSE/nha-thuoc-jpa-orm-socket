@@ -1,14 +1,20 @@
 package com.pillchill.migration.network.server.handlers;
 
 import com.pillchill.migration.dto.ChiTietHoaDonView;
+import com.pillchill.migration.dto.CreateHoaDonCommand;
+import com.pillchill.migration.dto.HoaDonItemCommand;
 import com.pillchill.migration.dto.HoaDonView;
 import com.pillchill.migration.entity.HoaDon;
 import com.pillchill.migration.migration.HoaDonJpaDAO;
+import com.pillchill.migration.network.communication.HoaDonCreateItemPayload;
+import com.pillchill.migration.network.communication.HoaDonCreatePayload;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.HoaDonCM;
 import com.pillchill.migration.network.server.CommandHandler;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,10 +78,53 @@ public class HoaDonCommandHandler implements CommandHandler {
                     yield Response.success(result, "Lấy danh sách tháng có hóa đơn thành công");
                 }
                 case GET_LATEST -> {
-                    return Response.success(
+                    yield Response.success(
                             hoaDonJpaDAO.getLatestHoaDon(),
                             "Lấy mã hóa đơn mới nhất thành công"
                     );
+                }
+                case CREATE -> {
+                    if (!(request.getData() instanceof HoaDonCreatePayload payload)
+                            || payload.getItems() == null
+                            || payload.getItems().isEmpty()) {
+                        yield Response.error("Payload tạo hóa đơn không hợp lệ");
+                    }
+                    String maHoaDon = payload.getMaHoaDon();
+                    if (maHoaDon == null || maHoaDon.isBlank()) {
+                        yield Response.error("Mã hóa đơn không hợp lệ");
+                    }
+
+                    List<HoaDonItemCommand> items = new ArrayList<>();
+                    for (HoaDonCreateItemPayload item : payload.getItems()) {
+                        if (item == null
+                                || item.getMaThuoc() == null
+                                || item.getMaThuoc().isBlank()
+                                || item.getMaLo() == null
+                                || item.getMaLo().isBlank()
+                                || item.getSoLuong() <= 0) {
+                            yield Response.error("Chi tiết hóa đơn không hợp lệ");
+                        }
+                        items.add(new HoaDonItemCommand(
+                                item.getMaThuoc().trim(),
+                                item.getMaLo().trim(),
+                                item.getSoLuong(),
+                                item.getDonGia()
+                        ));
+                    }
+
+                    CreateHoaDonCommand command = new CreateHoaDonCommand(
+                            maHoaDon.trim(),
+                            LocalDate.now(),
+                            payload.getGhiChu(),
+                            request.getSessionUserId(),
+                            payload.getMaKhachHang(),
+                            payload.getMaKhuyenMai(),
+                            0.10d,
+                            "VAT 10%",
+                            items
+                    );
+                    hoaDonJpaDAO.addHoaDon(command);
+                    yield Response.success(maHoaDon.trim(), "Tạo hóa đơn thành công");
                 }
             };
         } catch (IllegalArgumentException e) {

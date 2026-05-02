@@ -6,9 +6,13 @@ import java.util.Optional;
 
 import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
+import com.pillchill.migration.dto.ThuocTheoLoView;
+import com.pillchill.migration.entity.ChiTietLoThuoc;
 import com.pillchill.migration.entity.Thuoc;
+import com.pillchill.migration.repository.IChiTietLoThuocRepository;
 import com.pillchill.migration.repository.IGiaThuocRepository;
 import com.pillchill.migration.repository.IThuocRepository;
+import com.pillchill.migration.repository.impl.ChiTietLoThuocRepository;
 import com.pillchill.migration.repository.impl.GiaThuocRepository;
 import com.pillchill.migration.repository.impl.ThuocRepository;
 import com.pillchill.migration.service.IThuocService;
@@ -16,13 +20,12 @@ import com.pillchill.migration.service.IThuocService;
 public class ThuocService implements IThuocService {
     private final IThuocRepository thuocRepository;
     private final IGiaThuocRepository giaThuocRepository;
+    private final IChiTietLoThuocRepository chiTietLoThuocRepository;
 
-    public ThuocService(IThuocRepository thuocRepository, IGiaThuocRepository giaThuocRepository) {
-        this.thuocRepository = thuocRepository;
-        this.giaThuocRepository = giaThuocRepository;
-    }
+
 
     public ThuocService() {
+        this.chiTietLoThuocRepository = new ChiTietLoThuocRepository();
         this.thuocRepository = new ThuocRepository();
         this.giaThuocRepository = new GiaThuocRepository();
     }
@@ -89,5 +92,28 @@ public class ThuocService implements IThuocService {
     @Override
     public double getTongDoanhThuThuocTheoNam(int nam) {
         return 0;
+    }
+
+    @Override
+    public List<ThuocTheoLoView> getAllThuocTheoLo() {
+            return chiTietLoThuocRepository.findAllActiveWithThuocAndLo()
+                    .stream()
+                    .map(this::toThuocTheoLoView)
+                    .toList();
+    }
+
+    private ThuocTheoLoView toThuocTheoLoView(ChiTietLoThuoc chiTietLoThuoc) {
+        Thuoc thuoc = chiTietLoThuoc.getThuoc();
+        String maDonVi = thuoc.getDonVi() == null ? null : thuoc.getDonVi().getTenDonVi();
+        String maNSX = thuoc.getNhaSanXuat() == null ? null : thuoc.getNhaSanXuat().getTenNSX();
+        return new ThuocTheoLoView(
+                thuoc.getMaThuoc(),
+                thuoc.getTenThuoc(),
+                chiTietLoThuoc.getLoThuoc().getMaLo(),
+                chiTietLoThuoc.getHanSuDung(),
+                chiTietLoThuoc.getSoLuong(),
+                maDonVi,
+                maNSX
+        );
     }
 }

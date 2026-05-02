@@ -599,7 +599,7 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
         }
 
         try {
-            khuyenMaiApDung = khuyenMaiClientController.findByMaItem(maKhuyenMai);
+//            khuyenMaiApDung = khuyenMaiClientController.findByMaItem(maKhuyenMai);
             if (khuyenMaiApDung != null) {
                 // Validate if promotion is effective
                 if (!isPromotionValid(khuyenMaiApDung)) {

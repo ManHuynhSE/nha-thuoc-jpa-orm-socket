@@ -3,6 +3,7 @@ package com.pillchill.migration.network.client;
 import com.pillchill.migration.dto.HoaDonKemGiaDTO;
 import com.pillchill.migration.entity.ChiTietHoaDon;
 import com.pillchill.migration.entity.HoaDon;
+import com.pillchill.migration.network.communication.HoaDonCreatePayload;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.HoaDonCM;
@@ -52,6 +53,15 @@ public class HoaDonClientController {
         );
         return sessionContext.getNetworkClient().send(request);
     }
+    public Response createHoaDon(HoaDonCreatePayload payload) {
+        Request request = new Request(
+                "HOA_DON." + HoaDonCM.CREATE,
+                payload,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
 
 
     public List<HoaDon> getAllHoaDon() {
@@ -73,6 +83,8 @@ public class HoaDonClientController {
     public List<HoaDon> getAllHoaDon5Field() {
         return mapListResponse(send(HoaDonCM.GET_5_FIELD_ALL, null), HoaDon.class);
     }
+
+
 
     public List<HoaDon> getAllHoaDon5Field(String maThuoc) {
         return mapListResponse(send(HoaDonCM.GET_5_FIELD_BY_THUOC, maThuoc), HoaDon.class);

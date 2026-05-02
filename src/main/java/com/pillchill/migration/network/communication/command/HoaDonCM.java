@@ -10,4 +10,5 @@ public enum HoaDonCM {
     GET_NAM_CO_HOA_DON,
     GET_THANG_CO_HOA_DON_TRONG_NAM,
     GET_LATEST,
+    CREATE
 }

@@ -4,5 +4,6 @@ public enum KhuyenMaiCM {
     LIST_ALL,
     CREATE,
     UPDATE,
-    DELETE
+    DELETE,
+    FIND_BY_MA
 }

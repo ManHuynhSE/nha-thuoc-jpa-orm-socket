@@ -34,9 +34,23 @@ public class KhuyenMaiCommandHandler implements CommandHandler {
                 case CREATE -> handleAdd(request);
                 case UPDATE -> handleUpdate(request);
                 case DELETE -> handleDelete(request);
+                case FIND_BY_MA -> handleFindByMa(request);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command khuyến mãi không hỗ trợ: " + action);
+        }
+    }
+
+    private Response handleFindByMa(Request request) {
+        Object data = request.getData();
+        if (!(data instanceof String maKhuyenMai) || maKhuyenMai.isBlank()) {
+            return Response.error("Mã khuyến mãi không hợp lệ");
+        }
+        try {
+            KhuyenMai khuyenMai = khuyenMaiJpaDAO.getKhuyenMaiById(maKhuyenMai);
+            return Response.success(khuyenMai, khuyenMai != null ? "Tìm khuyến mãi thành công" : "Không tìm thấy khuyến mãi");
+        } catch (Exception e) {
+            return Response.error("Không thể tìm khuyến mãi: " + e.getMessage());
         }
     }
 
