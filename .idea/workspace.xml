@@ -7,12 +7,23 @@
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Procedure.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Procedure.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/XacNhanLapHoaDonFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/XacNhanLapHoaDonFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/HoaDonClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/HoaDonClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/HoaDonCM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/HoaDonCM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/HoaDonCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/HoaDonCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/ThuocCommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/capnhat/CapNhatThuocPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/timkiem/TimKiemChiTietLoThuocPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/timkiem/TimKiemHoaDonPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/timkiem/TimKiemNhanVienPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/HoaDonJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/HoaDonJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/KhuyenMaiJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/KhuyenMaiJpaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/CommandDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/CommandDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/KhuyenMaiCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/KhuyenMaiCommandHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IKhuyenMaiRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IKhuyenMaiRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IThuocRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/IThuocRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/KhuyenMaiRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/repository/impl/KhuyenMaiRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IKhuyenMaiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IKhuyenMaiService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IThuocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IThuocService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/KhuyenMaiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/KhuyenMaiService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/ThuocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/ThuocService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" afterDir="false" />
@@ -56,6 +67,7 @@
     "Application.DangNhapFrame.executor": "Run",
     "Application.HoaDonRepository.executor": "Run",
     "Application.KhachHangRepository.executor": "Run",
+    "Application.KhuyenMaiJpaDAO.executor": "Run",
     "Application.PrototypeClientApp.executor": "Run",
     "Application.PrototypeServerApp.executor": "Run",
     "Application.Server.executor": "Run",
@@ -73,7 +85,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/LTPT_Java/project/nha-thuoc-pill-and-chill-java-swing/jpa-orm-migration",
+    "last_opened_file_path": "C:/LTPT_Java/project/nha-thuoc-pill-and-chill-java-swing/jpa-orm-migration/src/main/java/com/pillchill/migration/gui/timkiem",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
@@ -89,11 +101,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\gui\timkiem" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\gui\xuly" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\network\server\handlers" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\network\server" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\network\client" />
-      <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\gui" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.pillchill.migration" />
@@ -146,6 +158,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="KhuyenMaiJpaDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.migration.KhuyenMaiJpaDAO" />
+      <module name="jpa-orm-migration" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pillchill.migration.migration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.TestServer" />
       <module name="jpa-orm-migration" />
@@ -159,26 +184,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ThuocService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.service.impl.ThuocService" />
-      <module name="jpa-orm-migration" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.pillchill.migration.service.impl.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
         <item itemvalue="Application.TestServer" />
+        <item itemvalue="Application.KhuyenMaiJpaDAO" />
         <item itemvalue="Application.HoaDonRepository" />
         <item itemvalue="Application.KhachHangRepository" />
-        <item itemvalue="Application.ThuocService" />
       </list>
     </recent_temporary>
   </component>
@@ -219,7 +231,7 @@
       <workItem from="1777545446914" duration="4973000" />
       <workItem from="1777562965666" duration="1648000" />
       <workItem from="1777604653017" duration="424000" />
-      <workItem from="1777686635008" duration="1627000" />
+      <workItem from="1777686635008" duration="4471000" />
     </task>
     <servers />
   </component>

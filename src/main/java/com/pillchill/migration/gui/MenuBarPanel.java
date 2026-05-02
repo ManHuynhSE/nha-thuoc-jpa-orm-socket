@@ -262,21 +262,21 @@ public class MenuBarPanel extends JPanel implements ActionListener {
         // --- Cập nhật ---
 //        if (o == mniCapNhatKhachHang) parentFrame.showCapNhatKhachHangPanel();
          if (o == mniCapNhatNhanVien) parentFrame.showCapNhatNhanVienPanel();
-         else if (o == mniCapNhatThuoc) parentFrame.showCapNhatThuocPanel();
+//         else if (o == mniCapNhatThuoc) parentFrame.showCapNhatThuocPanel();
         else if (o == mniCapNhatKhuyenMai) parentFrame.showCapNhatKhuyenMaiPanel();
         else if (o == mniCapNhatChucVu) parentFrame.showCapNhatChucVuPanel();
         else if (o == mniCapNhatDonVi) parentFrame.showCapNhatDonViPanel();
-//        else if (o == mniXemPhieuNhap) parentFrame.showPhieuNhap();
+        else if (o == mniXemPhieuNhap) parentFrame.showPhieuNhapPanel();
 //        else if (o == mniCapNhatBangGia) parentFrame.showCapNhatBangGiaPanel();
         
         // --- Tìm kiếm ---
-//        else if (o == mniTimKiemThuoc) parentFrame.showTimKiemThuocPanel();
-//        else if (o == mniTimKiemKhachHang) parentFrame.showTimKiemKhachHangPanel();
+        else if (o == mniTimKiemThuoc) parentFrame.showTimKiemThuocPanel();
+        else if (o == mniTimKiemKhachHang) parentFrame.showTimKiemKhachHangPanel();
 //        else if (o == mniTimKiemNhanVien) parentFrame.showTimKiemNhanVienPanel();
 //        else if (o == mniTimKiemChiTietLoThuoc) parentFrame.showTimKiemChiTietLoThuocPanel();
 //        else if (o == mniHoaDon) parentFrame.showDanhMucHoaDonPanel();
-//        else if (o == mniPhieuDatThuoc) parentFrame.showDanhMucPhieuDatThuocPanel();
-//        else if (o == mniPhieuDoiTra) parentFrame.showDanhMucPhieuDoiTraPanel();
+        else if (o == mniPhieuDatThuoc) parentFrame.showDanhMucPhieuDatThuocPanel();
+        else if (o == mniPhieuDoiTra) parentFrame.showDanhMucPhieuDoiTraPanel();
         
 //        // --- Xử lý ---
 //        else if (o == mniLapHoaDon) parentFrame.showLapHoaDonPanel();

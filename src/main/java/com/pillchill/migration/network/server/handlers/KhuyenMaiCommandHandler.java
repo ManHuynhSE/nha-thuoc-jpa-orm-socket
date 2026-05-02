@@ -112,4 +112,6 @@ public class KhuyenMaiCommandHandler implements CommandHandler {
             return Response.error("Không thể xóa khuyến mãi: " + e.getMessage());
         }
     }
+
+
 }

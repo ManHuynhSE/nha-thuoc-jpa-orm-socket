@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface IKhuyenMaiService {
     List<KhuyenMai> getAllKhuyenMai();
 
-    Optional<KhuyenMai> getKhuyenMaiById(String maKM);
+    KhuyenMai getKhuyenMaiById(String maKM);
 
     KhuyenMai createKhuyenMai(KhuyenMai khuyenMai);
 

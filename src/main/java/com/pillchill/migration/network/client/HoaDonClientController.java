@@ -47,7 +47,7 @@ public class HoaDonClientController {
     }
     public Response getHoaDonGanNhat() {
         Request request = new Request(
-                "HOA_DON." + HoaDonCM.GET_LATEST,
+                "HOA_DON." + HoaDonCM.GET_LATEST.name(),
                 "",
                 sessionContext.getUserId()
         );
@@ -55,7 +55,7 @@ public class HoaDonClientController {
     }
     public Response createHoaDon(HoaDonCreatePayload payload) {
         Request request = new Request(
-                "HOA_DON." + HoaDonCM.CREATE,
+                "HOA_DON." + HoaDonCM.CREATE.name(),
                 payload,
                 sessionContext.getUserId()
         );

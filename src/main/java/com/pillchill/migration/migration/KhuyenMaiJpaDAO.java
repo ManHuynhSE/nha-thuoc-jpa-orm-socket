@@ -55,4 +55,10 @@ public class KhuyenMaiJpaDAO {
     public KhuyenMai getKhuyenMaiById(String maKhuyenMai) {
         return khuyenMaiRepository.findById(maKhuyenMai);
     }
+
+
+    public static void main(String[] args) {
+        KhuyenMaiJpaDAO khuyenMaiJpaDAO = new KhuyenMaiJpaDAO();
+        System.out.println(khuyenMaiJpaDAO.getAllKhuyenMai());
+    }
 }

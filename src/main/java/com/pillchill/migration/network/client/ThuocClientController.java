@@ -51,7 +51,7 @@ public class ThuocClientController {
 
     public Response getAllThuocByLo() {
         Request request = new Request(
-                "THUOC." + ThuocCM.LIST_BY_LO,
+                "THUOC." + ThuocCM.LIST_BY_LO.name(),
                 null,
                 sessionContext.getUserId()
         );

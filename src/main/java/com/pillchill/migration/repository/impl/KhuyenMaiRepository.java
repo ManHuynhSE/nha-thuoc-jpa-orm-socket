@@ -4,6 +4,7 @@ import com.pillchill.migration.entity.KhuyenMai;
 import com.pillchill.migration.repository.IKhuyenMaiRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class KhuyenMaiRepository extends AbstracGenericRepository<KhuyenMai, String> implements IKhuyenMaiRepository {
     public KhuyenMaiRepository() {
@@ -21,17 +22,34 @@ public class KhuyenMaiRepository extends AbstracGenericRepository<KhuyenMai, Str
     }
 
     @Override
-    public boolean deleteKhuyenMai(String maKhuyenMai) {
-        return delete(maKhuyenMai);
-    }
-
-    @Override
     public KhuyenMai findById(String maKhuyenMai) {
         return findByID(maKhuyenMai);
     }
 
+
     @Override
     public List<KhuyenMai> loadAllKhuyenMai() {
         return loadAll();
+    }
+
+    @Override
+    public List<KhuyenMai> findAllActive() {
+        return List.of();
+    }
+
+    @Override
+    public long countActive() {
+        return 0;
+    }
+
+    @Override
+    public boolean deactivateKhuyenMai(String maKM) {
+        return false;
+    }
+
+
+    @Override
+    public boolean isValid(String maKM) {
+        return false;
     }
 }

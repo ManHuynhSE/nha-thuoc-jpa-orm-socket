@@ -19,7 +19,7 @@ public class PhieuDatClientController {
 
     public Response getAllPhieuDat() {
         Request request = new Request(
-                "PHIEU_DAT." + PhieuDatCM.LIST_ALL,
+                "PHIEU_DAT." + PhieuDatCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
@@ -28,7 +28,7 @@ public class PhieuDatClientController {
 
     public Response getPhieuDatByMonthYear(int month, int year) {
         Request request = new Request(
-                "PHIEU_DAT." + PhieuDatCM.LIST_BY_MONTH_YEAR,
+                "PHIEU_DAT." + PhieuDatCM.LIST_BY_MONTH_YEAR.name(),
                 new PhieuDatFilterPayload(month, year),
                 sessionContext.getUserId()
         );
@@ -37,7 +37,7 @@ public class PhieuDatClientController {
 
     public Response getChiTietPhieuDatByMaPhieuDat(String maPhieuDat) {
         Request request = new Request(
-                "PHIEU_DAT." + PhieuDatCM.LIST_CHI_TIET,
+                "PHIEU_DAT." + PhieuDatCM.LIST_CHI_TIET.name(),
                 maPhieuDat,
                 sessionContext.getUserId()
         );

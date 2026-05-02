@@ -27,7 +27,7 @@ public class KhachHangClientController {
 
     public Response createKhachHang(KhachHangPayload payload) {
         Request request = new Request(
-                "KHACH_HANG." + KhachHangCM.CREATE,
+                "KHACH_HANG." + KhachHangCM.CREATE.name(),
                 payload,
                 sessionContext.getUserId()
         );
@@ -36,7 +36,7 @@ public class KhachHangClientController {
 
     public Response updateKhachHang(KhachHangPayload payload) {
         Request request = new Request(
-                "KHACH_HANG." + KhachHangCM.UPDATE,
+                "KHACH_HANG." + KhachHangCM.UPDATE.name(),
                 payload,
                 sessionContext.getUserId()
         );
@@ -45,7 +45,7 @@ public class KhachHangClientController {
 
     public Response deleteKhachHang(String maKH) {
         Request request = new Request(
-                "KHACH_HANG." + KhachHangCM.DELETE,
+                "KHACH_HANG." + KhachHangCM.DELETE.name(),
                 maKH,
                 sessionContext.getUserId()
         );
@@ -74,7 +74,7 @@ public class KhachHangClientController {
 
     public Response findByPhone(String phone) {
         Request request = new Request(
-                "KHACH_HANG." + KhachHangCM.FIND_BY_PHONE,
+                "KHACH_HANG." + KhachHangCM.FIND_BY_PHONE.name(),
                 phone,
                 sessionContext.getUserId()
         );
@@ -83,7 +83,7 @@ public class KhachHangClientController {
 
     public Response findByMa(String maKH) {
         Request request = new Request(
-                "KHACH_HANG." + KhachHangCM.FIND_BY_MA,
+                "KHACH_HANG." + KhachHangCM.FIND_BY_MA.name(),
                 maKH,
                 sessionContext.getUserId()
         );

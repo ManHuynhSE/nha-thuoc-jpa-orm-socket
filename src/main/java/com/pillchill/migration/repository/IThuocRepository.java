@@ -27,4 +27,6 @@ public interface IThuocRepository extends GenericRepository<Thuoc,String> {
     double getTongDoanhThuThuocTheoThang(int thang, int nam);
 
     double getTongDoanhThuThuocTheoNam(int nam);
+
+    public boolean deactivateThuoc(String maThuoc);
 }

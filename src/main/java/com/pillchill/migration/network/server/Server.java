@@ -1,21 +1,7 @@
 package com.pillchill.migration.network.server;
 
-import com.pillchill.migration.migration.ChucVuJpaDAO;
-import com.pillchill.migration.migration.DonViJpaDAO;
-import com.pillchill.migration.migration.KhuyenMaiJpaDAO;
-import com.pillchill.migration.migration.NhanVienJpaDAO;
-import com.pillchill.migration.migration.TaiKhoanJpaDAO;
-import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
-import com.pillchill.migration.network.server.handlers.ChucVuCommandHandler;
-import com.pillchill.migration.network.server.handlers.DoanhThuCommandHandler;
-import com.pillchill.migration.network.server.handlers.DonViCommandHandler;
-import com.pillchill.migration.network.server.handlers.HoaDonCommandHandler;
-import com.pillchill.migration.network.server.handlers.KhuyenMaiCommandHandler;
-import com.pillchill.migration.network.server.handlers.NhanVienCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThuocCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThongKeNhanVienCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThongKeKhachHangCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThongKeHSDCommandHandler;
+import com.pillchill.migration.migration.*;
+import com.pillchill.migration.network.server.handlers.*;
 import com.pillchill.migration.service.impl.DoanhThuService;
 import com.pillchill.migration.service.impl.ThongKeNhanVienService;
 import com.pillchill.migration.service.impl.ThongKeKhachHangService;
@@ -53,6 +39,9 @@ public class Server {
         dispatcher.register("DOANH_THU", new DoanhThuCommandHandler(new DoanhThuService()));
         dispatcher.register("THONG_KE_KHACH_HANG", new ThongKeKhachHangCommandHandler(new ThongKeKhachHangService()));
         dispatcher.register("THONG_KE_HSD", new ThongKeHSDCommandHandler(new ThongKeHSDService()));
+        dispatcher.register("PHIEU_DAT", new PhieuDatCommandHandler(new PhieuDatJpaDAO()));
+        dispatcher.register("PHIEU_DOI_TRA", new PhieuDoiTraCommandHandler(new PhieuDoiTraJpaDAO()));
+        dispatcher.register("PHIEU_NHAP", new PhieuNhapCommandHandler(new PhieuNhapJpaDAO()));
     }
 
     public void start() {

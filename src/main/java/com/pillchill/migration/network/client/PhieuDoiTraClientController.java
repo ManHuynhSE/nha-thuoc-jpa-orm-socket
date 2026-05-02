@@ -19,7 +19,7 @@ public class PhieuDoiTraClientController {
 
     public Response getAllPhieuDoiTra() {
         Request request = new Request(
-                "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_ALL,
+                "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
@@ -28,7 +28,7 @@ public class PhieuDoiTraClientController {
 
     public Response getPhieuDoiTraByMonthYear(int month, int year) {
         Request request = new Request(
-                "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_BY_MONTH_YEAR,
+                "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_BY_MONTH_YEAR.name(),
                 new PhieuDoiTraFilterPayload(month, year),
                 sessionContext.getUserId()
         );
@@ -37,7 +37,7 @@ public class PhieuDoiTraClientController {
 
     public Response getChiTietPhieuDoiTraByMaPhieuDoiTra(String maPhieuDoiTra) {
         Request request = new Request(
-                "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_CHI_TIET,
+                "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_CHI_TIET.name(),
                 maPhieuDoiTra,
                 sessionContext.getUserId()
         );

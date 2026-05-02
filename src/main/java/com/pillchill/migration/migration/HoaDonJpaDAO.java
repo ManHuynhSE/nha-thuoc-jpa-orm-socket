@@ -66,7 +66,7 @@ public class HoaDonJpaDAO {
     public ArrayList<HoaDon> findAllActiveHoaDon() {
         return new ArrayList<>(hoaDonService.getAllHoaDonViews()
                 .stream()
-                .map(view -> hoaDonService.getHoaDonById(view.maHoaDon())
+                .map(view -> hoaDonService.getHoaDonById(view.getMaHoaDon())
                         .orElse(null))
                 .filter(h -> h != null)
                 .toList());

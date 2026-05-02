@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.pillchill.migration.dto.ChiTietLoThuocView;
 import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.dto.ThuocTheoLoView;
@@ -29,4 +30,14 @@ public interface IThuocService {
     double getTongDoanhThuThuocTheoNam(int nam);
 
     List<ThuocTheoLoView> getAllThuocTheoLo();
+
+    Thuoc createThuoc(Thuoc thuoc);
+
+    Thuoc createThuoc(Thuoc thuoc, double giaBanCoSo);
+
+    Thuoc updateThuoc(Thuoc thuoc);
+
+    boolean deactivateThuoc(String maThuoc);
+
+    List<ChiTietLoThuocView> getAllChiTietLoThuoc();
 }

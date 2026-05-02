@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.pillchill.migration.dto.ChiTietLoThuocView;
 import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
 import com.pillchill.migration.dto.ThuocTheoLoView;
@@ -100,6 +101,31 @@ public class ThuocService implements IThuocService {
                     .stream()
                     .map(this::toThuocTheoLoView)
                     .toList();
+    }
+
+    @Override
+    public Thuoc createThuoc(Thuoc thuoc) {
+        return null;
+    }
+
+    @Override
+    public Thuoc createThuoc(Thuoc thuoc, double giaBanCoSo) {
+        return null;
+    }
+
+    @Override
+    public Thuoc updateThuoc(Thuoc thuoc) {
+        return null;
+    }
+
+    @Override
+    public boolean deactivateThuoc(String maThuoc) {
+        return false;
+    }
+
+    @Override
+    public List<ChiTietLoThuocView> getAllChiTietLoThuoc() {
+        return List.of();
     }
 
     private ThuocTheoLoView toThuocTheoLoView(ChiTietLoThuoc chiTietLoThuoc) {

@@ -20,7 +20,7 @@ public class PhieuNhapClientController {
 
     public Response getAllPhieuNhap() {
         Request request = new Request(
-                "PHIEU_NHAP." + PhieuNhapCM.LIST_ALL,
+                "PHIEU_NHAP." + PhieuNhapCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
@@ -29,7 +29,7 @@ public class PhieuNhapClientController {
 
     public Response getChiTietPhieuNhapByMaPhieuNhap(String maPhieuNhapThuoc) {
         Request request = new Request(
-                "PHIEU_NHAP." + PhieuNhapCM.LIST_CHI_TIET,
+                "PHIEU_NHAP." + PhieuNhapCM.LIST_CHI_TIET.name(),
                 maPhieuNhapThuoc,
                 sessionContext.getUserId()
         );
@@ -38,7 +38,7 @@ public class PhieuNhapClientController {
 
     public Response importFromExcel(List<PhieuNhapImportItem> items) {
         Request request = new Request(
-                "PHIEU_NHAP." + PhieuNhapCM.IMPORT_FROM_EXCEL,
+                "PHIEU_NHAP." + PhieuNhapCM.IMPORT_FROM_EXCEL.name(),
                 new PhieuNhapImportPayload(items),
                 sessionContext.getUserId()
         );

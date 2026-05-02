@@ -25,7 +25,7 @@ public class KhuyenMaiService implements IKhuyenMaiService {
     }
 
     @Override
-    public Optional<KhuyenMai> getKhuyenMaiById(String maKM) {
+    public KhuyenMai getKhuyenMaiById(String maKM) {
         return khuyenMaiRepository.findById(maKM);
     }
 
@@ -34,12 +34,12 @@ public class KhuyenMaiService implements IKhuyenMaiService {
         if (khuyenMai != null && !khuyenMai.isActive()) {
             khuyenMai.setActive(true);
         }
-        return khuyenMaiRepository.create(khuyenMai);
+        return khuyenMaiRepository.createKhuyenMai(khuyenMai);
     }
 
     @Override
     public KhuyenMai updateKhuyenMai(KhuyenMai khuyenMai) {
-        return khuyenMaiRepository.update(khuyenMai);
+        return khuyenMaiRepository.updateKhuyenMai(khuyenMai);
     }
 
     @Override
@@ -54,11 +54,11 @@ public class KhuyenMaiService implements IKhuyenMaiService {
 
     @Override
     public KhuyenMai findByMa(String maKM) {
-        return khuyenMaiRepository.findByMa(maKM);
+      return null;
     }
 
     @Override
     public boolean isValid(String maKM) {
-        return khuyenMaiRepository.isValid(maKM);
+        return false;
     }
 }

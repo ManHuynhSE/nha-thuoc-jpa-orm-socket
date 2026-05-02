@@ -23,6 +23,7 @@ public class CommandDispatcher {
         String[] parts = req.getCommand().split("\\.", 2);
         if (parts.length != 2) return Response.error("commandKey không hợp lệ");
         CommandHandler handler = domainHandlers.get(parts[0]);
+        System.out.println(domainHandlers.get(parts[0]));
         if (handler == null) return Response.error("Domain không hỗ trợ");
         return handler.handle(req);
     }
