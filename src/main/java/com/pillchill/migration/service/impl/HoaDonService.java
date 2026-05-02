@@ -225,6 +225,53 @@ public class HoaDonService implements IHoaDonService {
         return hoaDonRepository.getLatestHoaDon();
     }
 
+    @Override
+    public List<HoaDon> findHoaDonByThuoc(String maThuoc) {
+        if (maThuoc == null || maThuoc.isBlank()) {
+            throw new IllegalArgumentException("Mã thuốc không hợp lệ");
+        }
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.createQuery(
+                            "select distinct h from HoaDon h join ChiTietHoaDon c on c.id.maHoaDon = h.maHoaDon " +
+                                    "where h.isActive = true and c.isActive = true and c.id.maThuoc = :maThuoc " +
+                                    "order by h.ngayBan desc, h.maHoaDon desc",
+                            HoaDon.class)
+                    .setParameter("maThuoc", maThuoc)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Integer> findNamCoHoaDon() {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.createQuery(
+                            "select distinct year(h.ngayBan) from HoaDon h where h.isActive = true order by year(h.ngayBan)",
+                            Integer.class)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Integer> findThangCoHoaDonTrongNam(int nam) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.createQuery(
+                            "select distinct month(h.ngayBan) from HoaDon h " +
+                                    "where h.isActive = true and year(h.ngayBan) = :nam order by month(h.ngayBan)",
+                            Integer.class)
+                    .setParameter("nam", nam)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
     private HoaDonView toHoaDonView(HoaDon hoaDon) {
         String maNhanVien = hoaDon.getNhanVien() == null ? null : hoaDon.getNhanVien().getMaNV();
         String tenNhanVien = hoaDon.getNhanVien() == null ? null : hoaDon.getNhanVien().getTenNV();

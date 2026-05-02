@@ -44,6 +44,15 @@ public class HoaDonClientController {
         }
         return result;
     }
+    public Response getHoaDonGanNhat() {
+        Request request = new Request(
+                "HOA_DON." + HoaDonCM.GET_LATEST,
+                "",
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
 
     public List<HoaDon> getAllHoaDon() {
         return mapListResponse(send(HoaDonCM.LIST_ALL, null), HoaDon.class);
@@ -83,5 +92,17 @@ public class HoaDonClientController {
 
     public List<HoaDon> getHoaDonByThangNam(int thang, int nam) {
         return mapListResponse(send(HoaDonCM.GET_BY_THANG_NAM, new int[]{thang, nam}), HoaDon.class);
+    }
+
+    public String getMaHoaDonGanNhat() {
+        Response response = getHoaDonGanNhat();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof String maHoaDon) || maHoaDon.isBlank()) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+        return maHoaDon;
     }
 }

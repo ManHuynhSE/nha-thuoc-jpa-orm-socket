@@ -50,4 +50,25 @@ public class HoaDonJpaDAO {
     }
 
     public String getLatestHoaDon() {return hoaDonService.getLatestHoaDon();};
+
+    public ArrayList<HoaDon> findHoaDonByThuoc(String maThuoc) {
+        return new ArrayList<>(hoaDonService.findHoaDonByThuoc(maThuoc));
+    }
+
+    public ArrayList<Integer> findNamCoHoaDon() {
+        return new ArrayList<>(hoaDonService.findNamCoHoaDon());
+    }
+
+    public ArrayList<Integer> findThangCoHoaDonTrongNam(int nam) {
+        return new ArrayList<>(hoaDonService.findThangCoHoaDonTrongNam(nam));
+    }
+
+    public ArrayList<HoaDon> findAllActiveHoaDon() {
+        return new ArrayList<>(hoaDonService.getAllHoaDonViews()
+                .stream()
+                .map(view -> hoaDonService.getHoaDonById(view.maHoaDon())
+                        .orElse(null))
+                .filter(h -> h != null)
+                .toList());
+    }
 }

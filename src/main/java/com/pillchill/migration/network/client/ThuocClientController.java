@@ -2,9 +2,11 @@ package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
+import com.pillchill.migration.dto.ThuocTheoLoView;
 import com.pillchill.migration.entity.Thuoc;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
+import com.pillchill.migration.network.communication.command.HoaDonCM;
 import com.pillchill.migration.network.communication.command.ThuocCM;
 
 
@@ -46,6 +48,17 @@ public class ThuocClientController {
         }
         return result;
     }
+
+    public Response getAllThuocByLo() {
+        Request request = new Request(
+                "THUOC." + ThuocCM.LIST_BY_LO,
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+
 
     public Response getAllThuoc() {
         Request request = new Request(
@@ -135,5 +148,28 @@ public class ThuocClientController {
         }
         return null;
     }
+
+    public List<ThuocTheoLoView> getAllThuocTheoLoItems() {
+        Response response = getAllThuocByLo();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof List<?> rawList)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<ThuocTheoLoView> result = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof ThuocTheoLoView thuocItem)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result.add(thuocItem);
+        }
+        return result;
+    }
+
+
+
 }
 

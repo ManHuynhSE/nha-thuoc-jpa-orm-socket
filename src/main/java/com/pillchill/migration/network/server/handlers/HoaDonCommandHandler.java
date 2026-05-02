@@ -1,33 +1,26 @@
 package com.pillchill.migration.network.server.handlers;
 
-import com.pillchill.migration.db.JPAUtil;
-import com.pillchill.migration.entity.ChiTietHoaDon;
+import com.pillchill.migration.dto.ChiTietHoaDonView;
+import com.pillchill.migration.dto.HoaDonView;
 import com.pillchill.migration.entity.HoaDon;
+import com.pillchill.migration.migration.HoaDonJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.command.HoaDonCM;
 import com.pillchill.migration.network.server.CommandHandler;
-import com.pillchill.migration.repository.IChiTietHoaDonRepository;
-import com.pillchill.migration.repository.IHoaDonRepository;
-import com.pillchill.migration.repository.impl.ChiTietHoaDonRepository;
-import com.pillchill.migration.repository.impl.HoaDonRepository;
-import jakarta.persistence.EntityManager;
 
 import java.util.List;
 import java.util.Optional;
 
 public class HoaDonCommandHandler implements CommandHandler {
-    private final IHoaDonRepository hoaDonRepository;
-    private final IChiTietHoaDonRepository chiTietHoaDonRepository;
+    private final HoaDonJpaDAO hoaDonJpaDAO;
 
     public HoaDonCommandHandler() {
-        this.hoaDonRepository = new HoaDonRepository();
-        this.chiTietHoaDonRepository = new ChiTietHoaDonRepository();
+        this.hoaDonJpaDAO = new HoaDonJpaDAO();
     }
 
-    public HoaDonCommandHandler(IHoaDonRepository hoaDonRepository, IChiTietHoaDonRepository chiTietHoaDonRepository) {
-        this.hoaDonRepository = hoaDonRepository;
-        this.chiTietHoaDonRepository = chiTietHoaDonRepository;
+    public HoaDonCommandHandler(HoaDonJpaDAO hoaDonJpaDAO) {
+        this.hoaDonJpaDAO = hoaDonJpaDAO;
     }
 
     @Override
@@ -44,112 +37,51 @@ public class HoaDonCommandHandler implements CommandHandler {
         try {
             return switch (HoaDonCM.valueOf(action)) {
                 case LIST_ALL, GET_5_FIELD_ALL -> {
-                    List<HoaDon> result = findAllActiveHoaDon();
+                    List<HoaDon> result = hoaDonJpaDAO.findAllActiveHoaDon();
                     yield Response.success(result, "Lấy danh sách hóa đơn thành công");
                 }
                 case GET_BY_ID -> {
                     String maHoaDon = (String) request.getData();
-                    Optional<HoaDon> result = hoaDonRepository.findById(maHoaDon);
+                    Optional<HoaDon> result = hoaDonJpaDAO.getHoaDonById(maHoaDon) != null 
+                        ? Optional.of(hoaDonJpaDAO.getHoaDonById(maHoaDon))
+                        : Optional.empty();
                     yield Response.success(result.orElse(null), result.isPresent() ? "Lấy hóa đơn thành công" : "Không tìm thấy hóa đơn");
                 }
                 case GET_5_FIELD_BY_THUOC -> {
                     String maThuoc = (String) request.getData();
-                    List<HoaDon> result = findHoaDonByThuoc(maThuoc);
+                    List<HoaDon> result = hoaDonJpaDAO.findHoaDonByThuoc(maThuoc);
                     yield Response.success(result, "Lấy danh sách hóa đơn theo thuốc thành công");
                 }
                 case GET_BY_THANG_NAM -> {
                     int[] values = extractMonthYear(request);
-                    List<HoaDon> result = findHoaDonByThangNam(values[0], values[1]);
+                    List<HoaDonView> result = hoaDonJpaDAO.getHoaDonViewsByMonthYear(values[0], values[1]);
                     yield Response.success(result, "Lấy danh sách hóa đơn theo tháng/năm thành công");
                 }
                 case GET_CHI_TIET_BY_MA_HOA_DON -> {
                     String maHoaDon = (String) request.getData();
-                    List<ChiTietHoaDon> result = chiTietHoaDonRepository.findByMaHoaDon(maHoaDon);
+                    List<ChiTietHoaDonView> result = hoaDonJpaDAO.getChiTietHoaDonByMaHoaDon(maHoaDon);
                     yield Response.success(result, "Lấy chi tiết hóa đơn thành công");
                 }
                 case GET_NAM_CO_HOA_DON -> {
-                    List<Integer> result = findNamCoHoaDon();
+                    List<Integer> result = hoaDonJpaDAO.findNamCoHoaDon();
                     yield Response.success(result, "Lấy danh sách năm có hóa đơn thành công");
                 }
                 case GET_THANG_CO_HOA_DON_TRONG_NAM -> {
                     int nam = (int) request.getData();
-                    List<Integer> result = findThangCoHoaDonTrongNam(nam);
+                    List<Integer> result = hoaDonJpaDAO.findThangCoHoaDonTrongNam(nam);
                     yield Response.success(result, "Lấy danh sách tháng có hóa đơn thành công");
+                }
+                case GET_LATEST -> {
+                    return Response.success(
+                            hoaDonJpaDAO.getLatestHoaDon(),
+                            "Lấy mã hóa đơn mới nhất thành công"
+                    );
                 }
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command hóa đơn không hỗ trợ: " + action);
         } catch (Exception e) {
             return Response.error("Không thể xử lý hóa đơn: " + e.getMessage());
-        }
-    }
-
-    private List<HoaDon> findAllActiveHoaDon() {
-        EntityManager entityManager = JPAUtil.getEntityManager();
-        try {
-            return entityManager.createQuery(
-                            "select h from HoaDon h where h.isActive = true order by h.ngayBan desc, h.maHoaDon desc",
-                            HoaDon.class)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    private List<HoaDon> findHoaDonByThuoc(String maThuoc) {
-        EntityManager entityManager = JPAUtil.getEntityManager();
-        try {
-            return entityManager.createQuery(
-                            "select distinct h from HoaDon h join ChiTietHoaDon c on c.id.maHoaDon = h.maHoaDon " +
-                                    "where h.isActive = true and c.isActive = true and c.id.maThuoc = :maThuoc " +
-                                    "order by h.ngayBan desc, h.maHoaDon desc",
-                            HoaDon.class)
-                    .setParameter("maThuoc", maThuoc)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    private List<HoaDon> findHoaDonByThangNam(int thang, int nam) {
-        EntityManager entityManager = JPAUtil.getEntityManager();
-        try {
-            return entityManager.createQuery(
-                            "select h from HoaDon h " +
-                                    "where h.isActive = true and month(h.ngayBan) = :thang and year(h.ngayBan) = :nam " +
-                                    "order by h.ngayBan desc, h.maHoaDon desc",
-                            HoaDon.class)
-                    .setParameter("thang", thang)
-                    .setParameter("nam", nam)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    private List<Integer> findNamCoHoaDon() {
-        EntityManager entityManager = JPAUtil.getEntityManager();
-        try {
-            return entityManager.createQuery(
-                            "select distinct year(h.ngayBan) from HoaDon h where h.isActive = true order by year(h.ngayBan)",
-                            Integer.class)
-                    .getResultList();
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    private List<Integer> findThangCoHoaDonTrongNam(int nam) {
-        EntityManager entityManager = JPAUtil.getEntityManager();
-        try {
-            return entityManager.createQuery(
-                            "select distinct month(h.ngayBan) from HoaDon h " +
-                                    "where h.isActive = true and year(h.ngayBan) = :nam order by month(h.ngayBan)",
-                            Integer.class)
-                    .setParameter("nam", nam)
-                    .getResultList();
-        } finally {
-            entityManager.close();
         }
     }
 
@@ -161,3 +93,4 @@ public class HoaDonCommandHandler implements CommandHandler {
         return values;
     }
 }
+

@@ -26,4 +26,10 @@ public interface IHoaDonService {
     List<ChiTietHoaDonView> getChiTietHoaDonByMaHoaDon(String maHoaDon);
 
     String getLatestHoaDon();
+
+    List<HoaDon> findHoaDonByThuoc(String maThuoc);
+
+    List<Integer> findNamCoHoaDon();
+
+    List<Integer> findThangCoHoaDonTrongNam(int nam);
 }
