@@ -1,9 +1,8 @@
 package com.pillchill.migration.network.client;
 
-import com.pillchill.migration.entity.NhanVien;
+import com.pillchill.migration.dto.NhanVienDTO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
-import com.pillchill.migration.network.communication.NhanVienPayload;
 import com.pillchill.migration.network.communication.command.NhanVienCM;
 
 import java.util.ArrayList;
@@ -16,44 +15,17 @@ public class NhanVienClientController {
         this.sessionContext = sessionContext;
     }
 
-    public Response getAllNhanVien() {
+    public Response getAllNhanVienResponse() {
         Request request = new Request(
-                "NHAN_VIEN." + NhanVienCM.LIST_ALL.toString(),
+            "NHAN_VIEN." + NhanVienCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
     }
 
-    public Response createNhanVien(NhanVienPayload payload) {
-        Request request = new Request(
-                "NHAN_VIEN." + NhanVienCM.CREATE,
-                payload,
-                sessionContext.getUserId()
-        );
-        return sessionContext.getNetworkClient().send(request);
-    }
-
-    public Response updateNhanVien(NhanVienPayload payload) {
-        Request request = new Request(
-                "NHAN_VIEN." + NhanVienCM.UPDATE,
-                payload,
-                sessionContext.getUserId()
-        );
-        return sessionContext.getNetworkClient().send(request);
-    }
-
-    public Response deleteNhanVien(String maNV) {
-        Request request = new Request(
-                "NHAN_VIEN." + NhanVienCM.DELETE,
-                maNV,
-                sessionContext.getUserId()
-        );
-        return sessionContext.getNetworkClient().send(request);
-    }
-
-    public List<NhanVien> getAllNhanVienItems() {
-        Response response = getAllNhanVien();
+    public List<NhanVienDTO> getAllNhanVien() {
+        Response response = getAllNhanVienResponse();
         if (!response.isSuccess()) {
             throw new RuntimeException(response.getMessage());
         }
@@ -62,13 +34,49 @@ public class NhanVienClientController {
             throw new RuntimeException("Dữ liệu trả về không hợp lệ");
         }
 
-        List<NhanVien> result = new ArrayList<>();
+        List<NhanVienDTO> result = new ArrayList<>();
         for (Object item : rawList) {
-            if (!(item instanceof NhanVien nhanVienItem)) {
+            if (!(item instanceof NhanVienDTO itemData)) {
                 throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
             }
-            result.add(nhanVienItem);
+            result.add(itemData);
         }
         return result;
+    }
+
+    public void addNhanVien(NhanVienDTO nhanVienDTO) {
+        Request request = new Request(
+            "NHAN_VIEN." + NhanVienCM.CREATE.name(),
+                nhanVienDTO,
+                sessionContext.getUserId()
+        );
+        Response response = sessionContext.getNetworkClient().send(request);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+    }
+
+    public void updateNhanVien(NhanVienDTO nhanVienDTO) {
+        Request request = new Request(
+            "NHAN_VIEN." + NhanVienCM.UPDATE.name(),
+                nhanVienDTO,
+                sessionContext.getUserId()
+        );
+        Response response = sessionContext.getNetworkClient().send(request);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+    }
+
+    public void deleteNhanVien(String maNhanVien) {
+        Request request = new Request(
+            "NHAN_VIEN." + NhanVienCM.DELETE.name(),
+                maNhanVien,
+                sessionContext.getUserId()
+        );
+        Response response = sessionContext.getNetworkClient().send(request);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
     }
 }

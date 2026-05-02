@@ -1,20 +1,17 @@
 package com.pillchill.migration.service;
 
-import com.pillchill.migration.entity.NhanVien;
+import com.pillchill.migration.dto.CreateHoaDonCommand;
+import com.pillchill.migration.dto.NhanVienDTO;
+import com.pillchill.migration.entity.ChiTietLoThuoc;
+import com.pillchill.migration.entity.HoaDon;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface INhanVienService {
-    List<NhanVien> getAllNhanVien();
-
-    Optional<NhanVien> getNhanVienById(String maNV);
-
-    NhanVien createNhanVien(NhanVien nhanVien);
-
-    NhanVien updateNhanVien(NhanVien nhanVien);
-
-    boolean deactivateNhanVien(String maNV);
-
-    long countActive();
+    NhanVienDTO addNhanVien(NhanVienDTO nhanVienDTO);
+    NhanVienDTO updateNhanVien(NhanVienDTO nhanVienDTO);
+    boolean deleteNhanVien(String maNhanVien);
+    List<NhanVienDTO> loadALlNhanVien();
 }

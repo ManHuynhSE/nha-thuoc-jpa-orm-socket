@@ -1,11 +1,11 @@
 package com.pillchill.migration.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.pillchill.migration.dto.ChiTietLoThuocView;
+import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.dto.ThuocKemGiaView;
-import com.pillchill.migration.dto.ThuocTheoLoView;
 import com.pillchill.migration.entity.Thuoc;
 
 public interface IThuocService {
@@ -15,15 +15,15 @@ public interface IThuocService {
 
     List<ThuocKemGiaView> getAllThuocKemGia();
 
-    List<ThuocTheoLoView> getAllThuocTheoLo();
+    List<ThongKeThuoc> thongKeThuocTheoNgay(Date ngay, int topN);
 
-    List<ChiTietLoThuocView> getAllChiTietLoThuoc();
+    List<ThongKeThuoc> thongKeThuocTheoThang(int thang, int nam, int topN);
 
-    Thuoc createThuoc(Thuoc thuoc);
+    List<ThongKeThuoc> thongKeThuocTheoNam(int nam, int topN);
 
-    Thuoc createThuoc(Thuoc thuoc, double giaBanCoSo);
+    double getTongDoanhThuThuocTheoNgay(Date ngay);
 
-    Thuoc updateThuoc(Thuoc thuoc);
+    double getTongDoanhThuThuocTheoThang(int thang, int nam);
 
-    boolean deactivateThuoc(String maThuoc);
+    double getTongDoanhThuThuocTheoNam(int nam);
 }

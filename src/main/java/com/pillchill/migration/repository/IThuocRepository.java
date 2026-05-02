@@ -1,7 +1,9 @@
 package com.pillchill.migration.repository;
 
+import com.pillchill.migration.dto.ThongKeThuoc;
 import com.pillchill.migration.entity.Thuoc;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +16,15 @@ public interface IThuocRepository extends GenericRepository<Thuoc,String> {
 
     void updateSoLuongTon(String maThuoc, int soLuongTon);
 
-//    Thuoc createThuoc(String maThuoc, String tenThuoc, int soLuongTon, String maDonVi, int soLuongToiThieu, String maNSX, boolean isActive);
-//
-//    Thuoc updateThuoc(String maThuoc, String tenThuoc, int soLuongTon, String maDonVi, int soLuongToiThieu, String maNSX);
+    List<ThongKeThuoc> thongKeThuocTheoNgay(Date ngay, int topN);
 
-    boolean deactivateThuoc(String maThuoc);
+    List<ThongKeThuoc> thongKeThuocTheoThang(int thang, int nam, int topN);
+
+    List<ThongKeThuoc> thongKeThuocTheoNam(int nam, int topN);
+
+    double getTongDoanhThuThuocTheoNgay(Date ngay);
+
+    double getTongDoanhThuThuocTheoThang(int thang, int nam);
+
+    double getTongDoanhThuThuocTheoNam(int nam);
 }

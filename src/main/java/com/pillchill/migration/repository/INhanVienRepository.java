@@ -1,16 +1,17 @@
 package com.pillchill.migration.repository;
 
+import com.pillchill.migration.entity.HoaDon;
 import com.pillchill.migration.entity.NhanVien;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface INhanVienRepository extends GenericRepository<NhanVien, String> {
-    List<NhanVien> findAllActive();
-
-    Optional<NhanVien> findById(String maNV);
-
-    long countActive();
-
-    boolean deactivateNhanVien(String maNV);
+public interface INhanVienRepository {
+    NhanVien createNhanVien(NhanVien nhanVien);
+    NhanVien updateNhanVien(NhanVien nhanVien);
+    boolean deleteNhanVien(String maNhanVien);
+    NhanVien findById(String maNhanVien);
+    List<NhanVien> loadAllNhanVien();
 }
+

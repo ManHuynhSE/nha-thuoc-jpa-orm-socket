@@ -5,7 +5,6 @@ import com.pillchill.migration.entity.TaiKhoan;
 import com.pillchill.migration.network.client.AuthClientController;
 import com.pillchill.migration.network.client.ClientSessionContext;
 import com.pillchill.migration.network.client.NetworkClient;
-import com.pillchill.migration.network.communication.CommandType;
 import com.pillchill.migration.network.communication.Response;
 
 import javax.swing.*;
@@ -152,7 +151,7 @@ public class DangNhapFrame extends JFrame {
     }
     
     private JTextField taoTextField() {
-        txtMaNhanVien = new JTextField();
+        txtMaNhanVien = new JTextField("NV001"); // placeholder
         txtMaNhanVien.setFont(new Font("Arial", Font.PLAIN, 16));
         txtMaNhanVien.setBackground(new Color(240,250,240));
         txtMaNhanVien.setPreferredSize(new Dimension(300, 40));
@@ -170,7 +169,7 @@ public class DangNhapFrame extends JFrame {
     }
     
     private JPasswordField taoPasswordField() {
-        txtMatKhau = new JPasswordField();
+        txtMatKhau = new JPasswordField("admin123"); // placehodler
         txtMatKhau.setFont(new Font("Arial", Font.PLAIN, 16));
         txtMatKhau.setBackground(new Color(240,250,240));
         txtMatKhau.setPreferredSize(new Dimension(300, 40));
@@ -278,7 +277,7 @@ public class DangNhapFrame extends JFrame {
 	}
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new DangNhapFrame("DESKTOP-57QN5N0", 9999));
+        SwingUtilities.invokeLater(() -> new DangNhapFrame("DESKTOP-PRP7OQL", 9999));
 
 
     }

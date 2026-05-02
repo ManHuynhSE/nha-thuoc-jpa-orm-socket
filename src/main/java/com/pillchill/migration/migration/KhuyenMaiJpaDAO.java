@@ -1,51 +1,54 @@
 package com.pillchill.migration.migration;
 
-import java.util.ArrayList;
-
 import com.pillchill.migration.entity.KhuyenMai;
-import com.pillchill.migration.service.IKhuyenMaiService;
-import com.pillchill.migration.service.impl.KhuyenMaiService;
+import com.pillchill.migration.repository.IKhuyenMaiRepository;
+import com.pillchill.migration.repository.impl.KhuyenMaiRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KhuyenMaiJpaDAO {
-    private final IKhuyenMaiService khuyenMaiService;
-
-    public KhuyenMaiJpaDAO(IKhuyenMaiService khuyenMaiService) {
-        this.khuyenMaiService = khuyenMaiService;
-    }
+    private final IKhuyenMaiRepository khuyenMaiRepository;
 
     public KhuyenMaiJpaDAO() {
-        this.khuyenMaiService = new KhuyenMaiService();
+        this.khuyenMaiRepository = new KhuyenMaiRepository();
     }
 
     public ArrayList<KhuyenMai> getAllKhuyenMai() {
-        return new ArrayList<>(khuyenMaiService.getAllKhuyenMai());
+        List<KhuyenMai> allKhuyenMai = khuyenMaiRepository.loadAllKhuyenMai();
+        ArrayList<KhuyenMai> activeKhuyenMai = new ArrayList<>();
+        for (KhuyenMai khuyenMai : allKhuyenMai) {
+            if (khuyenMai.isActive()) {
+                activeKhuyenMai.add(khuyenMai);
+            }
+        }
+        return activeKhuyenMai;
     }
 
-    public KhuyenMai getKhuyenMaiById(String maKM) {
-        return khuyenMaiService.getKhuyenMaiById(maKM).orElse(null);
+    public void addKhuyenMai(KhuyenMai khuyenMai) {
+        khuyenMai.setActive(true);
+        khuyenMaiRepository.createKhuyenMai(khuyenMai);
     }
 
-    public KhuyenMai createKhuyenMai(KhuyenMai khuyenMai) {
-        return khuyenMaiService.createKhuyenMai(khuyenMai);
+    public void updateKhuyenMai(KhuyenMai khuyenMai) {
+        KhuyenMai existing = khuyenMaiRepository.findById(khuyenMai.getMaKM());
+        if (existing == null) {
+            throw new IllegalArgumentException("Không tìm thấy khuyến mãi");
+        }
+
+        existing.setMucGiamGia(khuyenMai.getMucGiamGia());
+        existing.setNgayApDung(khuyenMai.getNgayApDung());
+        existing.setNgayKetThuc(khuyenMai.getNgayKetThuc());
+        khuyenMaiRepository.updateKhuyenMai(existing);
     }
 
-    public KhuyenMai updateKhuyenMai(KhuyenMai khuyenMai) {
-        return khuyenMaiService.updateKhuyenMai(khuyenMai);
-    }
+    public void deleteKhuyenMai(String maKhuyenMai) {
+        KhuyenMai existing = khuyenMaiRepository.findById(maKhuyenMai);
+        if (existing == null) {
+            throw new IllegalArgumentException("Không tìm thấy khuyến mãi");
+        }
 
-    public boolean deactivateKhuyenMai(String maKM) {
-        return khuyenMaiService.deactivateKhuyenMai(maKM);
-    }
-
-    public long countActive() {
-        return khuyenMaiService.countActive();
-    }
-
-    public KhuyenMai findByMa(String maKM) {
-        return khuyenMaiService.findByMa(maKM);
-    }
-
-    public boolean isValid(String maKM) {
-        return khuyenMaiService.isValid(maKM);
+        existing.setActive(false);
+        khuyenMaiRepository.updateKhuyenMai(existing);
     }
 }

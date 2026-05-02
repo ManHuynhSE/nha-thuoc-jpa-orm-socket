@@ -32,7 +32,7 @@ public class NhanVien implements Serializable {
     @Column(name = "tenNV", length = 100)
     private String tenNV;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "maChucVu")
     private ChucVu chucVu;
 

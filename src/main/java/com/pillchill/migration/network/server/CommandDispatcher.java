@@ -1,25 +1,7 @@
 package com.pillchill.migration.network.server;
 
-import com.pillchill.migration.migration.TaiKhoanJpaDAO;
-import com.pillchill.migration.migration.ThuocJpaDAO;
-import com.pillchill.migration.migration.KhachHangJpaDAO;
-import com.pillchill.migration.migration.HoaDonJpaDAO;
-import com.pillchill.migration.migration.NhanVienJpaDAO;
-import com.pillchill.migration.migration.PhieuDatJpaDAO;
-import com.pillchill.migration.migration.PhieuDoiTraJpaDAO;
-import com.pillchill.migration.migration.PhieuNhapJpaDAO;
-import com.pillchill.migration.migration.KhuyenMaiJpaDAO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
-import com.pillchill.migration.network.server.handlers.AuthCommandHandler;
-import com.pillchill.migration.network.server.handlers.ThuocCommandHandler;
-import com.pillchill.migration.network.server.handlers.HoaDonCommandHandler;
-import com.pillchill.migration.network.server.handlers.KhachHangCommandHandler;
-import com.pillchill.migration.network.server.handlers.NhanVienCommandHandler;
-import com.pillchill.migration.network.server.handlers.PhieuDatCommandHandler;
-import com.pillchill.migration.network.server.handlers.PhieuDoiTraCommandHandler;
-import com.pillchill.migration.network.server.handlers.PhieuNhapCommandHandler;
-import com.pillchill.migration.network.server.handlers.KhuyenMaiCommandHandler;
 
 
 import java.util.HashMap;
@@ -28,17 +10,7 @@ import java.util.Map;
 public class CommandDispatcher {
     private final Map<String, CommandHandler> domainHandlers = new HashMap<>();
 
-    public CommandDispatcher() {
-        domainHandlers.put("AUTH", new AuthCommandHandler(new TaiKhoanJpaDAO()));
-        domainHandlers.put("THUOC", new ThuocCommandHandler(new ThuocJpaDAO()));
-        domainHandlers.put("KHACH_HANG", new KhachHangCommandHandler(new KhachHangJpaDAO()));
-        domainHandlers.put("NHAN_VIEN", new NhanVienCommandHandler(new NhanVienJpaDAO()));
-        domainHandlers.put("HOA_DON", new HoaDonCommandHandler(new HoaDonJpaDAO()));
-        domainHandlers.put("PHIEU_DAT", new PhieuDatCommandHandler(new PhieuDatJpaDAO()));
-        domainHandlers.put("PHIEU_DOI_TRA", new PhieuDoiTraCommandHandler(new PhieuDoiTraJpaDAO()));
-        domainHandlers.put("PHIEU_NHAP", new PhieuNhapCommandHandler(new PhieuNhapJpaDAO()));
-        domainHandlers.put("KHUYEN_MAI", new KhuyenMaiCommandHandler(new KhuyenMaiJpaDAO()));
-    }
+    public CommandDispatcher() {}
 
     public void register(String command, CommandHandler handler) {
         domainHandlers.put(command, handler);

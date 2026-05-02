@@ -3,18 +3,15 @@ package com.pillchill.migration.repository;
 import com.pillchill.migration.entity.KhuyenMai;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface IKhuyenMaiRepository extends GenericRepository<KhuyenMai, String> {
-    List<KhuyenMai> findAllActive();
+public interface IKhuyenMaiRepository {
+    KhuyenMai createKhuyenMai(KhuyenMai khuyenMai);
 
-    Optional<KhuyenMai> findById(String maKM);
+    KhuyenMai updateKhuyenMai(KhuyenMai khuyenMai);
 
-    long countActive();
+    boolean deleteKhuyenMai(String maKhuyenMai);
 
-    boolean deactivateKhuyenMai(String maKM);
+    KhuyenMai findById(String maKhuyenMai);
 
-    KhuyenMai findByMa(String maKM);
-
-    boolean isValid(String maKM);
+    List<KhuyenMai> loadAllKhuyenMai();
 }

@@ -15,7 +15,7 @@ public class AuthClientController {
 
     public Response login(String username, String password) {
         Request request = new Request(
-                "AUTH."+AuthCM.LOGIN,
+                "AUTH." + AuthCM.LOGIN.name(),
                 new LoginPayload(username, password),
                 null
         );

@@ -15,38 +15,21 @@ public class KhuyenMaiClientController {
         this.sessionContext = sessionContext;
     }
 
-    public Response getAllKhuyenMai() {
+    public Response getAllKhuyenMaiResponse() {
         Request request = new Request(
-                "KHUYEN_MAI." + KhuyenMaiCM.LIST_ALL.toString(),
+            "KHUYEN_MAI." + KhuyenMaiCM.LIST_ALL.name(),
                 null,
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
     }
 
-    public Response findByMa(String maKM) {
-        Request request = new Request(
-                "KHUYEN_MAI." + KhuyenMaiCM.FIND_BY_MA,
-                maKM,
-                sessionContext.getUserId()
-        );
-        return sessionContext.getNetworkClient().send(request);
-    }
-
-    public Response validate(String maKM) {
-        Request request = new Request(
-                "KHUYEN_MAI." + KhuyenMaiCM.VALIDATE,
-                maKM,
-                sessionContext.getUserId()
-        );
-        return sessionContext.getNetworkClient().send(request);
-    }
-
-    public List<KhuyenMai> getAllKhuyenMaiItems() {
-        Response response = getAllKhuyenMai();
+    public List<KhuyenMai> getAllKhuyenMai() {
+        Response response = getAllKhuyenMaiResponse();
         if (!response.isSuccess()) {
             throw new RuntimeException(response.getMessage());
         }
+
         Object data = response.getData();
         if (!(data instanceof List<?> rawList)) {
             throw new RuntimeException("Dữ liệu trả về không hợp lệ");
@@ -54,38 +37,38 @@ public class KhuyenMaiClientController {
 
         List<KhuyenMai> result = new ArrayList<>();
         for (Object item : rawList) {
-            if (!(item instanceof KhuyenMai khuyenMai)) {
+            if (!(item instanceof KhuyenMai itemData)) {
                 throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
             }
-            result.add(khuyenMai);
+            result.add(itemData);
         }
         return result;
     }
 
-    public KhuyenMai findByMaItem(String maKM) {
-        Response response = findByMa(maKM);
-        if (!response.isSuccess()) {
-            throw new RuntimeException(response.getMessage());
-        }
-        Object data = response.getData();
-        if (data == null) {
-            return null;
-        }
-        if (!(data instanceof KhuyenMai khuyenMai)) {
-            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
-        }
-        return khuyenMai;
+    public Response addKhuyenMaiResponse(KhuyenMai khuyenMai) {
+        Request request = new Request(
+            "KHUYEN_MAI." + KhuyenMaiCM.CREATE.name(),
+                khuyenMai,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
     }
 
-    public boolean validateItem(String maKM) {
-        Response response = validate(maKM);
-        if (!response.isSuccess()) {
-            return false;
-        }
-        Object data = response.getData();
-        if (!(data instanceof Boolean result)) {
-            return false;
-        }
-        return result;
+    public Response updateKhuyenMaiResponse(KhuyenMai khuyenMai) {
+        Request request = new Request(
+            "KHUYEN_MAI." + KhuyenMaiCM.UPDATE.name(),
+                khuyenMai,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response deleteKhuyenMaiResponse(String maKhuyenMai) {
+        Request request = new Request(
+            "KHUYEN_MAI." + KhuyenMaiCM.DELETE.name(),
+                maKhuyenMai,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
     }
 }
