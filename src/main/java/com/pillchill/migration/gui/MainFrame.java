@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
     // private LapHoaDonPanel lapHoaDonPanel;
     // private CapNhatKhachHangPanel capNhatKhachHangPanel;
     private CapNhatNhanVienPanel capNhatNhanVienPanel;
-//    private CapNhatThuocPanel capNhatThuocPanel;
+    private CapNhatThuocPanel capNhatThuocPanel;
     private CapNhatDonViPanel capNhatDonViPanel;
     // private CapNhatBangGiaPanel capNhatBangGiaPanel;
     private CapNhatKhuyenMaiPanel capNhatKhuyenMaiPanel;
@@ -194,12 +194,12 @@ public class MainFrame extends JFrame {
         showPanel(capNhatNhanVienPanel);
     }
 
-//    public void showCapNhatThuocPanel() {
-//        if (capNhatThuocPanel == null) {
-//            capNhatThuocPanel = new CapNhatThuocPanel(new ThuocClientController(sessionContext));
-//        }
-//        showPanel(capNhatThuocPanel);
-//    }
+    public void showCapNhatThuocPanel() {
+        if (capNhatThuocPanel == null) {
+            capNhatThuocPanel = new CapNhatThuocPanel(new ThuocClientController(sessionContext));
+        }
+        showPanel(capNhatThuocPanel);
+    }
 
     public void showCapNhatKhuyenMaiPanel() {
         if (capNhatKhuyenMaiPanel == null) {

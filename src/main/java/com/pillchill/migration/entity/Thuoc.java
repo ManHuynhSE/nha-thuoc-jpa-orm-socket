@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +24,7 @@ import lombok.ToString;
 @ToString(exclude = {"donVi", "nhaSanXuat"})
 @Entity
 @Table(name = "Thuoc")
-public class Thuoc {
+public class Thuoc implements Serializable {
     @Id
     @Column(name = "maThuoc", length = 50, nullable = false)
     private String maThuoc;
