@@ -5,44 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Procedure.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Procedure.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/CreateHoaDonCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/dto/CreateHoaDonCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/MenuBarPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/LapHoaDonPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/LapHoaDonPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/XacNhanLapHoaDonFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/gui/xuly/XacNhanLapHoaDonFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/PhieuDatJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/PhieuDatJpaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/PhieuDoiTraJpaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/migration/PhieuDoiTraJpaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/PhieuDatClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/PhieuDatClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/PhieuDoiTraClientController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/client/PhieuDoiTraClientController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/HoaDonCreatePayload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/HoaDonCreatePayload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/PhieuDatCM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/PhieuDatCM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/PhieuDoiTraCM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/communication/command/PhieuDoiTraCM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/HoaDonCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/HoaDonCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/PhieuDatCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/PhieuDatCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/PhieuDoiTraCommandHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/network/server/handlers/PhieuDoiTraCommandHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IPhieuDatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IPhieuDatService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IPhieuDoiTraService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/IPhieuDoiTraService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/HoaDonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/HoaDonService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/PhieuDatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/PhieuDatService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/PhieuDoiTraService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pillchill/migration/service/impl/PhieuDoiTraService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MainFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/gui/MenuBarPanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/PhieuDatJpaDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/PhieuDatJpaDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/PhieuDoiTraJpaDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/migration/PhieuDoiTraJpaDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/client/PhieuDatClientController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/client/PhieuDatClientController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/client/PhieuDoiTraClientController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/client/PhieuDoiTraClientController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/communication/command/PhieuDatCM.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/communication/command/PhieuDatCM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/communication/command/PhieuDoiTraCM.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/communication/command/PhieuDoiTraCM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDatCommandHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDatCommandHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDatCommandHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDatCommandHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDoiTraCommandHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDoiTraCommandHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDoiTraCommandHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/network/server/handlers/PhieuDoiTraCommandHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IPhieuDatService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IPhieuDatService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IPhieuDoiTraService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/IPhieuDoiTraService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/PhieuDatService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/PhieuDatService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/PhieuDoiTraService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pillchill/migration/service/impl/PhieuDoiTraService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" afterDir="false" />
@@ -252,7 +215,7 @@
       <workItem from="1777686635008" duration="11394000" />
       <workItem from="1777721182806" duration="1018000" />
       <workItem from="1777726347338" duration="1716000" />
-      <workItem from="1777893135710" duration="968000" />
+      <workItem from="1777893135710" duration="1570000" />
     </task>
     <servers />
   </component>
