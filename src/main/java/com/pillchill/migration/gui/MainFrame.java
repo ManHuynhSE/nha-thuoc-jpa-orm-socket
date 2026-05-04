@@ -9,6 +9,8 @@ import com.pillchill.migration.gui.capnhat.*;
 import com.pillchill.migration.gui.thongke.*;
 import com.pillchill.migration.gui.timkiem.*;
 import com.pillchill.migration.gui.xuly.LapHoaDonPanel;
+import com.pillchill.migration.gui.xuly.LapPhieuDatThuocPanel;
+import com.pillchill.migration.gui.xuly.LapPhieuTraThuocPanel;
 import com.pillchill.migration.gui.xuly.NhapThuocPanel;
 import com.pillchill.migration.network.client.*;
 
@@ -26,9 +28,9 @@ public class MainFrame extends JFrame {
     private CapNhatDonViPanel capNhatDonViPanel;
     // private CapNhatBangGiaPanel capNhatBangGiaPanel;
     private CapNhatKhuyenMaiPanel capNhatKhuyenMaiPanel;
-    // private LapPhieuDatThuocPanel lapPhieuDatThuocPanel;
-     private NhapThuocPanel nhapThuocPanel;
-    // private LapPhieuTraThuocPanel lapPhieuTraThuocPanel;
+    private LapPhieuDatThuocPanel lapPhieuDatThuocPanel;
+      private NhapThuocPanel nhapThuocPanel;
+    private LapPhieuTraThuocPanel lapPhieuTraThuocPanel;
     private ThongKeDoanhThuTheoNamPanel thongKeTheoDoanhThuPanel;
     private ThongKeDoanhThuTheoThangPanel thongKeTheoDoanhThuTheoThangPanel;
     private ThongKeTheoNhanVienPanel thongKeTheoNhanVienPanel;
@@ -91,9 +93,9 @@ public class MainFrame extends JFrame {
         capNhatNhanVienPanel = null;
 //        capNhatThuocPanel = null;
         capNhatKhuyenMaiPanel = null;
-        // lapPhieuDatThuocPanel = null;
+        lapPhieuDatThuocPanel = null;
         // nhapThuocPanel = null;
-        // lapPhieuTraThuocPanel = null;
+        lapPhieuTraThuocPanel = null;
         //
         // thongKeTheoDoanhThuPanel = null;
         // thongKeTheoDoanhThuTheoThangPanel = null;
@@ -263,21 +265,30 @@ public class MainFrame extends JFrame {
         showPanel(timKiemHoaDonPanel);
     }
     //
-    // public void showLapPhieuDatThuocPanel() {
-    // if (lapPhieuDatThuocPanel == null) {
-    // lapPhieuDatThuocPanel = new LapPhieuDatThuocPanel(maNhanVien);
-    // }
-    // lapPhieuDatThuocPanel.reloadDataFromDatabase();
-    // showPanel(lapPhieuDatThuocPanel);
-    // }
-    //
-    // public void showLapPhieuDoiThuocPanel() {
-    // if (lapPhieuTraThuocPanel == null) {
-    // lapPhieuTraThuocPanel = new LapPhieuTraThuocPanel(maNhanVien);
-    // }
-    // lapPhieuTraThuocPanel.reloadDataFromDatabase();
-    // showPanel(lapPhieuTraThuocPanel);
-    // }
+    public void showLapPhieuDatThuocPanel() {
+        if (lapPhieuDatThuocPanel == null) {
+            lapPhieuDatThuocPanel = new LapPhieuDatThuocPanel(
+                    new ThuocClientController(sessionContext),
+                    new PhieuDatClientController(sessionContext),
+                    new KhachHangClientController(sessionContext),
+                    maNhanVien
+            );
+        }
+        lapPhieuDatThuocPanel.reloadDataFromDatabase();
+        showPanel(lapPhieuDatThuocPanel);
+    }
+
+    public void showLapPhieuDoiThuocPanel() {
+        if (lapPhieuTraThuocPanel == null) {
+            lapPhieuTraThuocPanel = new LapPhieuTraThuocPanel(
+                    new HoaDonClientController(sessionContext),
+                    new PhieuDoiTraClientController(sessionContext),
+                    maNhanVien
+            );
+        }
+        lapPhieuTraThuocPanel.reloadDataFromDatabase();
+        showPanel(lapPhieuTraThuocPanel);
+    }
 
     public void showLapHoaDonPanel() {
         if (lapHoaDonPanel == null) {
@@ -286,6 +297,7 @@ public class MainFrame extends JFrame {
                     new HoaDonClientController(sessionContext),
                     new KhachHangClientController(sessionContext),
                     new KhuyenMaiClientController(sessionContext),
+                    new PhieuDatClientController(sessionContext),
                     maNhanVien
             );
         }

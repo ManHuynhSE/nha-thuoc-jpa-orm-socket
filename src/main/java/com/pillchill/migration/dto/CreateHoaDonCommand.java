@@ -12,6 +12,7 @@ public record CreateHoaDonCommand(
         String maKM,
         double giaTriThue,
         String tenLoaiThue,
+        String maPhieuDat,
         List<HoaDonItemCommand> items
 ) {
 }

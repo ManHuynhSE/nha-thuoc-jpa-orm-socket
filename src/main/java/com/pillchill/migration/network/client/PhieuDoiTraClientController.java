@@ -2,6 +2,7 @@ package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.dto.ChiTietPhieuDoiTraView;
 import com.pillchill.migration.dto.PhieuDoiTraView;
+import com.pillchill.migration.network.communication.PhieuDoiTraCreatePayload;
 import com.pillchill.migration.network.communication.PhieuDoiTraFilterPayload;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
@@ -39,6 +40,15 @@ public class PhieuDoiTraClientController {
         Request request = new Request(
                 "PHIEU_DOI_TRA." + PhieuDoiTraCM.LIST_CHI_TIET.name(),
                 maPhieuDoiTra,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response createPhieuDoiTra(PhieuDoiTraCreatePayload payload) {
+        Request request = new Request(
+                "PHIEU_DOI_TRA." + PhieuDoiTraCM.CREATE.name(),
+                payload,
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
@@ -91,5 +101,17 @@ public class PhieuDoiTraClientController {
             result.add(phieuDoiTraView);
         }
         return result;
+    }
+
+    public String createPhieuDoiTraItems(PhieuDoiTraCreatePayload payload) {
+        Response response = createPhieuDoiTra(payload);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof String maPhieuDoiTra) || maPhieuDoiTra.isBlank()) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+        return maPhieuDoiTra;
     }
 }

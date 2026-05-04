@@ -6,6 +6,7 @@ import com.pillchill.migration.gui.xuly.XacNhanLapHoaDonFrame;
 import com.pillchill.migration.network.client.HoaDonClientController;
 import com.pillchill.migration.network.client.KhachHangClientController;
 import com.pillchill.migration.network.client.KhuyenMaiClientController;
+import com.pillchill.migration.network.client.PhieuDatClientController;
 import com.pillchill.migration.network.client.ThuocClientController;
 import com.pillchill.migration.network.communication.HoaDonCreateItemPayload;
 
@@ -25,6 +26,7 @@ public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gu
     private final HoaDonClientController hoaDonClientController;
     private final KhachHangClientController khachHangClientController;
     private final KhuyenMaiClientController khuyenMaiClientController;
+    private final PhieuDatClientController phieuDatClientController;
     private final String maNhanVien;
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -44,11 +46,13 @@ public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gu
                           HoaDonClientController hoaDonClientController,
                           KhachHangClientController khachHangClientController,
                           KhuyenMaiClientController khuyenMaiClientController,
+                          PhieuDatClientController phieuDatClientController,
                           String maNhanVien) {
         this.thuocClientController = thuocClientController;
         this.hoaDonClientController = hoaDonClientController;
         this.khachHangClientController = khachHangClientController;
         this.khuyenMaiClientController = khuyenMaiClientController;
+        this.phieuDatClientController = phieuDatClientController;
         this.maNhanVien = maNhanVien;
 
         setLayout(new BorderLayout());
@@ -68,6 +72,7 @@ public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gu
         txtSearch = new JTextField();
         JButton btnSearch = createButton("Tìm", new Color(240, 240, 240), Color.BLACK);
         JButton btnResetSearch = createButton("Xóa lọc", new Color(240, 240, 240), Color.BLACK);
+        JButton btnHoaDonPhieuDat = createButton("Từ phiếu đặt", new Color(52, 152, 219), Color.WHITE);
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         searchPanel.setBackground(Color.WHITE);
         searchPanel.add(new JLabel("Từ khóa:"));
@@ -75,6 +80,7 @@ public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gu
         searchPanel.add(txtSearch);
         searchPanel.add(btnSearch);
         searchPanel.add(btnResetSearch);
+        searchPanel.add(btnHoaDonPhieuDat);
         topPanel.add(searchPanel, BorderLayout.NORTH);
 
         String[] thuocCols = {"Mã thuốc", "Tên thuốc", "Mã lô", "HSD", "SL lô", "Đơn giá", "Đơn vị"};
@@ -145,6 +151,7 @@ public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gu
             capNhatTongTien();
         });
         btnXacNhan.addActionListener(e -> moFrameXacNhanHoaDon());
+        btnHoaDonPhieuDat.addActionListener(e -> moFrameHoaDonTuPhieuDat());
 
         reloadDataFromDatabase();
     }
@@ -326,6 +333,19 @@ public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gu
                 maHoaDon,
                 maNhanVien,
                 tongTien,
+                this
+        );
+        frame.setVisible(true);
+    }
+
+    private void moFrameHoaDonTuPhieuDat() {
+        LapHoaDonTuPhieuDatFrame frame = new LapHoaDonTuPhieuDatFrame(
+                phieuDatClientController,
+                thuocClientController,
+                hoaDonClientController,
+                khachHangClientController,
+                khuyenMaiClientController,
+                maNhanVien,
                 this
         );
         frame.setVisible(true);

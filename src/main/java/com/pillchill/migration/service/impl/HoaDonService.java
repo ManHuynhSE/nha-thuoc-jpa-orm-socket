@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import com.pillchill.migration.dto.ChiTietHoaDonView;
 import com.pillchill.migration.entity.ChiTietHoaDon;
+import com.pillchill.migration.entity.ChiTietPhieuDat;
 import com.pillchill.migration.entity.ChiTietLoThuoc;
 import com.pillchill.migration.entity.HoaDon;
 import com.pillchill.migration.entity.KhachHang;
 import com.pillchill.migration.entity.KhuyenMai;
 import com.pillchill.migration.entity.LoThuoc;
 import com.pillchill.migration.entity.NhanVien;
+import com.pillchill.migration.entity.PhieuDat;
 import com.pillchill.migration.entity.Thuoc;
 import com.pillchill.migration.entity.id.ChiTietHoaDonId;
 import com.pillchill.migration.entity.id.ChiTietLoThuocId;
@@ -26,6 +28,9 @@ import com.pillchill.migration.service.IHoaDonService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class HoaDonService implements IHoaDonService {
     private final IHoaDonRepository hoaDonRepository;
@@ -50,10 +55,26 @@ public class HoaDonService implements IHoaDonService {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
+            String maPhieuDat = normalizeUpper(command.maPhieuDat());
+            PhieuDat phieuDatNguon = null;
+            if (maPhieuDat != null) {
+                phieuDatNguon = em.find(PhieuDat.class, maPhieuDat);
+                if (phieuDatNguon == null || !phieuDatNguon.isActive()) {
+                    throw new IllegalArgumentException("Không tìm thấy phiếu đặt hợp lệ: " + maPhieuDat);
+                }
+                if (phieuDatNguon.isReceived()) {
+                    throw new IllegalStateException("Phiếu đặt " + maPhieuDat + " đã được xuất hóa đơn");
+                }
+            }
+
+            Map<String, HoaDonItemCommand> normalizedItems = normalizeAndMergeItems(command.items());
+            validateAgainstPhieuDat(em, maPhieuDat, normalizedItems);
+
             NhanVien nhanVien = em.getReference(NhanVien.class, command.maNV());
-            KhachHang khachHang = command.maKH() == null || command.maKH().isBlank()
+            String maKhachHang = resolveMaKhachHang(command.maKH(), phieuDatNguon);
+            KhachHang khachHang = maKhachHang == null || maKhachHang.isBlank()
                     ? null
-                    : em.getReference(KhachHang.class, command.maKH());
+                    : em.getReference(KhachHang.class, maKhachHang);
             KhuyenMai khuyenMai = command.maKM() == null || command.maKM().isBlank()
                     ? null
                     : em.getReference(KhuyenMai.class, command.maKM());
@@ -71,7 +92,7 @@ public class HoaDonService implements IHoaDonService {
                     .build();
             em.persist(hoaDon);
 
-            for (HoaDonItemCommand item : command.items()) {
+            for (HoaDonItemCommand item : normalizedItems.values()) {
                 Thuoc thuoc = em.getReference(Thuoc.class, item.maThuoc());
                 List<FifoAllocation> allocations = item.maLo() != null && !item.maLo().isBlank()
                         ? truTonKhoTheoLoDuocChon(em, item.maThuoc(), item.maLo(), item.soLuong())
@@ -90,6 +111,10 @@ public class HoaDonService implements IHoaDonService {
                     em.persist(chiTietHoaDon);
                 }
                 dongBoSoLuongTon(em, item.maThuoc());
+            }
+            if (phieuDatNguon != null) {
+                phieuDatNguon.setReceived(true);
+                em.merge(phieuDatNguon);
             }
 
             tx.commit();
@@ -163,6 +188,111 @@ public class HoaDonService implements IHoaDonService {
                 .setParameter("soLuong", tongSoLuong)
                 .setParameter("maThuoc", maThuoc)
                 .executeUpdate();
+    }
+
+    private Map<String, HoaDonItemCommand> normalizeAndMergeItems(List<HoaDonItemCommand> items) {
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Danh sách chi tiết hóa đơn trống");
+        }
+
+        Map<String, HoaDonItemCommand> merged = new LinkedHashMap<>();
+        for (HoaDonItemCommand rawItem : items) {
+            if (rawItem == null) {
+                throw new IllegalArgumentException("Chi tiết hóa đơn chứa dòng rỗng");
+            }
+            String maThuoc = normalizeUpper(rawItem.maThuoc());
+            String maLo = normalizeUpper(rawItem.maLo());
+            if (maThuoc == null || maThuoc.isBlank()) {
+                throw new IllegalArgumentException("Mã thuốc không hợp lệ");
+            }
+            if (maLo == null || maLo.isBlank()) {
+                throw new IllegalArgumentException("Mã lô không hợp lệ");
+            }
+            if (rawItem.soLuong() <= 0) {
+                throw new IllegalArgumentException("Số lượng phải lớn hơn 0");
+            }
+
+            String key = maThuoc + "|" + maLo;
+            HoaDonItemCommand existing = merged.get(key);
+            if (existing == null) {
+                merged.put(key, new HoaDonItemCommand(maThuoc, maLo, rawItem.soLuong(), rawItem.donGia()));
+            } else {
+                merged.put(
+                        key,
+                        new HoaDonItemCommand(
+                                maThuoc,
+                                maLo,
+                                existing.soLuong() + rawItem.soLuong(),
+                                existing.donGia()
+                        )
+                );
+            }
+        }
+        return merged;
+    }
+
+    private void validateAgainstPhieuDat(EntityManager em, String maPhieuDat, Map<String, HoaDonItemCommand> normalizedItems) {
+        if (maPhieuDat == null || maPhieuDat.isBlank()) {
+            return;
+        }
+
+        List<ChiTietPhieuDat> chiTietPhieuDatList = em.createQuery(
+                        "select c from ChiTietPhieuDat c " +
+                                "where c.id.maPhieuDat = :maPhieuDat and c.isActive = true",
+                        ChiTietPhieuDat.class)
+                .setParameter("maPhieuDat", maPhieuDat)
+                .getResultList();
+        if (chiTietPhieuDatList.isEmpty()) {
+            throw new IllegalArgumentException("Phiếu đặt không có chi tiết hợp lệ: " + maPhieuDat);
+        }
+
+        Map<String, Integer> expected = new LinkedHashMap<>();
+        for (ChiTietPhieuDat chiTiet : chiTietPhieuDatList) {
+            String key = chiTiet.getId().getMaThuoc() + "|" + chiTiet.getId().getMaLo();
+            expected.put(key, expected.getOrDefault(key, 0) + (chiTiet.getSoLuong() == null ? 0 : chiTiet.getSoLuong()));
+        }
+
+        if (expected.size() != normalizedItems.size()) {
+            throw new IllegalArgumentException("Chi tiết hóa đơn phải khớp toàn bộ chi tiết phiếu đặt");
+        }
+
+        for (Map.Entry<String, Integer> entry : expected.entrySet()) {
+            HoaDonItemCommand item = normalizedItems.get(entry.getKey());
+            if (item == null) {
+                throw new IllegalArgumentException("Thiếu mặt hàng từ phiếu đặt: " + entry.getKey());
+            }
+            if (item.soLuong() != entry.getValue()) {
+                throw new IllegalArgumentException("Số lượng không khớp với phiếu đặt cho mặt hàng: " + entry.getKey());
+            }
+        }
+    }
+
+    private String resolveMaKhachHang(String maKhachHang, PhieuDat phieuDatNguon) {
+        String normalizedInput = normalizeUpper(maKhachHang);
+        if (phieuDatNguon == null) {
+            return normalizedInput;
+        }
+        String maKhachHangPhieuDat = phieuDatNguon.getKhachHang() == null
+                ? null
+                : normalizeUpper(phieuDatNguon.getKhachHang().getMaKH());
+        if (maKhachHangPhieuDat == null) {
+            return normalizedInput;
+        }
+        if (normalizedInput != null && !maKhachHangPhieuDat.equals(normalizedInput)) {
+            throw new IllegalArgumentException("Khách hàng hóa đơn phải trùng với khách hàng của phiếu đặt");
+        }
+        return maKhachHangPhieuDat;
+    }
+
+    private String normalizeUpper(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        if (trimmed.isEmpty()) {
+            return null;
+        }
+        return trimmed.toUpperCase();
     }
 
     @Override

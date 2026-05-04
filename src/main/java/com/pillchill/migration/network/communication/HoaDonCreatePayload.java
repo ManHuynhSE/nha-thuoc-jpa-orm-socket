@@ -13,16 +13,18 @@ public class HoaDonCreatePayload implements Serializable {
     private String ghiChu;
     private String maKhachHang;
     private String maKhuyenMai;
+    private String maPhieuDat;
     private List<HoaDonCreateItemPayload> items = new ArrayList<>();
 
     public HoaDonCreatePayload() {
     }
 
-    public HoaDonCreatePayload(String maHoaDon, String ghiChu, String maKhachHang, String maKhuyenMai, List<HoaDonCreateItemPayload> items) {
+    public HoaDonCreatePayload(String maHoaDon, String ghiChu, String maKhachHang, String maKhuyenMai, String maPhieuDat, List<HoaDonCreateItemPayload> items) {
         this.maHoaDon = maHoaDon;
         this.ghiChu = ghiChu;
         this.maKhachHang = maKhachHang;
         this.maKhuyenMai = maKhuyenMai;
+        this.maPhieuDat = maPhieuDat;
         this.items = items;
     }
 
@@ -56,6 +58,14 @@ public class HoaDonCreatePayload implements Serializable {
 
     public void setMaKhuyenMai(String maKhuyenMai) {
         this.maKhuyenMai = maKhuyenMai;
+    }
+
+    public String getMaPhieuDat() {
+        return maPhieuDat;
+    }
+
+    public void setMaPhieuDat(String maPhieuDat) {
+        this.maPhieuDat = maPhieuDat;
     }
 
     public List<HoaDonCreateItemPayload> getItems() {

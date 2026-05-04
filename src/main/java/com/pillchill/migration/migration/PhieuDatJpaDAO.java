@@ -1,6 +1,7 @@
 package com.pillchill.migration.migration;
 
 import com.pillchill.migration.dto.ChiTietPhieuDatView;
+import com.pillchill.migration.dto.CreatePhieuDatCommand;
 import com.pillchill.migration.dto.PhieuDatView;
 import com.pillchill.migration.service.IPhieuDatService;
 import com.pillchill.migration.service.impl.PhieuDatService;
@@ -28,5 +29,9 @@ public class PhieuDatJpaDAO {
 
     public ArrayList<ChiTietPhieuDatView> getChiTietPhieuDatByMaPhieuDat(String maPhieuDat) {
         return new ArrayList<>(phieuDatService.getChiTietPhieuDatByMaPhieuDat(maPhieuDat));
+    }
+
+    public String createPhieuDat(CreatePhieuDatCommand command, String maNhanVien) {
+        return phieuDatService.createPhieuDat(command, maNhanVien);
     }
 }

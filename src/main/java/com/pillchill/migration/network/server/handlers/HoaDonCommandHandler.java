@@ -121,6 +121,7 @@ public class HoaDonCommandHandler implements CommandHandler {
                             payload.getMaKhuyenMai(),
                             0.10d,
                             "VAT 10%",
+                            payload.getMaPhieuDat(),
                             items
                     );
                     hoaDonJpaDAO.addHoaDon(command);

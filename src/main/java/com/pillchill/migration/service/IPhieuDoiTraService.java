@@ -1,6 +1,7 @@
 package com.pillchill.migration.service;
 
 import com.pillchill.migration.dto.ChiTietPhieuDoiTraView;
+import com.pillchill.migration.dto.CreatePhieuDoiTraCommand;
 import com.pillchill.migration.dto.PhieuDoiTraView;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface IPhieuDoiTraService {
     List<PhieuDoiTraView> getPhieuDoiTraViewsByMonthYear(int month, int year);
 
     List<ChiTietPhieuDoiTraView> getChiTietPhieuDoiTraByMaPhieuDoiTra(String maPhieuDoiTra);
+
+    String createPhieuDoiTra(CreatePhieuDoiTraCommand command, String maNhanVien);
 }

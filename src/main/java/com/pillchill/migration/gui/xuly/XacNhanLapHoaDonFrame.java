@@ -38,6 +38,7 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
     private final String maHoaDon;
     private final String maNhanVien;
     private final double tongTien;
+    private final String maPhieuDatNguon;
 
     private KhachHang khachHangHienTai;
     private KhuyenMai khuyenMaiApDung;
@@ -63,8 +64,30 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
                                  KhachHangClientController khachHangClientController,
                                  KhuyenMaiClientController khuyenMaiClientController,
                                  List<HoaDonCreateItemPayload> dsChiTietData,
+                                  String maHoaDon, String maNhanVien, double tongTien,
+                                  HoaDonCallback hoaDonCallback) {
+        this(
+                hoaDonClientController,
+                khachHangClientController,
+                khuyenMaiClientController,
+                dsChiTietData,
+                maHoaDon,
+                maNhanVien,
+                tongTien,
+                hoaDonCallback,
+                null,
+                null
+        );
+    }
+
+    public XacNhanLapHoaDonFrame(HoaDonClientController hoaDonClientController,
+                                 KhachHangClientController khachHangClientController,
+                                 KhuyenMaiClientController khuyenMaiClientController,
+                                 List<HoaDonCreateItemPayload> dsChiTietData,
                                  String maHoaDon, String maNhanVien, double tongTien,
-                                 HoaDonCallback hoaDonCallback) {
+                                 HoaDonCallback hoaDonCallback,
+                                 String maPhieuDatNguon,
+                                 KhachHang khachHangMacDinh) {
         this.hoaDonClientController = hoaDonClientController;
         this.khachHangClientController = khachHangClientController;
         this.khuyenMaiClientController = khuyenMaiClientController;
@@ -73,6 +96,7 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
         this.maHoaDon = maHoaDon;
         this.maNhanVien = maNhanVien;
         this.tongTien = tongTien;
+        this.maPhieuDatNguon = maPhieuDatNguon;
 
         setTitle("Xác Nhận Lập Hóa Đơn");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -82,6 +106,7 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
         getContentPane().setBackground(BG_COLOR);
 
         initializeUI();
+        apDungKhachHangMacDinh(khachHangMacDinh);
         updatePaymentInfo();
     }
 
@@ -446,6 +471,17 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
         }
     }
 
+    private void apDungKhachHangMacDinh(KhachHang khachHangMacDinh) {
+        if (khachHangMacDinh == null) {
+            return;
+        }
+        this.khachHangHienTai = khachHangMacDinh;
+        txtSDT.setText(khachHangMacDinh.getSoDienThoai() == null ? "" : khachHangMacDinh.getSoDienThoai());
+        lblTenKhachHang.setText(khachHangMacDinh.getTenKH() == null ? "---" : khachHangMacDinh.getTenKH());
+        lblDiemThanhVien.setText(String.valueOf(khachHangMacDinh.getDiemTichLuy() == null ? 0 : khachHangMacDinh.getDiemTichLuy()));
+        lblLichSuMua.setText("Lấy từ phiếu đặt");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnQuayVe) {
@@ -663,6 +699,7 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
             payload.setMaKhachHang(khachHangHienTai != null ? khachHangHienTai.getMaKH() : null);
             payload.setMaKhuyenMai(khuyenMaiApDung != null ? khuyenMaiApDung.getMaKM() : null);
             payload.setGhiChu(txtGhiChu.getText().trim());
+            payload.setMaPhieuDat(maPhieuDatNguon);
             payload.setItems(dsChiTietData);
 
             // Save to server
