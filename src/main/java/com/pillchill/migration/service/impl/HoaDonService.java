@@ -248,7 +248,9 @@ public class HoaDonService implements IHoaDonService {
 
         Map<String, Integer> expected = new LinkedHashMap<>();
         for (ChiTietPhieuDat chiTiet : chiTietPhieuDatList) {
-            String key = chiTiet.getId().getMaThuoc() + "|" + chiTiet.getId().getMaLo();
+            String maThuoc = normalizeUpper(chiTiet.getId().getMaThuoc());
+            String maLo = normalizeUpper(chiTiet.getId().getMaLo());
+            String key = maThuoc + "|" + maLo;
             expected.put(key, expected.getOrDefault(key, 0) + (chiTiet.getSoLuong() == null ? 0 : chiTiet.getSoLuong()));
         }
 

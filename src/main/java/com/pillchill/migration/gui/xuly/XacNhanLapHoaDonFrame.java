@@ -480,6 +480,8 @@ public class XacNhanLapHoaDonFrame extends JFrame implements ActionListener {
         lblTenKhachHang.setText(khachHangMacDinh.getTenKH() == null ? "---" : khachHangMacDinh.getTenKH());
         lblDiemThanhVien.setText(String.valueOf(khachHangMacDinh.getDiemTichLuy() == null ? 0 : khachHangMacDinh.getDiemTichLuy()));
         lblLichSuMua.setText("Lấy từ phiếu đặt");
+        txtSDT.setEditable(false);
+        btnTimKhachHang.setEnabled(false);
     }
 
     @Override
