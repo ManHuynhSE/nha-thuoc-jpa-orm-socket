@@ -50,4 +50,5 @@ public class NhanVienJpaDAO {
     public boolean deleteNhanVien(String maNhanVien) {
         return nhanVienService.deleteNhanVien(maNhanVien);
     }
+
 }

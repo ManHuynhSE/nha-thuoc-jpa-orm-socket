@@ -43,6 +43,7 @@ public class Server {
         dispatcher.register("PHIEU_DAT", new PhieuDatCommandHandler(new PhieuDatJpaDAO()));
         dispatcher.register("PHIEU_DOI_TRA", new PhieuDoiTraCommandHandler(new PhieuDoiTraJpaDAO()));
         dispatcher.register("PHIEU_NHAP", new PhieuNhapCommandHandler(new PhieuNhapJpaDAO()));
+        dispatcher.register("BANG_GIA", new BangGiaCommandHandler(new BangGiaJpaDAO()));
     }
 
     public void start() {

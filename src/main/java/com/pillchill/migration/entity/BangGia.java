@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @Entity
 @ToString
 @Table(name = "BangGia")
-public class BangGia {
+public class BangGia implements Serializable {
     @Id
     @Column(name = "maBangGia", length = 50, nullable = false)
     private String maBangGia;

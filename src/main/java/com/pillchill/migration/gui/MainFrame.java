@@ -8,6 +8,7 @@ import javax.swing.*;
 import com.pillchill.migration.gui.capnhat.*;
 import com.pillchill.migration.gui.thongke.*;
 import com.pillchill.migration.gui.timkiem.*;
+import com.pillchill.migration.migration.NhanVienJpaDAO;
 import com.pillchill.migration.network.client.*;
 
 public class MainFrame extends JFrame {
@@ -22,7 +23,7 @@ public class MainFrame extends JFrame {
     private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
     private CapNhatDonViPanel capNhatDonViPanel;
-    // private CapNhatBangGiaPanel capNhatBangGiaPanel;
+     private CapNhatBangGiaPanel capNhatBangGiaPanel;
     private CapNhatKhuyenMaiPanel capNhatKhuyenMaiPanel;
     // private LapPhieuDatThuocPanel lapPhieuDatThuocPanel;
     // private NhapThuocPanel nhapThuocPanel;
@@ -55,10 +56,10 @@ public class MainFrame extends JFrame {
         initializeFrame();
         initializePanels();
         showDefaultContent();
-        // if(true) {
-        // NhanVienDAO nvDAO = new NhanVienDAO();
-        // isQuanLy= nvDAO.isQuanLy(maNhanVien);
-        // }
+//         if(true) {
+//         NhanVienJpaDAO nvDAO = new NhanVienJpaDAO();
+//         isQuanLy= nvDAO.(maNhanVien);
+//         }
     }
 
     private void initializeFrame() {
@@ -89,6 +90,7 @@ public class MainFrame extends JFrame {
         capNhatNhanVienPanel = null;
 //        capNhatThuocPanel = null;
         capNhatKhuyenMaiPanel = null;
+        capNhatBangGiaPanel = null;
         // lapPhieuDatThuocPanel = null;
         // nhapThuocPanel = null;
         // lapPhieuTraThuocPanel = null;
@@ -390,18 +392,18 @@ public class MainFrame extends JFrame {
         showPanel(capNhatDonViPanel);
 
     }
-    // public void showCapNhatBangGiaPanel() {
-    // if(!isQuanLy) {
-    // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-    // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-    // return;
-    // }
-    // if(capNhatBangGiaPanel == null) {
-    // capNhatBangGiaPanel = new CapNhatBangGiaPanel();
-    // }
-    // showPanel(capNhatBangGiaPanel);
-    //
-    // }
+     public void showCapNhatBangGiaPanel() {
+//        if(!isQuanLy) {
+//            JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!",
+//                "Thông báo", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+        if(capNhatBangGiaPanel == null) {
+            capNhatBangGiaPanel = new CapNhatBangGiaPanel(new BangGiaClientController(sessionContext));
+        }
+        showPanel(capNhatBangGiaPanel);
+
+     }
     //
     // public void showPhieuNhap() {
     // if(xemPhieuNhapPanel == null) {

@@ -312,7 +312,7 @@ public class CapNhatBangGiaPanel extends JPanel implements ActionListener, Mouse
 
         JTableHeader header = tblBangGia.getTableHeader();
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        header.setBackground(Color.black);
+        header.setBackground(PRIMARY_COLOR);
         header.setForeground(Color.WHITE);
         header.setPreferredSize(new Dimension(header.getWidth(), 40));
         header.setReorderingAllowed(false);
