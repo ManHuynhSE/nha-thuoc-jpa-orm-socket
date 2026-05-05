@@ -74,6 +74,16 @@ public class KhachHangCommandHandler implements CommandHandler {
                 KhachHang khachHang = khachHangJpaDAO.findById(maKH);
                 return Response.success(khachHang, "Tìm khách hàng thành công");
             }
+            case LIST_ALL_INACTIVE -> {
+                return Response.success(khachHangJpaDAO.getAllInactiveKhachHang(), "Tìm khách hàng thành công");
+            }
+            case REACTIVE -> {
+                if (!(request.getData() instanceof String maKH) || maKH.isBlank()) {
+                    return Response.error("Mã khách hàng không hợp lệ");
+                }
+//                KhachHang khachHang = khachHangJpaDAO.findById(maKH);
+                return Response.success(khachHangJpaDAO.reactiveKhachHang(maKH), "Khôi phục khách hàng thàn công");
+            }
         }
         return Response.error("Command khách hàng không hỗ trợ");
     }

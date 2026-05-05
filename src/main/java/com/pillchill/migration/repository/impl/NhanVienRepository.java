@@ -53,4 +53,5 @@ public class NhanVienRepository extends AbstracGenericRepository<NhanVien, Strin
                         NhanVien.class)
                 .getResultList());
     }
+    
 }

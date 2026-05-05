@@ -105,6 +105,12 @@ public class NhanVienService implements INhanVienService {
     }
 
     @Override
+    public boolean isQuanLy(String maNV) {
+        NhanVien nv =  nhanVienRepository.findById(maNV);
+        return nv.getChucVu().getMaChucVu().equalsIgnoreCase("QLY");
+    }
+
+    @Override
     public boolean reactiveNhanVien(String maNhanVien) {
         if (maNhanVien == null || maNhanVien.isBlank()) {
             throw new RuntimeException("Mã nhân viên không hợp lệ");

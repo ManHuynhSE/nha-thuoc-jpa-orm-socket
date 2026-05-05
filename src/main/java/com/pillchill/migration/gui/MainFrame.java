@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
     private JPanel contentPanel;
      private TimKiemThuocPanel timKiemThuocPanel;
      private LapHoaDonPanel lapHoaDonPanel;
-    // private CapNhatKhachHangPanel capNhatKhachHangPanel;
+     private CapNhatKhachHangPanel capNhatKhachHangPanel;
     private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
     private CapNhatDonViPanel capNhatDonViPanel;
@@ -52,6 +52,7 @@ public class MainFrame extends JFrame {
     private TimKiemHoaDonPanel timKiemHoaDonPanel;
 
     private boolean isQuanLy = false;
+    private NhanVienClientController nhanVienClientController;
 
     public MainFrame(ClientSessionContext sessionContext) {
         this.sessionContext = sessionContext;
@@ -59,6 +60,9 @@ public class MainFrame extends JFrame {
         initializeFrame();
         initializePanels();
         showDefaultContent();
+        nhanVienClientController = new NhanVienClientController(sessionContext);
+        
+        isQuanLy = nhanVienClientController.isQuanLy(maNhanVien);
         // if(true) {
         // NhanVienDAO nvDAO = new NhanVienDAO();
         // isQuanLy= nvDAO.isQuanLy(maNhanVien);
@@ -178,19 +182,18 @@ public class MainFrame extends JFrame {
     // return lapHoaDonPanel;
     // }
     //
-    // public void showCapNhatKhachHangPanel() {
-    // if (capNhatKhachHangPanel == null) {
-    // capNhatKhachHangPanel = new CapNhatKhachHangPanel();
-    // }
-    // showPanel(capNhatKhachHangPanel);
-    // }
-    //
+     public void showCapNhatKhachHangPanel() {
+         if (capNhatKhachHangPanel == null) {
+         capNhatKhachHangPanel = new CapNhatKhachHangPanel(maNhanVien, new KhachHangClientController(sessionContext));
+         }
+         showPanel(capNhatKhachHangPanel);
+     }
+
     public void showCapNhatNhanVienPanel() {
-        // if(!isQuanLy) {
-        // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-        // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        // return;
-        // }
+         if(!isQuanLy) {
+         JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+         return;
+         }
         if (capNhatNhanVienPanel == null) {
             capNhatNhanVienPanel = new CapNhatNhanVienPanel(maNhanVien, new NhanVienClientController(sessionContext),
                     new ChucVuClientController(sessionContext)); /// check later
@@ -311,11 +314,10 @@ public class MainFrame extends JFrame {
      showPanel(nhapThuocPanel);
      }
     public void showThongKeTheoNhanVienPanel() {
-        // if(!isQuanLy) {
-        // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-        // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        // return;
-        // }
+         if(!isQuanLy) {
+         JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+         return;
+         }
         if (thongKeTheoNhanVienPanel == null) {
             thongKeTheoNhanVienPanel = new ThongKeTheoNhanVienPanel(
                     new ThongKeNhanVienClientController(sessionContext));
@@ -345,27 +347,25 @@ public class MainFrame extends JFrame {
         showPanel(thongKeTheoHSDPanel);
     }
     public void showThongKeTheoThuocPanel() {
-    // if(!isQuanLy) {
-    // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-    // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-    // return;
-    // }
-    if (thongKeTheoThuocPanel == null) {
-    thongKeTheoThuocPanel = new ThongKeTheoThuocPanel(
-            new ThuocClientController(sessionContext),
-            new HoaDonClientController(sessionContext)
-    );
-    } else {
-        thongKeTheoThuocPanel.refresh();
-    }
-    showPanel(thongKeTheoThuocPanel);
+         if(!isQuanLy) {
+         JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+         return;
+        }
+        if (thongKeTheoThuocPanel == null) {
+        thongKeTheoThuocPanel = new ThongKeTheoThuocPanel(
+                new ThuocClientController(sessionContext),
+                new HoaDonClientController(sessionContext)
+        );
+        } else {
+            thongKeTheoThuocPanel.refresh();
+        }
+        showPanel(thongKeTheoThuocPanel);
     }
     public void showThongKeTheoDoanhThuPanelTheoThang() {
-        // if(!isQuanLy) {
-        // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-        // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        // return;
-        // }
+         if(!isQuanLy) {
+         JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+         return;
+         }
         if (thongKeTheoDoanhThuTheoThangPanel == null) {
             thongKeTheoDoanhThuTheoThangPanel = new ThongKeDoanhThuTheoThangPanel(
                     new DoanhThuClientController(sessionContext));
@@ -375,11 +375,10 @@ public class MainFrame extends JFrame {
     }
 
     public void showThongKeTheoDoanhThuPanelTheoNam() {
-        // if(!isQuanLy) {
-        // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-        // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        // return;
-        // }
+         if(!isQuanLy) {
+         JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+         return;
+         }
         if (thongKeTheoDoanhThuPanel == null) {
             thongKeTheoDoanhThuPanel = new ThongKeDoanhThuTheoNamPanel(new DoanhThuClientController(sessionContext));
         }
@@ -399,11 +398,10 @@ public class MainFrame extends JFrame {
     // showPanel(thongKeTheoThuePanel);
     // }
     public void showCapNhatChucVuPanel() {
-        // if(!isQuanLy) {
-        // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng
-        // chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-        // return;
-        // }
+         if(!isQuanLy) {
+         JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng chức năng này!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+         return;
+         }
         if (capNhatChucVuPanel == null) {
             capNhatChucVuPanel = new CapNhatChucVuPanel(new ChucVuClientController(sessionContext));
         }

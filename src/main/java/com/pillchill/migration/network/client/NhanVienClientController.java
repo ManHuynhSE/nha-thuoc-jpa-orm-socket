@@ -120,4 +120,20 @@ public class NhanVienClientController {
             throw new RuntimeException(response.getMessage());
         }
     }
+    public boolean isQuanLy(String maNhanVien) {
+        Request request = new Request(
+                "NHAN_VIEN." + NhanVienCM.IS_QUAN_LY.name(),
+                maNhanVien,
+                sessionContext.getUserId()
+        );
+        Response response = sessionContext.getNetworkClient().send(request);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object rawData = response.getData();
+        if(!(rawData instanceof Boolean result)){
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+        return result;
+    }
 }

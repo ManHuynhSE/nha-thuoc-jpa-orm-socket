@@ -38,6 +38,7 @@ public class NhanVienCommandHandler implements CommandHandler {
                 case DELETE -> handleDelete(request);
                 case LIST_ALL_INACTIVE -> handleInactiveList1();
                 case REACTIVE -> handleReactive(request);
+                case IS_QUAN_LY -> handIsQuanLy(request);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command nhân viên không hỗ trợ: " + action);
@@ -89,4 +90,18 @@ public class NhanVienCommandHandler implements CommandHandler {
         }
         return Response.success(true, "Xóa nhân viên thành công");
     }
+
+    private Response handIsQuanLy(Request request) {
+        Object payload = request.getData();
+        if (!(payload instanceof String maNhanVien) || maNhanVien.isBlank()) {
+            return Response.error("Mã nhân viên cần xóa không hợp lệ");
+        }
+        boolean isQly = nhanVienJpaDAO.isQuanLy(maNhanVien);
+        if (!isQly) {
+            return Response.success(false, "Không phải quản lý");
+        }
+        return Response.success(true, "Quản lý");
+    }
+    
+    
 }

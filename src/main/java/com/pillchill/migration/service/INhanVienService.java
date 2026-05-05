@@ -16,5 +16,7 @@ public interface INhanVienService {
     List<NhanVienDTO> loadALlNhanVien();
     List<NhanVienDTO> loadALlInactiveNhanVien();
     boolean reactiveNhanVien(String maNV);
+    boolean isQuanLy(String maNV);
+    
     
 }

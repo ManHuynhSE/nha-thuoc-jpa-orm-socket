@@ -58,4 +58,8 @@ public class NhanVienJpaDAO {
     public boolean reactiveNhanVien(String maNhanVien) {
         return nhanVienService.reactiveNhanVien(maNhanVien);
     }
+    
+    public boolean isQuanLy(String maNV){
+        return nhanVienService.isQuanLy(maNV);
+    }
 }

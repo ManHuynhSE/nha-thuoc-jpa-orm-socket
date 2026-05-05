@@ -1,10 +1,14 @@
 package com.pillchill.migration.network.client;
 
+import com.pillchill.migration.dto.KhachHangDTO;
+import com.pillchill.migration.entity.DonVi;
 import com.pillchill.migration.entity.KhachHang;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.KhachHangPayload;
+import com.pillchill.migration.network.communication.command.DonViCM;
 import com.pillchill.migration.network.communication.command.KhachHangCM;
+import com.pillchill.migration.network.communication.command.KhuyenMaiCM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +72,51 @@ public class KhachHangClientController {
                 throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
             }
             result.add(khachItem);
+        }
+        return result;
+    }
+
+    public Response reactiveKhachHangResponse(String maKhuyenMai) {
+        Request request = new Request(
+                "KHACH_HANG." + KhachHangCM.REACTIVE.name(),
+                maKhuyenMai,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public boolean reactiveKhachHang(String maKhuyenMai) {
+        Response response = reactiveKhachHangResponse(maKhuyenMai);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        return true;
+    }
+    public Response getAllInactiveKhachHangResponse() {
+        Request request = new Request(
+                "KHACH_HANG." + KhachHangCM.LIST_ALL_INACTIVE.name(),
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+    public List<KhachHang> getAllInactiveKhachHang() {
+        Response response = getAllInactiveKhachHangResponse();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+
+        Object data = response.getData();
+        if (!(data instanceof List<?> rawList)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<KhachHang> result = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof KhachHang itemData)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result.add(itemData);
         }
         return result;
     }

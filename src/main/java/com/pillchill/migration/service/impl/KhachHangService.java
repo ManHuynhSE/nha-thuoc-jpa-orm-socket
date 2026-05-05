@@ -56,4 +56,14 @@ public class KhachHangService implements IKhachHangService {
     public KhachHang findByPhone(String phone) {
         return khachHangRepository.findByPhone(phone);
     }
+
+    @Override
+    public List<KhachHang> getAllInactiveKhachHang() {
+        return khachHangRepository.getAllInactiveKhachHang();
+    }
+
+    @Override
+    public boolean reactivateKhachHang(String maKM) {
+        return khachHangRepository.reactivateKhachHang(maKM);
+    }
 }

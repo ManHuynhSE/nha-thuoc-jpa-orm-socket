@@ -1,6 +1,7 @@
 package com.pillchill.migration.repository.impl;
 
 import com.pillchill.migration.entity.KhachHang;
+import com.pillchill.migration.entity.NhanVien;
 import com.pillchill.migration.repository.IKhachHangRepository;
 
 import java.util.List;
@@ -63,5 +64,26 @@ public class KhachHangRepository extends AbstracGenericRepository<KhachHang, Str
     public static void main(String[] args) {
         KhachHangRepository khachHangRepository = new KhachHangRepository();
         System.out.println(khachHangRepository.findAllActive());
+    }
+
+    @Override
+    public List<KhachHang> getAllInactiveKhachHang() {
+        return template.execute(em -> em.createQuery(
+                        "select k from KhachHang k " +
+                                "where k.isActive = false " +
+                                "order by k.maKH",
+                        KhachHang.class)
+                .getResultList());
+    }
+
+    @Override
+    public boolean reactivateKhachHang(String maKH) {
+        return template.execute(em -> {
+            int updated = em.createQuery(
+                            "update KhachHang k set k.isActive = true where k.maKH = :maKH and k.isActive = false")
+                    .setParameter("maKH", maKH)
+                    .executeUpdate();
+            return updated > 0;
+        });
     }
 }

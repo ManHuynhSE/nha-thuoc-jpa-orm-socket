@@ -1,6 +1,7 @@
 package com.pillchill.migration.migration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.pillchill.migration.entity.KhachHang;
 import com.pillchill.migration.service.IKhachHangService;
@@ -47,5 +48,11 @@ public class KhachHangJpaDAO {
 
     public KhachHang findById(String maKH) {
         return getKhachHangById(maKH);
+    }
+    public boolean reactiveKhachHang(String maKH){
+        return khachHangService.reactivateKhachHang(maKH);
+    }
+    public List<KhachHang> getAllInactiveKhachHang(){
+        return khachHangService.getAllInactiveKhachHang();
     }
 }

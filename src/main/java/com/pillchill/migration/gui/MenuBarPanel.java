@@ -260,7 +260,7 @@ public class MenuBarPanel extends JPanel implements ActionListener {
         Object o = e.getSource();
         
         // --- Cập nhật ---
-//        if (o == mniCapNhatKhachHang) parentFrame.showCapNhatKhachHangPanel();
+        if (o == mniCapNhatKhachHang) parentFrame.showCapNhatKhachHangPanel();
          if (o == mniCapNhatNhanVien) parentFrame.showCapNhatNhanVienPanel();
          else if (o == mniCapNhatThuoc) parentFrame.showCapNhatThuocPanel();
         else if (o == mniCapNhatKhuyenMai) parentFrame.showCapNhatKhuyenMaiPanel();
