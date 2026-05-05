@@ -5,11 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d022eca1-3df2-4fa4-8da8-6e96d6402c43" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Data/Procedure.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Procedure.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/HoaDonDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/TaiKhoanDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/DAO/ThuocDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/app/GUI/XacNhanLapHoaDonFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/../src/app/GUI/XacNhanLapHoaDonFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/bill_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/cash_back_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/chart_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/customer_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/customer_revenue_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/day_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/drug_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/employee_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/employee_revenue_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/expiration_date_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/import_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/logout_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/magnifier_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/month_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/order_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/password_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/position_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/poweroff_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/price_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/refund_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/reset_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/revenue_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/sale_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/suitcase_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/support_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/system_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/task_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/tax_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/top_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/unit_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/update_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/icon/year_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/image/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/image/pharmacy.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/image/pharmacy_gemini.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/pdf/HuongDanSuDungPhanMem.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/resources/script/DatabaseScript.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,63 +81,66 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Application.CapNhatThuocPanel.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ChiTietLoThuocRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Application.CreateDBSchema.executor&quot;: &quot;Run&quot;,
-    &quot;Application.DangNhapFrame.executor&quot;: &quot;Run&quot;,
-    &quot;Application.HoaDonRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Application.KhachHangRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Application.KhuyenMaiJpaDAO.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PrototypeClientApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PrototypeServerApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.QuanLyNhanVienModernDemo.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ThuocRepository.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ThuocService.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.pillchill.migration.gui.DangNhapFrame.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JpaMigrationIntegrationTest.entityMappingsShouldMatchMariaDbSchema.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JpaMigrationIntegrationTest.invoiceCreationShouldDeductStockByFifo.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JpaMigrationIntegrationTest.listMedicineWithPriceShouldWorkWithJpaAdapter.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JpaMigrationIntegrationTest.loginFlowShouldWorkWithJpaAdapter.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Coding_Project/clone-prj-test-only/nha-thuoc-jpa-orm-socket-02&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.App.executor": "Run",
+    "Application.CapNhatThuocPanel.executor": "Run",
+    "Application.ChiTietLoThuocRepository.executor": "Run",
+    "Application.CreateDBSchema.executor": "Run",
+    "Application.DangNhapFrame.executor": "Run",
+    "Application.HoaDonRepository.executor": "Run",
+    "Application.KhachHangRepository.executor": "Run",
+    "Application.KhuyenMaiJpaDAO.executor": "Run",
+    "Application.PrototypeClientApp.executor": "Run",
+    "Application.PrototypeServerApp.executor": "Run",
+    "Application.QuanLyNhanVienModernDemo.executor": "Run",
+    "Application.Server.executor": "Run",
+    "Application.TestServer.executor": "Run",
+    "Application.ThuocRepository.executor": "Run",
+    "Application.ThuocService.executor": "Run",
+    "Application.com.pillchill.migration.gui.DangNhapFrame.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.entityMappingsShouldMatchMariaDbSchema.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.invoiceCreationShouldDeductStockByFifo.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.listMedicineWithPriceShouldWorkWithJpaAdapter.executor": "Run",
+    "JUnit.JpaMigrationIntegrationTest.loginFlowShouldWorkWithJpaAdapter.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/LTPT_Java/nha-thuoc-jpa-orm-socket/src/main/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mariadb&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mariadb"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\LTPT_Java\nha-thuoc-jpa-orm-socket\src\main\java" />
+      <recent name="C:\LTPT_Java\nha-thuoc-jpa-orm-socket" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\gui\capnhat" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\gui\timkiem" />
       <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\gui\xuly" />
-      <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\network\server\handlers" />
-      <recent name="C:\LTPT_Java\project\nha-thuoc-pill-and-chill-java-swing\jpa-orm-migration\src\main\java\com\pillchill\migration\network\server" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\LTPT_Java\nha-thuoc-jpa-orm-socket\src\main" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.pillchill.migration" />
@@ -115,7 +153,7 @@
       <recent name="com.pillchill.migration.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DangNhapFrame">
+  <component name="RunManager" selected="Application.TestServer">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.pillchill.migration.App" />
       <module name="jpa-orm-migration" />
@@ -183,10 +221,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DangNhapFrame" />
         <item itemvalue="Application.TestServer" />
-        <item itemvalue="Application.QuanLyNhanVienModernDemo" />
         <item itemvalue="Application.App" />
+        <item itemvalue="Application.DangNhapFrame" />
+        <item itemvalue="Application.QuanLyNhanVienModernDemo" />
         <item itemvalue="Application.KhuyenMaiJpaDAO" />
       </list>
     </recent_temporary>
@@ -233,6 +271,8 @@
       <workItem from="1777726347338" duration="1716000" />
       <workItem from="1777893135710" duration="1570000" />
       <workItem from="1777911300913" duration="635000" />
+      <workItem from="1777987929365" duration="361000" />
+      <workItem from="1777993080047" duration="415000" />
     </task>
     <servers />
   </component>
