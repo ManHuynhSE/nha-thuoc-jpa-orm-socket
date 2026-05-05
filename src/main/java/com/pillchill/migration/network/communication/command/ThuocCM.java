@@ -2,6 +2,7 @@ package com.pillchill.migration.network.communication.command;
 
 public enum ThuocCM {
     LIST_ALL,
+    LIST_ALL_INACTIVE,
     LIST_ALL_VIEW,
     THONG_KE_THEO_NGAY,
     THONG_KE_THEO_THANG,
@@ -15,5 +16,6 @@ public enum ThuocCM {
     DELETE,
     CREATE,
     UPDATE,
+    REACTIVE,
 
 }

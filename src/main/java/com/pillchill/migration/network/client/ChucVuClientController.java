@@ -24,8 +24,37 @@ public class ChucVuClientController {
         return sessionContext.getNetworkClient().send(request);
     }
 
+    public Response getAllInactiveChucVuResponse() {
+        Request request = new Request(
+                "CHUC_VU." + ChucVuCM.LIST_ALL_INACTIVE.name(),
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
     public List<ChucVu> getAllChucVu() {
         Response response = getAllChucVuResponse();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof List<?> rawList)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<ChucVu> result = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof ChucVu itemData)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result.add(itemData);
+        }
+        return result;
+    }
+
+    public List<ChucVu> getAllInactiveChucVu() {
+        Response response = getAllInactiveChucVuResponse();
         if (!response.isSuccess()) {
             throw new RuntimeException(response.getMessage());
         }
@@ -69,5 +98,22 @@ public class ChucVuClientController {
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response reactiveChucVuResponse(String maChucVu) {
+        Request request = new Request(
+                "CHUC_VU." + ChucVuCM.REACTIVE.name(),
+                maChucVu,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public boolean reactivateChucVu(String maChucVu) {
+        Response response = reactiveChucVuResponse(maChucVu);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        return true;
     }
 }

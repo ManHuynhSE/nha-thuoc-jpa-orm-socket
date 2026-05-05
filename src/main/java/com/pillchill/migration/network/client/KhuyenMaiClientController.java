@@ -24,8 +24,38 @@ public class KhuyenMaiClientController {
         return sessionContext.getNetworkClient().send(request);
     }
 
+    public Response getAllKhuyenMaiInactiveResponse() {
+        Request request = new Request(
+                "KHUYEN_MAI." + KhuyenMaiCM.LIST_ALL_INACTIVE.name(),
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
     public List<KhuyenMai> getAllKhuyenMai() {
         Response response = getAllKhuyenMaiResponse();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+
+        Object data = response.getData();
+        if (!(data instanceof List<?> rawList)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<KhuyenMai> result = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof KhuyenMai itemData)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result.add(itemData);
+        }
+        return result;
+    }
+
+    public List<KhuyenMai> getAllKhuyenMaiInactive() {
+        Response response = getAllKhuyenMaiInactiveResponse();
         if (!response.isSuccess()) {
             throw new RuntimeException(response.getMessage());
         }
@@ -70,6 +100,23 @@ public class KhuyenMaiClientController {
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response reactiveKhuyenMaiResponse(String maKhuyenMai) {
+        Request request = new Request(
+                "KHUYEN_MAI." + KhuyenMaiCM.REACTIVE.name(),
+                maKhuyenMai,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public boolean reactiveKhuyenMai(String maKhuyenMai) {
+        Response response = reactiveKhuyenMaiResponse(maKhuyenMai);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        return true;
     }
 
     public Response findByMa(String maKhuyenMai) {

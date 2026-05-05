@@ -23,6 +23,15 @@ public class NhanVienClientController {
         );
         return sessionContext.getNetworkClient().send(request);
     }
+    
+    public Response getAllInactiveNhanVienResponse(){
+        Request request = new Request(
+                "NHAN_VIEN." + NhanVienCM.LIST_ALL_INACTIVE.name(),
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
 
     public List<NhanVienDTO> getAllNhanVien() {
         Response response = getAllNhanVienResponse();
@@ -43,6 +52,25 @@ public class NhanVienClientController {
         }
         return result;
     }
+    public List<NhanVienDTO> getAllInactiveNhanVien(){
+        Response response = getAllInactiveNhanVienResponse();
+        if(!response.isSuccess()){
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if(!(data instanceof List<?> rawList)){
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<NhanVienDTO> result1 = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof NhanVienDTO itemData)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result1.add(itemData);
+        }
+        return result1;
+    }
 
     public void addNhanVien(NhanVienDTO nhanVienDTO) {
         Request request = new Request(
@@ -55,6 +83,7 @@ public class NhanVienClientController {
             throw new RuntimeException(response.getMessage());
         }
     }
+    
 
     public void updateNhanVien(NhanVienDTO nhanVienDTO) {
         Request request = new Request(
@@ -71,6 +100,18 @@ public class NhanVienClientController {
     public void deleteNhanVien(String maNhanVien) {
         Request request = new Request(
             "NHAN_VIEN." + NhanVienCM.DELETE.name(),
+                maNhanVien,
+                sessionContext.getUserId()
+        );
+        Response response = sessionContext.getNetworkClient().send(request);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+    }
+
+    public void reactiveNhanVien(String maNhanVien) {
+        Request request = new Request(
+                "NHAN_VIEN." + NhanVienCM.REACTIVE.name(),
                 maNhanVien,
                 sessionContext.getUserId()
         );

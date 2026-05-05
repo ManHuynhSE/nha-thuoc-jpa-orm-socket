@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface IKhuyenMaiService {
     List<KhuyenMai> getAllKhuyenMai();
 
+    List<KhuyenMai> getAllKhuyenMaiInactive();
+
     KhuyenMai getKhuyenMaiById(String maKM);
 
     KhuyenMai createKhuyenMai(KhuyenMai khuyenMai);
@@ -15,6 +17,8 @@ public interface IKhuyenMaiService {
     KhuyenMai updateKhuyenMai(KhuyenMai khuyenMai);
 
     boolean deactivateKhuyenMai(String maKM);
+
+    boolean reactivateKhuyenMai(String maKM);
 
     long countActive();
 

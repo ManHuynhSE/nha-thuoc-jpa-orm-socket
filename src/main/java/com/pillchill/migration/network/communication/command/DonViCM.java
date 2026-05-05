@@ -4,5 +4,7 @@ public enum DonViCM {
     LIST_ALL,
     CREATE,
     UPDATE,
-    DELETE
+    DELETE,
+    LIST_ALL_INACTIVE,
+    REACTIVE
 }

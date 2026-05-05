@@ -6,7 +6,6 @@ import com.pillchill.migration.repository.impl.KhuyenMaiRepository;
 import com.pillchill.migration.service.IKhuyenMaiService;
 
 import java.util.List;
-import java.util.Optional;
 
 public class KhuyenMaiService implements IKhuyenMaiService {
     private final IKhuyenMaiRepository khuyenMaiRepository;
@@ -22,6 +21,11 @@ public class KhuyenMaiService implements IKhuyenMaiService {
     @Override
     public List<KhuyenMai> getAllKhuyenMai() {
         return khuyenMaiRepository.findAllActive();
+    }
+
+    @Override
+    public List<KhuyenMai> getAllKhuyenMaiInactive() {
+        return khuyenMaiRepository.findAllInactive();
     }
 
     @Override
@@ -45,6 +49,11 @@ public class KhuyenMaiService implements IKhuyenMaiService {
     @Override
     public boolean deactivateKhuyenMai(String maKM) {
         return khuyenMaiRepository.deactivateKhuyenMai(maKM);
+    }
+
+    @Override
+    public boolean reactivateKhuyenMai(String maKM) {
+        return khuyenMaiRepository.reactivateKhuyenMai(maKM);
     }
 
     @Override

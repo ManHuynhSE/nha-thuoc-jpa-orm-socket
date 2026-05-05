@@ -4,11 +4,13 @@ import com.pillchill.migration.entity.KhuyenMai;
 import com.pillchill.migration.repository.IKhuyenMaiRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class KhuyenMaiRepository extends AbstracGenericRepository<KhuyenMai, String> implements IKhuyenMaiRepository {
+    private final Template template;
+
     public KhuyenMaiRepository() {
         super(KhuyenMai.class);
+        this.template = new Template();
     }
 
     @Override
@@ -34,22 +36,64 @@ public class KhuyenMaiRepository extends AbstracGenericRepository<KhuyenMai, Str
 
     @Override
     public List<KhuyenMai> findAllActive() {
-        return List.of();
+        return template.execute(em -> em.createQuery(
+                        "select k from KhuyenMai k " +
+                                "where k.isActive = true " +
+                                "order by k.maKM",
+                        KhuyenMai.class)
+                .getResultList());
+    }
+
+    @Override
+    public List<KhuyenMai> findAllInactive() {
+        return template.execute(em -> em.createQuery(
+                        "select k from KhuyenMai k " +
+                                "where k.isActive = false " +
+                                "order by k.maKM",
+                        KhuyenMai.class)
+                .getResultList());
     }
 
     @Override
     public long countActive() {
-        return 0;
+        return template.execute(em -> em.createQuery(
+                        "select count(k) from KhuyenMai k where k.isActive = true",
+                        Long.class)
+                .getSingleResult());
     }
 
     @Override
     public boolean deactivateKhuyenMai(String maKM) {
-        return false;
+        return template.execute(em -> {
+            int updated = em.createQuery(
+                            "update KhuyenMai k set k.isActive = false where k.maKM = :maKM and k.isActive = true")
+                    .setParameter("maKM", maKM)
+                    .executeUpdate();
+            return updated > 0;
+        });
+    }
+
+    @Override
+    public boolean reactivateKhuyenMai(String maKM) {
+        return template.execute(em -> {
+            int updated = em.createQuery(
+                            "update KhuyenMai k set k.isActive = true where k.maKM = :maKM and k.isActive = false")
+                    .setParameter("maKM", maKM)
+                    .executeUpdate();
+            return updated > 0;
+        });
     }
 
 
     @Override
     public boolean isValid(String maKM) {
-        return false;
+        return template.execute(em -> {
+            Long count = em.createQuery(
+                            "select count(k) from KhuyenMai k where k.maKM = :maKM and k.isActive = true",
+                            Long.class)
+                    .setParameter("maKM", maKM)
+                    .getSingleResult();
+            return count != null && count > 0;
+        });
     }
 }

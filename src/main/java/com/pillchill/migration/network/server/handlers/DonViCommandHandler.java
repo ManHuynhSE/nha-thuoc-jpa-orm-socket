@@ -34,6 +34,8 @@ public class DonViCommandHandler implements CommandHandler {
                 case CREATE -> handleAdd(request);
                 case UPDATE -> handleUpdate(request);
                 case DELETE -> handleDelete(request);
+                case LIST_ALL_INACTIVE -> handleInactiveList();
+                case REACTIVE -> handleReactive(request);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command đơn vị không hỗ trợ: " + action);
@@ -51,6 +53,19 @@ public class DonViCommandHandler implements CommandHandler {
                     .build());
         }
         return Response.success(result, "Tải danh sách đơn vị thành công");
+    }
+
+    private Response handleInactiveList() {
+        List<DonVi> allDonVi = donViJpaDAO.getAllInactiveDonVi();
+        List<DonVi> result = new ArrayList<>();
+        for (DonVi item : allDonVi) {
+            result.add(DonVi.builder()
+                    .maDonVi(item.getMaDonVi())
+                    .tenDonVi(item.getTenDonVi())
+                    .isActive(item.isActive())
+                    .build());
+        }
+        return Response.success(result, "Tải danh sách đơn vị đã xóa thành công");
     }
 
     private Response handleAdd(Request request) {
@@ -100,6 +115,20 @@ public class DonViCommandHandler implements CommandHandler {
             return Response.success(null, "Xóa đơn vị thành công");
         } catch (Exception e) {
             return Response.error("Không thể xóa đơn vị: " + e.getMessage());
+        }
+    }
+
+    private Response handleReactive(Request request) {
+        Object data = request.getData();
+        if (!(data instanceof String maDonVi) || maDonVi.isBlank()) {
+            return Response.error("Dữ liệu khôi phục đơn vị không hợp lệ");
+        }
+
+        try {
+            donViJpaDAO.reactivateDonVi(maDonVi);
+            return Response.success(null, "Khôi phục đơn vị thành công");
+        } catch (Exception e) {
+            return Response.error("Không thể khôi phục đơn vị: " + e.getMessage());
         }
     }
 }

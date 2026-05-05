@@ -27,6 +27,18 @@ public class ThuocRepository extends AbstracGenericRepository<Thuoc,String> impl
                 .getResultList());
     }
 
+            @Override
+            public List<Thuoc> findAllInactive() {
+            return template.execute(em -> em.createQuery(
+                    "select t from Thuoc t " +
+                        "left join fetch t.donVi dv " +
+                        "left join fetch t.nhaSanXuat nsx " +
+                        "where t.isActive = false " +
+                        "order by t.maThuoc",
+                    Thuoc.class)
+                .getResultList());
+            }
+
     @Override
     public Optional<Thuoc> findById(String maThuoc) {
         return template.execute(em -> Optional.ofNullable(em.find(Thuoc.class, maThuoc)));
@@ -57,6 +69,17 @@ public class ThuocRepository extends AbstracGenericRepository<Thuoc,String> impl
         return template.execute(em -> {
             int updated = em.createQuery(
                             "update Thuoc t set t.isActive = false where t.maThuoc = :maThuoc and t.isActive = true")
+                    .setParameter("maThuoc", maThuoc)
+                    .executeUpdate();
+            return updated > 0;
+        });
+    }
+
+    @Override
+    public boolean reactivateThuoc(String maThuoc) {
+        return template.execute(em -> {
+            int updated = em.createQuery(
+                            "update Thuoc t set t.isActive = true where t.maThuoc = :maThuoc and t.isActive = false")
                     .setParameter("maThuoc", maThuoc)
                     .executeUpdate();
             return updated > 0;

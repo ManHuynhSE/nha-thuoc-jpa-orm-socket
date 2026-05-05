@@ -36,6 +36,8 @@ public class NhanVienCommandHandler implements CommandHandler {
                 case CREATE -> handleAdd(request);
                 case UPDATE -> handleUpdate(request);
                 case DELETE -> handleDelete(request);
+                case LIST_ALL_INACTIVE -> handleInactiveList1();
+                case REACTIVE -> handleReactive(request);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command nhân viên không hỗ trợ: " + action);
@@ -44,6 +46,20 @@ public class NhanVienCommandHandler implements CommandHandler {
 
     private Response handleList() {
         return Response.success(nhanVienJpaDAO.getAllNhanVien(), "Tải danh sách nhân viên thành công");
+    }
+    private Response handleInactiveList1() {
+        return Response.success(nhanVienJpaDAO.getAllInactiveNhanVien(), "Tải danh sách nhân viên thành công");
+    }
+    private Response handleReactive(Request request){
+        Object payload = request.getData();
+        if(!(payload instanceof  String maNhanVien) || maNhanVien.isBlank()){
+            return Response.error("Mã nhân viên cần xóa không hợp lệ");
+        }
+        boolean reactive = nhanVienJpaDAO.reactiveNhanVien(maNhanVien);
+        if (!reactive) {
+            return Response.error("Khôi phục nhân viên không thành công");
+        }
+        return Response.success(true, "Khôi phục nhân viên thành công");
     }
 
     private Response handleAdd(Request request) {

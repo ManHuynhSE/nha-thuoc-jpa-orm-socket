@@ -38,7 +38,11 @@ public class NhanVienJpaDAO {
     public ArrayList<NhanVienDTO> getAllNhanVien() {
         return new ArrayList<>(nhanVienService.loadALlNhanVien());
     }
-
+    
+    public ArrayList<NhanVienDTO> getAllInactiveNhanVien() {
+        return new ArrayList<>(nhanVienService.loadALlInactiveNhanVien());
+    }
+    
     public NhanVienDTO addNhanVien(NhanVienDTO nhanVienDTO) {
         return nhanVienService.addNhanVien(nhanVienDTO);
     }
@@ -49,5 +53,9 @@ public class NhanVienJpaDAO {
 
     public boolean deleteNhanVien(String maNhanVien) {
         return nhanVienService.deleteNhanVien(maNhanVien);
+    }
+    
+    public boolean reactiveNhanVien(String maNhanVien) {
+        return nhanVienService.reactiveNhanVien(maNhanVien);
     }
 }

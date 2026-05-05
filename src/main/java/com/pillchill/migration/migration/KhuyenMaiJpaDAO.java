@@ -1,59 +1,48 @@
 package com.pillchill.migration.migration;
 
 import com.pillchill.migration.entity.KhuyenMai;
-import com.pillchill.migration.repository.IKhuyenMaiRepository;
-import com.pillchill.migration.repository.impl.KhuyenMaiRepository;
+import com.pillchill.migration.service.IKhuyenMaiService;
+import com.pillchill.migration.service.impl.KhuyenMaiService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KhuyenMaiJpaDAO {
-    private final IKhuyenMaiRepository khuyenMaiRepository;
+    private final IKhuyenMaiService khuyenMaiService;
 
     public KhuyenMaiJpaDAO() {
-        this.khuyenMaiRepository = new KhuyenMaiRepository();
+        this.khuyenMaiService = new KhuyenMaiService();
     }
 
     public ArrayList<KhuyenMai> getAllKhuyenMai() {
-        List<KhuyenMai> allKhuyenMai = khuyenMaiRepository.loadAllKhuyenMai();
-        ArrayList<KhuyenMai> activeKhuyenMai = new ArrayList<>();
-        for (KhuyenMai khuyenMai : allKhuyenMai) {
-            if (khuyenMai.isActive()) {
-                activeKhuyenMai.add(khuyenMai);
-            }
-        }
-        return activeKhuyenMai;
+        return new ArrayList<>(khuyenMaiService.getAllKhuyenMai());
+    }
+
+    public ArrayList<KhuyenMai> getAllKhuyenMaiInactive() {
+        return new ArrayList<>(khuyenMaiService.getAllKhuyenMaiInactive());
     }
 
     public void addKhuyenMai(KhuyenMai khuyenMai) {
-        khuyenMai.setActive(true);
-        khuyenMaiRepository.createKhuyenMai(khuyenMai);
+        khuyenMaiService.createKhuyenMai(khuyenMai);
     }
 
     public void updateKhuyenMai(KhuyenMai khuyenMai) {
-        KhuyenMai existing = khuyenMaiRepository.findById(khuyenMai.getMaKM());
-        if (existing == null) {
-            throw new IllegalArgumentException("Không tìm thấy khuyến mãi");
-        }
-
-        existing.setMucGiamGia(khuyenMai.getMucGiamGia());
-        existing.setNgayApDung(khuyenMai.getNgayApDung());
-        existing.setNgayKetThuc(khuyenMai.getNgayKetThuc());
-        khuyenMaiRepository.updateKhuyenMai(existing);
+        khuyenMaiService.updateKhuyenMai(khuyenMai);
     }
 
     public void deleteKhuyenMai(String maKhuyenMai) {
-        KhuyenMai existing = khuyenMaiRepository.findById(maKhuyenMai);
-        if (existing == null) {
+        boolean deactivated = khuyenMaiService.deactivateKhuyenMai(maKhuyenMai);
+        if (!deactivated) {
             throw new IllegalArgumentException("Không tìm thấy khuyến mãi");
         }
+    }
 
-        existing.setActive(false);
-        khuyenMaiRepository.updateKhuyenMai(existing);
+    public boolean reactivateKhuyenMai(String maKhuyenMai) {
+        return khuyenMaiService.reactivateKhuyenMai(maKhuyenMai);
     }
 
     public KhuyenMai getKhuyenMaiById(String maKhuyenMai) {
-        return khuyenMaiRepository.findById(maKhuyenMai);
+        return khuyenMaiService.getKhuyenMaiById(maKhuyenMai);
     }
 
 

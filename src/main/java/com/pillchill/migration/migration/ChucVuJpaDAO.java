@@ -24,6 +24,17 @@ public class ChucVuJpaDAO {
         return activeChucVu;
     }
 
+    public ArrayList<ChucVu> getAllInactiveChucVu() {
+        List<ChucVu> allChucVu = chucVuRepository.loadAll();
+        ArrayList<ChucVu> inactiveChucVu = new ArrayList<>();
+        for (ChucVu chucVu : allChucVu) {
+            if (!chucVu.isActive()) {
+                inactiveChucVu.add(chucVu);
+            }
+        }
+        return inactiveChucVu;
+    }
+
     public void addChucVu(ChucVu chucVu) {
         chucVu.setActive(true);
         chucVuRepository.create(chucVu);
@@ -47,5 +58,18 @@ public class ChucVuJpaDAO {
 
         existing.setActive(false);
         chucVuRepository.update(existing);
+    }
+
+    public boolean reactivateChucVu(String maChucVu) {
+        ChucVu existing = chucVuRepository.findByID(maChucVu);
+        if (existing == null) {
+            throw new IllegalArgumentException("Không tìm thấy chức vụ");
+        }
+        if (existing.isActive()) {
+            return true;
+        }
+        existing.setActive(true);
+        chucVuRepository.update(existing);
+        return true;
     }
 }

@@ -93,6 +93,35 @@ public class NhanVienService implements INhanVienService {
         return result;
     }
 
+    @Override
+    public List<NhanVienDTO> loadALlInactiveNhanVien() {
+        List<NhanVien> list = nhanVienRepository.loadAllInactiveNhanVien();
+
+        List<NhanVienDTO> result = new ArrayList<>();
+        for (NhanVien item : list) {
+            result.add(toDTO(item));
+        }
+        return result;
+    }
+
+    @Override
+    public boolean reactiveNhanVien(String maNhanVien) {
+        if (maNhanVien == null || maNhanVien.isBlank()) {
+            throw new RuntimeException("Mã nhân viên không hợp lệ");
+        }
+        NhanVien existing = nhanVienRepository.findById(maNhanVien);
+        if (existing == null) {
+            throw new RuntimeException("Không tìm thấy nhân viên để khôi phục");
+        }
+        if (existing.isActive()) {
+            return true;
+        }
+        existing.setActive(true);
+        
+        nhanVienRepository.updateNhanVien(existing);
+        return true;
+    }
+
     private NhanVienDTO toDTO(NhanVien item) {
         String tenChucVu = item.getChucVu() != null ? item.getChucVu().getTenChucVu() : "";
         return NhanVienDTO.builder()
@@ -103,6 +132,7 @@ public class NhanVienService implements INhanVienService {
                 .isActive(item.isActive())
                 .build();
     }
+    
 
     public static void main(String[] args) {
         INhanVienRepository nhanVienRepository = new NhanVienRepository();

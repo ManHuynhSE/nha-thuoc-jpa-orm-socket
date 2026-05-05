@@ -2,7 +2,7 @@ package com.pillchill.migration.gui.xuly;
 
 import com.pillchill.migration.entity.KhachHang;
 import com.pillchill.migration.entity.KhuyenMai;
-import com.pillchill.migration.gui.HoaDonCallback;
+import com.pillchill.migration.gui.xuly.HoaDonCallback;
 import com.pillchill.migration.network.client.HoaDonClientController;
 import com.pillchill.migration.network.client.KhachHangClientController;
 import com.pillchill.migration.network.client.KhuyenMaiClientController;

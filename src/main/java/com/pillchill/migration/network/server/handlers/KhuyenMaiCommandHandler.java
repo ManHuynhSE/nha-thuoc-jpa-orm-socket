@@ -35,6 +35,8 @@ public class KhuyenMaiCommandHandler implements CommandHandler {
                 case UPDATE -> handleUpdate(request);
                 case DELETE -> handleDelete(request);
                 case FIND_BY_MA -> handleFindByMa(request);
+                case LIST_ALL_INACTIVE -> handleInactiveList();
+                case REACTIVE -> handleReactive(request);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command khuyến mãi không hỗ trợ: " + action);
@@ -67,6 +69,21 @@ public class KhuyenMaiCommandHandler implements CommandHandler {
                     .build());
         }
         return Response.success(result, "Tải danh sách khuyến mãi thành công");
+    }
+
+    private Response handleInactiveList() {
+        List<KhuyenMai> allKhuyenMai = khuyenMaiJpaDAO.getAllKhuyenMaiInactive();
+        List<KhuyenMai> result = new ArrayList<>();
+        for (KhuyenMai item : allKhuyenMai) {
+            result.add(KhuyenMai.builder()
+                    .maKM(item.getMaKM())
+                    .mucGiamGia(item.getMucGiamGia())
+                    .ngayApDung(item.getNgayApDung())
+                    .ngayKetThuc(item.getNgayKetThuc())
+                    .isActive(item.isActive())
+                    .build());
+        }
+        return Response.success(result, "Tải danh sách khuyến mãi đã xóa thành công");
     }
 
     private Response handleAdd(Request request) {
@@ -110,6 +127,23 @@ public class KhuyenMaiCommandHandler implements CommandHandler {
             return Response.success(null, "Xóa khuyến mãi thành công");
         } catch (Exception e) {
             return Response.error("Không thể xóa khuyến mãi: " + e.getMessage());
+        }
+    }
+
+    private Response handleReactive(Request request) {
+        Object data = request.getData();
+        if (!(data instanceof String maKhuyenMai) || maKhuyenMai.isBlank()) {
+            return Response.error("Dữ liệu khôi phục khuyến mãi không hợp lệ");
+        }
+
+        try {
+            boolean result = khuyenMaiJpaDAO.reactivateKhuyenMai(maKhuyenMai);
+            if (!result) {
+                return Response.error("Không thể khôi phục khuyến mãi đã chọn");
+            }
+            return Response.success(null, "Khôi phục khuyến mãi thành công");
+        } catch (Exception e) {
+            return Response.error("Không thể khôi phục khuyến mãi: " + e.getMessage());
         }
     }
 

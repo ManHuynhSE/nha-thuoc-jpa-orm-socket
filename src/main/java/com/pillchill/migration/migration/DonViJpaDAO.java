@@ -25,6 +25,17 @@ public class DonViJpaDAO {
         return activeDonVi;
     }
 
+    public ArrayList<DonVi> getAllInactiveDonVi() {
+        List<DonVi> allDonVi = donViRepository.loadAllDonVi();
+        ArrayList<DonVi> inactiveDonVi = new ArrayList<>();
+        for (DonVi donVi : allDonVi) {
+            if (!donVi.isActive()) {
+                inactiveDonVi.add(donVi);
+            }
+        }
+        return inactiveDonVi;
+    }
+
     public void addDonVi(DonVi donVi) {
         donVi.setActive(true);
         donViRepository.createDonVi(donVi);
@@ -48,5 +59,18 @@ public class DonViJpaDAO {
 
         existing.setActive(false);
         donViRepository.updateDonVi(existing);
+    }
+
+    public boolean reactivateDonVi(String maDonVi) {
+        DonVi existing = donViRepository.findById(maDonVi);
+        if (existing == null) {
+            throw new IllegalArgumentException("Không tìm thấy đơn vị");
+        }
+        if (existing.isActive()) {
+            return true;
+        }
+        existing.setActive(true);
+        donViRepository.updateDonVi(existing);
+        return true;
     }
 }

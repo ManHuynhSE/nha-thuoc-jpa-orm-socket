@@ -14,4 +14,7 @@ public interface INhanVienService {
     NhanVienDTO updateNhanVien(NhanVienDTO nhanVienDTO);
     boolean deleteNhanVien(String maNhanVien);
     List<NhanVienDTO> loadALlNhanVien();
+    List<NhanVienDTO> loadALlInactiveNhanVien();
+    boolean reactiveNhanVien(String maNV);
+    
 }

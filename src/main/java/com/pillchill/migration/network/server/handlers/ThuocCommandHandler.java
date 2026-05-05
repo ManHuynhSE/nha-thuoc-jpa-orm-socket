@@ -35,6 +35,9 @@ public class ThuocCommandHandler implements CommandHandler {
         String action = request.getCommand().substring("THUOC.".length());
         try {
             return switch (ThuocCM.valueOf(action)) {
+                case LIST_ALL_INACTIVE -> {
+                    yield Response.success(thuocService.getAllInactiveThuoc(), "Tải danh sách thuốc đã xóa thành công");
+                }
                 case THONG_KE_THEO_NGAY -> {
                     Object[] values = extractDateAndTopN(request);
                     Date ngay = (Date) values[0];
@@ -107,6 +110,16 @@ public class ThuocCommandHandler implements CommandHandler {
                         yield Response.error("Không thể xóa thuốc đã chọn");
                     }
                     yield Response.success(null, "Xóa thuốc thành công");
+                }
+                case REACTIVE -> {
+                    if (!(request.getData() instanceof String maThuoc) || maThuoc.isBlank()) {
+                        yield Response.error("Payload khôi phục thuốc không hợp lệ");
+                    }
+                    boolean result = thuocService.reactivateThuoc(maThuoc);
+                    if (!result) {
+                        yield Response.error("Không thể khôi phục thuốc đã chọn");
+                    }
+                    yield Response.success(null, "Khôi phục thuốc thành công");
                 }
                 case LIST_ALL_VIEW -> {
                     yield Response.success(thuocService.getAllThuocKemGia(), "Tải danh sách thuốc thành công");

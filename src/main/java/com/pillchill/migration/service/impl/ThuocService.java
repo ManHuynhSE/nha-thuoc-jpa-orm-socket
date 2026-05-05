@@ -41,6 +41,11 @@ public class ThuocService implements IThuocService {
     }
 
     @Override
+    public List<Thuoc> getAllInactiveThuoc() {
+        return thuocRepository.findAllInactive();
+    }
+
+    @Override
     public Optional<Thuoc> getThuocById(String maThuoc) {
         return thuocRepository.findById(maThuoc);
     }
@@ -159,6 +164,18 @@ public class ThuocService implements IThuocService {
     @Override
     public boolean deactivateThuoc(String maThuoc) {
         return thuocRepository.deactivateThuoc(maThuoc);
+    }
+
+    @Override
+    public boolean reactivateThuoc(String maThuoc) {
+        Thuoc existing = thuocRepository.findById(maThuoc)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy thuốc: " + maThuoc));
+        if (existing.isActive()) {
+            return true;
+        }
+        existing.setActive(true);
+        thuocRepository.update(existing);
+        return true;
     }
 
     @Override

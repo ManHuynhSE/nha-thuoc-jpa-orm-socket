@@ -5,6 +5,7 @@ import com.pillchill.migration.network.client.KhuyenMaiClientController;
 import com.pillchill.migration.network.communication.Response;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -71,15 +72,20 @@ public class CapNhatKhuyenMaiPanel extends JPanel implements ActionListener, Mou
     private JButton btnThem;
     private JButton btnXoaTrang;
     private JButton btnLamMoi;
+    private JButton btnKhuyenMaiDaXoa;
 
     private DefaultTableModel dtm;
     private JTable tblKhuyenMai;
 
     private ArrayList<KhuyenMai> dsKhuyenMai;
+    private CardLayout cardLayout;
+    private JPanel mainContainer;
 
     public CapNhatKhuyenMaiPanel(KhuyenMaiClientController khuyenMaiClientController) {
         this.khuyenMaiClientController = khuyenMaiClientController;
         this.dsKhuyenMai = new ArrayList<>();
+        this.cardLayout = new CardLayout();
+        this.mainContainer = new JPanel(cardLayout);
 
         setLayout(new BorderLayout());
 
@@ -107,7 +113,9 @@ public class CapNhatKhuyenMaiPanel extends JPanel implements ActionListener, Mou
         pnlMain.add(pnlTop, BorderLayout.NORTH);
         pnlMain.add(createBotPanel(), BorderLayout.CENTER);
 
-        add(pnlMain, BorderLayout.CENTER);
+        mainContainer.add(pnlMain, "DanhSach");
+        cardLayout.show(mainContainer, "DanhSach");
+        add(mainContainer, BorderLayout.CENTER);
 
         xoaTrang();
         loadKhuyenMaiData();
@@ -214,12 +222,15 @@ public class CapNhatKhuyenMaiPanel extends JPanel implements ActionListener, Mou
         btnXoa = createStyledButton("Xóa", BTN_DELETE_COLOR);
         btnXoaTrang = createStyledButton("Xóa trắng", BTN_CLEAR_COLOR);
         btnLamMoi = createStyledButton("Làm mới", BTN_REFRESH_COLOR);
+        btnKhuyenMaiDaXoa = createStyledButton("Khuyến mãi đã xóa", new Color(153, 102, 204));
+        btnKhuyenMaiDaXoa.setPreferredSize(new Dimension(170, 40));
 
         btnThem.addActionListener(this);
         btnSua.addActionListener(this);
         btnXoa.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnLamMoi.addActionListener(this);
+        btnKhuyenMaiDaXoa.addActionListener(this);
     }
 
     private JButton createStyledButton(String text, Color bgColor) {
@@ -242,6 +253,7 @@ public class CapNhatKhuyenMaiPanel extends JPanel implements ActionListener, Mou
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
         pnlButtons.add(btnLamMoi);
+        pnlButtons.add(btnKhuyenMaiDaXoa);
         return pnlButtons;
     }
 
@@ -553,6 +565,11 @@ public class CapNhatKhuyenMaiPanel extends JPanel implements ActionListener, Mou
         worker.execute();
     }
 
+    public void quayLaiDanhSach() {
+        cardLayout.show(mainContainer, "DanhSach");
+        loadKhuyenMaiData();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object o = e.getSource();
@@ -567,6 +584,17 @@ public class CapNhatKhuyenMaiPanel extends JPanel implements ActionListener, Mou
         } else if (o == btnLamMoi) {
             xoaTrang();
             loadKhuyenMaiData();
+        } else if (o == btnKhuyenMaiDaXoa) {
+            JPanel pnlKhuyenMaiDaXoa = new CapNhatKhuyenMaiSubPanel(this, khuyenMaiClientController);
+
+            try {
+                mainContainer.remove(mainContainer.getComponent(1));
+            } catch (Exception ex) {
+                // Không có panel chi tiết cũ
+            }
+
+            mainContainer.add(pnlKhuyenMaiDaXoa, "ChiTiet");
+            cardLayout.show(mainContainer, "ChiTiet");
         }
     }
 

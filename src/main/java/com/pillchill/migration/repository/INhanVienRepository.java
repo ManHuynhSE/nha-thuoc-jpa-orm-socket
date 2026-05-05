@@ -13,5 +13,6 @@ public interface INhanVienRepository {
     boolean deleteNhanVien(String maNhanVien);
     NhanVien findById(String maNhanVien);
     List<NhanVien> loadAllNhanVien();
+    List<NhanVien> loadAllInactiveNhanVien();
 }
 

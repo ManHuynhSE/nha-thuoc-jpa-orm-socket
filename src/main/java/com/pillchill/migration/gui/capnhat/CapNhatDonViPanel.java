@@ -5,6 +5,7 @@ import com.pillchill.migration.network.client.DonViClientController;
 import com.pillchill.migration.network.communication.Response;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -62,11 +63,15 @@ public class CapNhatDonViPanel extends JPanel implements ActionListener, MouseLi
     private JButton btnThem;
     private JButton btnXoaTrang;
     private JButton btnLamMoi;
+    private JButton btnDonViDaXoa;
 
     private DefaultTableModel dtm;
     private JTable tblDonVi;
 
     private ArrayList<DonVi> dsDonVi;
+    private CardLayout cardLayout;
+    private JPanel mainContainer;
+    private CapNhatDonViSubPanel pnlDonViDaXoa;
 
     public CapNhatDonViPanel(DonViClientController donViClientController) {
         this.donViClientController = donViClientController;
@@ -98,7 +103,13 @@ public class CapNhatDonViPanel extends JPanel implements ActionListener, MouseLi
         pnlMain.add(pnlTop, BorderLayout.NORTH);
         pnlMain.add(createBotPanel(), BorderLayout.CENTER);
 
-        add(pnlMain, BorderLayout.CENTER);
+        cardLayout = new CardLayout();
+        mainContainer = new JPanel(cardLayout);
+        mainContainer.setBackground(BG_COLOR);
+        mainContainer.add(pnlMain, "DanhSach");
+        add(mainContainer, BorderLayout.CENTER);
+
+        cardLayout.show(mainContainer, "DanhSach");
 
         xoaTrang();
         loadDonViData();
@@ -171,12 +182,15 @@ public class CapNhatDonViPanel extends JPanel implements ActionListener, MouseLi
         btnXoa = createStyledButton("Xóa", BTN_DELETE_COLOR);
         btnXoaTrang = createStyledButton("Xóa trắng", BTN_CLEAR_COLOR);
         btnLamMoi = createStyledButton("Làm mới", BTN_REFRESH_COLOR);
+        btnDonViDaXoa = createStyledButton("Đơn vị đã xóa", new Color(153, 102, 204));
+        btnDonViDaXoa.setPreferredSize(new Dimension(160, 40));
 
         btnThem.addActionListener(this);
         btnSua.addActionListener(this);
         btnXoa.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnLamMoi.addActionListener(this);
+        btnDonViDaXoa.addActionListener(this);
     }
 
     private JButton createStyledButton(String text, Color bgColor) {
@@ -199,6 +213,7 @@ public class CapNhatDonViPanel extends JPanel implements ActionListener, MouseLi
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
         pnlButtons.add(btnLamMoi);
+        pnlButtons.add(btnDonViDaXoa);
         return pnlButtons;
     }
 
@@ -440,7 +455,21 @@ public class CapNhatDonViPanel extends JPanel implements ActionListener, MouseLi
         } else if (o == btnLamMoi) {
             xoaTrang();
             loadDonViData();
+        } else if (o == btnDonViDaXoa) {
+            if (pnlDonViDaXoa == null) {
+                pnlDonViDaXoa = new CapNhatDonViSubPanel(this, donViClientController);
+                mainContainer.add(pnlDonViDaXoa, "ChiTiet");
+            }
+
+            pnlDonViDaXoa.xoaTrang();
+            cardLayout.show(mainContainer, "ChiTiet");
         }
+    }
+
+    public void quayLaiDanhSach() {
+        xoaTrang();
+        loadDonViData();
+        cardLayout.show(mainContainer, "DanhSach");
     }
 
     @Override

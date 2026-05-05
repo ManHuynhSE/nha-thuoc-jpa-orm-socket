@@ -217,6 +217,7 @@ public class CapNhatNhanVienPanel extends JPanel implements ActionListener, Mous
         btnXoa.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnLamMoi.addActionListener(this);
+        btnNhanVienDaXoa.addActionListener(this);
     }
 
     private JButton createStyledButton(String text, Color bgColor) {
@@ -239,6 +240,7 @@ public class CapNhatNhanVienPanel extends JPanel implements ActionListener, Mous
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
         pnlButtons.add(btnLamMoi);
+        pnlButtons.add(btnNhanVienDaXoa);
         return pnlButtons;
     }
     
@@ -322,12 +324,6 @@ public class CapNhatNhanVienPanel extends JPanel implements ActionListener, Mous
             }
         };
         worker.execute();
-        
-
-
-
-        
-        
     }
     
     public void loadChucVuData() {
@@ -579,6 +575,20 @@ public class CapNhatNhanVienPanel extends JPanel implements ActionListener, Mous
             loadChucVuData();
             loadNhanVienData();
         }
+        if(source == btnNhanVienDaXoa){
+            
+            JPanel pnlNhanVienDaXoa = new CapNhatNhanVienSubPanel(this, nhanVienClientController, chucVuClientController);
+
+            try {
+                mainContainer.remove(mainContainer.getComponent(1));
+            } catch (Exception ex) {
+                // Không có panel chi tiết cũ
+            }
+
+            mainContainer.add(pnlNhanVienDaXoa, "ChiTiet");
+            cardLayout. show(mainContainer, "ChiTiet");
+        }
+        
     }
 
     private void themNhanVien() {

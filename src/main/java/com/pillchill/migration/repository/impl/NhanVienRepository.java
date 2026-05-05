@@ -1,5 +1,6 @@
 package com.pillchill.migration.repository.impl;
 
+import com.pillchill.migration.entity.KhachHang;
 import com.pillchill.migration.entity.NhanVien;
 import com.pillchill.migration.repository.INhanVienRepository;
 
@@ -41,5 +42,15 @@ public class NhanVienRepository extends AbstracGenericRepository<NhanVien, Strin
     @Override
     public List<NhanVien> loadAllNhanVien() {
         return loadAll();
+    }
+
+    @Override
+    public List<NhanVien> loadAllInactiveNhanVien() {
+        return template.execute(em -> em.createQuery(
+                        "select k from NhanVien k " +
+                                "where k.isActive = false " +
+                                "order by k.maNV",
+                        NhanVien.class)
+                .getResultList());
     }
 }

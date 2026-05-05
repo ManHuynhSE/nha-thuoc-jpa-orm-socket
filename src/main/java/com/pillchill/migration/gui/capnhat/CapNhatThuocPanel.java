@@ -476,9 +476,7 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
         }
         else if(o == btnSuaTrangThai) {
 
-
-
-//            JPanel pnlThuocDaXoa = new CapNhatThuocSubPanel(this);
+            JPanel pnlThuocDaXoa = new CapNhatThuocSubPanel(this, thuocClientController);
 
             try {
                 mainContainer.remove(mainContainer.getComponent(1));
@@ -486,7 +484,7 @@ public class CapNhatThuocPanel extends JPanel implements ActionListener, MouseLi
                 // Không có panel chi tiết cũ
             }
 
-//            mainContainer.add(pnlThuocDaXoa, "ChiTiet");
+            mainContainer.add(pnlThuocDaXoa, "ChiTiet");
             cardLayout.show(mainContainer, "ChiTiet");
         }
     }

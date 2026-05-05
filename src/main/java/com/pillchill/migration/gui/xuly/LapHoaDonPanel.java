@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gui.HoaDonCallback {
+public class LapHoaDonPanel extends JPanel implements com.pillchill.migration.gui.xuly.HoaDonCallback {
     private final ThuocClientController thuocClientController;
     private final HoaDonClientController hoaDonClientController;
     private final KhachHangClientController khachHangClientController;

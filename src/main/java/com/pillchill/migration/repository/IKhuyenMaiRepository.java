@@ -16,9 +16,13 @@ public interface IKhuyenMaiRepository {
 
     List<KhuyenMai> findAllActive();
 
+    List<KhuyenMai> findAllInactive();
+
     long countActive();
 
     boolean deactivateKhuyenMai(String maKM);
+
+    boolean reactivateKhuyenMai(String maKM);
 
 
     boolean isValid(String maKM);

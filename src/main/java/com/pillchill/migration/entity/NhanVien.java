@@ -38,7 +38,10 @@ public class NhanVien implements Serializable {
 
     @Column(name = "soDienThoai", length = 20)
     private String soDienThoai;
-
-    @Column(name = "isActive")
+    
+    @Column(name = "isActive", nullable = false)
     private boolean isActive;
+    
+
+
 }

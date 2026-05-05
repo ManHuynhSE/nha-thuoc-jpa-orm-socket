@@ -63,6 +63,7 @@ public class CapNhatChucVuPanel extends JPanel implements ActionListener, MouseL
     private JButton btnThem;
     private JButton btnXoaTrang;
     private JButton btnLamMoi;
+    private JButton btnChucVuDaXoa;
 
     private DefaultTableModel dtm;
     private JTable tblChucVu;
@@ -70,6 +71,7 @@ public class CapNhatChucVuPanel extends JPanel implements ActionListener, MouseL
     private ArrayList<ChucVu> dsChucVu;
     private CardLayout cardLayout;
     private JPanel mainContainer;
+    private CapNhatChucVuSubPanel pnlChucVuDaXoa;
 
     public CapNhatChucVuPanel(ChucVuClientController chucVuClientController) {
         this.chucVuClientController = chucVuClientController;
@@ -178,12 +180,15 @@ public class CapNhatChucVuPanel extends JPanel implements ActionListener, MouseL
         btnXoa = createStyledButton("Xóa", BTN_DELETE_COLOR);
         btnXoaTrang = createStyledButton("Xóa trắng", BTN_CLEAR_COLOR);
         btnLamMoi = createStyledButton("Làm mới", BTN_REFRESH_COLOR);
+        btnChucVuDaXoa = createStyledButton("Chức vụ đã xóa", new Color(153, 102, 204));
+        btnChucVuDaXoa.setPreferredSize(new Dimension(160, 40));
 
         btnThem.addActionListener(this);
         btnSua.addActionListener(this);
         btnXoa.addActionListener(this);
         btnXoaTrang.addActionListener(this);
         btnLamMoi.addActionListener(this);
+        btnChucVuDaXoa.addActionListener(this);
     }
 
     private JButton createStyledButton(String text, Color bgColor) {
@@ -206,6 +211,7 @@ public class CapNhatChucVuPanel extends JPanel implements ActionListener, MouseL
         pnlButtons.add(btnXoa);
         pnlButtons.add(btnXoaTrang);
         pnlButtons.add(btnLamMoi);
+        pnlButtons.add(btnChucVuDaXoa);
         return pnlButtons;
     }
 
@@ -448,7 +454,21 @@ public class CapNhatChucVuPanel extends JPanel implements ActionListener, MouseL
         } else if (o == btnLamMoi) {
             xoaTrang();
             loadChucVuData();
+        } else if (o == btnChucVuDaXoa) {
+            if (pnlChucVuDaXoa == null) {
+                pnlChucVuDaXoa = new CapNhatChucVuSubPanel(this, chucVuClientController);
+                mainContainer.add(pnlChucVuDaXoa, "ChiTiet");
+            }
+
+            pnlChucVuDaXoa.xoaTrang();
+            cardLayout.show(mainContainer, "ChiTiet");
         }
+    }
+
+    public void quayLaiDanhSach() {
+        xoaTrang();
+        loadChucVuData();
+        cardLayout.show(mainContainer, "DanhSach");
     }
 
     @Override

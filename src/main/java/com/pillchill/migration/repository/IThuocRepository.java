@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface IThuocRepository extends GenericRepository<Thuoc,String> {
     List<Thuoc> findAllActive();
 
+    List<Thuoc> findAllInactive();
+
     Optional<Thuoc> findById(String maThuoc);
 
     long countActive();
@@ -29,4 +31,6 @@ public interface IThuocRepository extends GenericRepository<Thuoc,String> {
     double getTongDoanhThuThuocTheoNam(int nam);
 
     public boolean deactivateThuoc(String maThuoc);
+
+    public boolean reactivateThuoc(String maThuoc);
 }

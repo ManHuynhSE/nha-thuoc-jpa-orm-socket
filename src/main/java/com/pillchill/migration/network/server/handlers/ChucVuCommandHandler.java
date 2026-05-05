@@ -34,6 +34,8 @@ public class ChucVuCommandHandler implements CommandHandler {
                 case CREATE -> handleAdd(request);
                 case UPDATE -> handleUpdate(request);
                 case DELETE -> handleDelete(request);
+                case LIST_ALL_INACTIVE -> handleInactiveList();
+                case REACTIVE -> handleReactive(request);
             };
         } catch (IllegalArgumentException e) {
             return Response.error("Command chức vụ không hỗ trợ: " + action);
@@ -51,6 +53,19 @@ public class ChucVuCommandHandler implements CommandHandler {
                     .build());
         }
         return Response.success(result, "Tải danh sách chức vụ thành công");
+    }
+
+    private Response handleInactiveList() {
+        List<ChucVu> allChucVu = chucVuJpaDAO.getAllInactiveChucVu();
+        List<ChucVu> result = new ArrayList<>();
+        for (ChucVu item : allChucVu) {
+            result.add(ChucVu.builder()
+                    .maChucVu(item.getMaChucVu())
+                    .isActive(item.isActive())
+                    .tenChucVu(item.getTenChucVu())
+                    .build());
+        }
+        return Response.success(result, "Tải danh sách chức vụ đã xóa thành công");
     }
 
     private Response handleAdd(Request request) {
@@ -102,6 +117,20 @@ public class ChucVuCommandHandler implements CommandHandler {
             return Response.success(null, "Xóa chức vụ thành công");
         } catch (Exception e) {
             return Response.error("Không thể xóa chức vụ: " + e.getMessage());
+        }
+    }
+
+    private Response handleReactive(Request request) {
+        Object data = request.getData();
+        if (!(data instanceof String maChucVu) || maChucVu.isBlank()) {
+            return Response.error("Dữ liệu khôi phục chức vụ không hợp lệ");
+        }
+
+        try {
+            chucVuJpaDAO.reactivateChucVu(maChucVu);
+            return Response.success(null, "Khôi phục chức vụ thành công");
+        } catch (Exception e) {
+            return Response.error("Không thể khôi phục chức vụ: " + e.getMessage());
         }
     }
 }

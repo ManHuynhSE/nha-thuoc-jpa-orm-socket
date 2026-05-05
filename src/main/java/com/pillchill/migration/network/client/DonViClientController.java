@@ -24,8 +24,38 @@ public class DonViClientController {
         return sessionContext.getNetworkClient().send(request);
     }
 
+    public Response getAllInactiveDonViResponse() {
+        Request request = new Request(
+                "DON_VI." + DonViCM.LIST_ALL_INACTIVE.name(),
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
     public List<DonVi> getAllDonVi() {
         Response response = getAllDonViResponse();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+
+        Object data = response.getData();
+        if (!(data instanceof List<?> rawList)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<DonVi> result = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof DonVi itemData)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result.add(itemData);
+        }
+        return result;
+    }
+
+    public List<DonVi> getAllInactiveDonVi() {
+        Response response = getAllInactiveDonViResponse();
         if (!response.isSuccess()) {
             throw new RuntimeException(response.getMessage());
         }
@@ -70,5 +100,22 @@ public class DonViClientController {
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response reactiveDonViResponse(String maDonVi) {
+        Request request = new Request(
+                "DON_VI." + DonViCM.REACTIVE.name(),
+                maDonVi,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public boolean reactivateDonVi(String maDonVi) {
+        Response response = reactiveDonViResponse(maDonVi);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        return true;
     }
 }

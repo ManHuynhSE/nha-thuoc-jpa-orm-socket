@@ -13,6 +13,8 @@ import com.pillchill.migration.entity.Thuoc;
 public interface IThuocService {
     List<Thuoc> getAllThuoc();
 
+    List<Thuoc> getAllInactiveThuoc();
+
     Optional<Thuoc> getThuocById(String maThuoc);
 
     List<ThuocKemGiaView> getAllThuocKemGia();
@@ -38,6 +40,8 @@ public interface IThuocService {
     Thuoc updateThuoc(Thuoc thuoc);
 
     boolean deactivateThuoc(String maThuoc);
+
+    boolean reactivateThuoc(String maThuoc);
 
     List<ChiTietLoThuocView> getAllChiTietLoThuoc();
 }

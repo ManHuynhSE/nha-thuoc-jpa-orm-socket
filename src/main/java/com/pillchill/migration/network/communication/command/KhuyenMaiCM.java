@@ -5,5 +5,7 @@ public enum KhuyenMaiCM {
     CREATE,
     UPDATE,
     DELETE,
-    FIND_BY_MA
+    FIND_BY_MA,
+    LIST_ALL_INACTIVE,
+    REACTIVE
 }

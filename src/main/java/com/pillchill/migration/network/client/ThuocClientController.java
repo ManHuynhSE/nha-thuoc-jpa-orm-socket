@@ -8,7 +8,6 @@ import com.pillchill.migration.entity.Thuoc;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.ThuocPayload;
-import com.pillchill.migration.network.communication.command.HoaDonCM;
 import com.pillchill.migration.network.communication.command.ThuocCM;
 
 
@@ -69,7 +68,38 @@ public class ThuocClientController {
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
-    }public Response getAllThuocView() {
+    }
+
+    public Response getAllThuocInactive() {
+        Request request = new Request(
+                "THUOC." + ThuocCM.LIST_ALL_INACTIVE.name(),
+                null,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public List<Thuoc> getAllInactiveThuoc() {
+        Response response = getAllThuocInactive();
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        Object data = response.getData();
+        if (!(data instanceof List<?> rawList)) {
+            throw new RuntimeException("Dữ liệu trả về không hợp lệ");
+        }
+
+        List<Thuoc> result = new ArrayList<>();
+        for (Object item : rawList) {
+            if (!(item instanceof Thuoc itemData)) {
+                throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
+            }
+            result.add(itemData);
+        }
+        return result;
+    }
+
+    public Response getAllThuocView() {
         Request request = new Request(
                 "THUOC." + ThuocCM.LIST_ALL_VIEW.name(),
                 null,
@@ -112,6 +142,23 @@ public class ThuocClientController {
                 sessionContext.getUserId()
         );
         return sessionContext.getNetworkClient().send(request);
+    }
+
+    public Response reactiveThuocResponse(String maThuoc) {
+        Request request = new Request(
+                "THUOC." + ThuocCM.REACTIVE.name(),
+                maThuoc,
+                sessionContext.getUserId()
+        );
+        return sessionContext.getNetworkClient().send(request);
+    }
+
+    public boolean reactivateThuoc(String maThuoc) {
+        Response response = reactiveThuocResponse(maThuoc);
+        if (!response.isSuccess()) {
+            throw new RuntimeException(response.getMessage());
+        }
+        return true;
     }
 
 
