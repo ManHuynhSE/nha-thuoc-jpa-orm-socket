@@ -1,4 +1,4 @@
-package com.pillchill.migration.network.communication;
+package com.pillchill.migration.dto;
 
 import java.io.Serializable;
 

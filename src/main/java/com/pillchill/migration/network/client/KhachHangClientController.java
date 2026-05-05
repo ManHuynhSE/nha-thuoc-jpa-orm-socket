@@ -1,6 +1,7 @@
 package com.pillchill.migration.network.client;
 
 import com.pillchill.migration.entity.KhachHang;
+import com.pillchill.migration.dto.KhachHangDTO;
 import com.pillchill.migration.network.communication.Request;
 import com.pillchill.migration.network.communication.Response;
 import com.pillchill.migration.network.communication.KhachHangPayload;
@@ -52,7 +53,7 @@ public class KhachHangClientController {
         return sessionContext.getNetworkClient().send(request);
     }
 
-    public List<KhachHang> getAllKhachHangItems() {
+    public List<KhachHangDTO> getAllKhachHangItems() {
         Response response = getAllKhachHang();
         if (!response.isSuccess()) {
             throw new RuntimeException(response.getMessage());
@@ -62,12 +63,21 @@ public class KhachHangClientController {
             throw new RuntimeException("Dữ liệu trả về không hợp lệ");
         }
 
-        List<KhachHang> result = new ArrayList<>();
+        List<KhachHangDTO> result = new ArrayList<>();
         for (Object item : rawList) {
-            if (!(item instanceof KhachHang khachItem)) {
+            if (item instanceof KhachHang entity) {
+                int diemTichLuy = (entity.getDiemTichLuy() == null) ? 0 : entity.getDiemTichLuy();
+                KhachHangDTO dto = new KhachHangDTO(
+                        entity.getMaKH(),
+                        entity.getTenKH(),
+                        entity.getSoDienThoai(),
+                        diemTichLuy,
+                        entity.isActive()
+                );
+                result.add(dto);
+            } else {
                 throw new RuntimeException("Dữ liệu trả về chứa phần tử không hợp lệ");
             }
-            result.add(khachItem);
         }
         return result;
     }

@@ -7,6 +7,6 @@ import com.pillchill.migration.repository.impl.ThuocRepository;
 
 public class App {
     public static void main(String[] args) {
-        DangNhapFrame dangNhapFrame = new DangNhapFrame("DESKTOP-57QN5N0",9999);
+        DangNhapFrame dangNhapFrame = new DangNhapFrame("LALA-LAPTOP",6969);
     }
 }

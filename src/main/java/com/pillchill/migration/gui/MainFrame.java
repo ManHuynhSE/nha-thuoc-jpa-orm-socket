@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
     private JPanel contentPanel;
      private TimKiemThuocPanel timKiemThuocPanel;
     // private LapHoaDonPanel lapHoaDonPanel;
-    // private CapNhatKhachHangPanel capNhatKhachHangPanel;
+    private CapNhatKhachHangPanel capNhatKhachHangPanel;
     private CapNhatNhanVienPanel capNhatNhanVienPanel;
     private CapNhatThuocPanel capNhatThuocPanel;
     private CapNhatDonViPanel capNhatDonViPanel;
@@ -85,7 +85,7 @@ public class MainFrame extends JFrame {
         // Khởi tạo các panel chức năng (lazy loading)
         // timKiemThuocPanel = null;
         // lapHoaDonPanel = null;
-        // capNhatKhachHangPanel = null;
+        capNhatKhachHangPanel = null;
         capNhatNhanVienPanel = null;
 //        capNhatThuocPanel = null;
         capNhatKhuyenMaiPanel = null;
@@ -174,13 +174,13 @@ public class MainFrame extends JFrame {
     // return lapHoaDonPanel;
     // }
     //
-    // public void showCapNhatKhachHangPanel() {
-    // if (capNhatKhachHangPanel == null) {
-    // capNhatKhachHangPanel = new CapNhatKhachHangPanel();
-    // }
-    // showPanel(capNhatKhachHangPanel);
-    // }
-    //
+     public void showCapNhatKhachHangPanel() {
+     if (capNhatKhachHangPanel == null) {
+        capNhatKhachHangPanel = new CapNhatKhachHangPanel(maNhanVien, new KhachHangClientController(sessionContext));
+        }
+        showPanel(capNhatKhachHangPanel);
+     }
+
     public void showCapNhatNhanVienPanel() {
         // if(!isQuanLy) {
         // JOptionPane.showMessageDialog(this, "Chỉ có Nhân viên Quản lý mới có thể dùng

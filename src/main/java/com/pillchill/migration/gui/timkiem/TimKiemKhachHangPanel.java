@@ -1,7 +1,7 @@
 package com.pillchill.migration.gui.timkiem;
 
-import com.pillchill.migration.entity.KhachHang;
 import com.pillchill.migration.network.client.KhachHangClientController;
+import com.pillchill.migration.dto.KhachHangDTO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -28,7 +28,7 @@ public class TimKiemKhachHangPanel extends JPanel implements ActionListener {
 
     private DefaultTableModel tableModel;
     private JTable tblKhachHang;
-    private List<KhachHang> dsKhachHang;
+    private List<KhachHangDTO> dsKhachHang;
 
     public TimKiemKhachHangPanel(KhachHangClientController khachHangClientController) {
         this.khachHangClientController = khachHangClientController;
@@ -134,9 +134,9 @@ public class TimKiemKhachHangPanel extends JPanel implements ActionListener {
     }
 
     private void loadDataFromServer() {
-        SwingWorker<List<KhachHang>, Void> worker = new SwingWorker<>() {
+        SwingWorker<List<KhachHangDTO>, Void> worker = new SwingWorker<>() {
             @Override
-            protected List<KhachHang> doInBackground() {
+            protected List<KhachHangDTO> doInBackground() {
                 return khachHangClientController.getAllKhachHangItems();
             }
 
@@ -158,9 +158,9 @@ public class TimKiemKhachHangPanel extends JPanel implements ActionListener {
         worker.execute();
     }
 
-    private void loadTableData(List<KhachHang> list) {
+    private void loadTableData(List<KhachHangDTO> list) {
         tableModel.setRowCount(0);
-        for (KhachHang item : list) {
+        for (KhachHangDTO item : list) {
             tableModel.addRow(new Object[]{
                     item.getMaKH(),
                     item.getTenKH(),
@@ -199,8 +199,8 @@ public class TimKiemKhachHangPanel extends JPanel implements ActionListener {
                 }
             }
 
-            List<KhachHang> ketQua = new ArrayList<>();
-            for (KhachHang kh : dsKhachHang) {
+            List<KhachHangDTO> ketQua = new ArrayList<>();
+            for (KhachHangDTO kh : dsKhachHang) {
                 boolean match = true;
 
                 if (!maKHTim.isEmpty() && (kh.getMaKH() == null || !kh.getMaKH().toLowerCase().contains(maKHTim))) {
@@ -215,7 +215,7 @@ public class TimKiemKhachHangPanel extends JPanel implements ActionListener {
                     match = false;
                 }
 
-                if (match && diemTim != null && (kh.getDiemTichLuy() == null || kh.getDiemTichLuy() < diemTim)) {
+                if (match && diemTim != null &&  kh.getDiemTichLuy() < diemTim) {
                     match = false;
                 }
 
