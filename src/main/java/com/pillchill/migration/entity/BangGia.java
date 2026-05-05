@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
@@ -19,7 +20,7 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "BangGia")
-public class BangGia {
+public class BangGia implements Serializable {
     @Id
     @Column(name = "maBangGia", length = 50, nullable = false)
     private String maBangGia;
